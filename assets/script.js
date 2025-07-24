@@ -1,4 +1,4 @@
-gsap.registerPlugin(ScrollTrigger, SplitText, CustomBounce);
+gsap.registerPlugin(ScrollTrigger, SplitText, CustomEase, CustomBounce);
 
 CustomBounce.create("myBounce", {
   strength:0.5,
@@ -21,7 +21,6 @@ gsap.from(heroTitleSplit.words.slice(1), {
   stagger: 0.2,
   ease: "myBounce"
 });
-
 gsap.from('.hero-text', {
   opacity: 0,
   y: 20,
@@ -42,30 +41,64 @@ gsap.from('.hero-text', {
 //   ease: "power2.out" 
 // });
 
+// Hero text parallax effect
+gsap.fromTo('.hero-content', 
+  { y: 0 },
+  {
+    y: () => -(document.querySelector('#hero').offsetHeight / 2),
+    ease: 'none',
+    scrollTrigger: {
+      trigger: '#about',
+      start: 'top bottom',
+      end: 'top top',
+      scrub: true,
+      refreshPriority: -1 // Lower priority to avoid conflicts
+    }
+  }
+);
+
+// Pin the hero section
+ScrollTrigger.create({
+  trigger: '#hero',
+  pin: true,
+  pinSpacing: false, // Prevents extra spacing
+});
+
+
 // About Section Animation (Scrubbed with scroll)
 const aboutTl = gsap.timeline();
-aboutTl.from('.about-image', { scale: 0.8, rotation: 10, duration: 0.1 })
+aboutTl
         .from('.about-title', { x: 500, opacity: 0, duration: 0.1 }, 0) // Overlap animations
-        .from('.about-text', { x: -500, opacity: 0, duration: 0.1, delay: 0.01 }, 0); // Overlap animations
+        .from('.about-text', { x: -500, opacity: 0, duration: 0.1, delay: 0.01 }, 0) // Overlap animations
+        .from('.about-image', { scale: 0.8, rotation: 45, duration: 0.1 }, 0)
 ScrollTrigger.create({
-  trigger: '#about',
-  // start: 'top 120%',
-  end: () => `+=${document.querySelector('#about').offsetHeight}`,
+  trigger: '.about-title',
+  start: 'top bottom',
+  end: '+=200',
   scrub: 1, // Animation progresses with scroll, reverses on scroll up
   animation: aboutTl
 });
 
+// Pin the about section
+ScrollTrigger.create({
+  trigger: '#about',
+  pin: true,
+  pinSpacing: false, // Prevents extra spacing
+  end: '150%',
+});
+
+
 // Projects Title Animation
 gsap.from('.projects-title', {
-  scrollTrigger: { trigger: '#projects', scrub: 1 , end: () => `+=${document.querySelector('#projects').offsetHeight-100}` },
+  scrollTrigger: { trigger: '#projects', scrub: 1 },
   opacity: 0,
   scale: 0.1,
-  duration: 0.5,
+  duration: 0.2,
   ease: "power4.out",
 });
 
 gsap.from('.project-card', {
-  scrollTrigger: { trigger: '#projects', start: 'top 80%' },
+  scrollTrigger: { trigger: '#projects' },
   opacity: 0,
   scale: 0.5,
   x: (index, target) => {
@@ -101,6 +134,57 @@ document.querySelectorAll('.project-card').forEach(card => {
   card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.3 }));
 });
 
+// // Pin the projects section
+// ScrollTrigger.create({
+//   trigger: '#projects',
+//   pin: true,
+//   pinSpacing: false // Prevents extra spacing
+// });
+
+
+
+// Work Experience Section Animation
+gsap.from('.experience-title', {
+  scrollTrigger: { trigger: '#experience', scrub: 1, end: () => `+=${document.querySelector('#experience').offsetHeight - 100}` },
+  opacity: 0,
+  scale: 0.8,
+  rotation: 5,
+  duration: 0.5,
+  ease: "power4.out",
+});
+
+gsap.from('.experience-item', {
+  scrollTrigger: { trigger: '#experience', scrub: 1 },
+  opacity: 0,
+  x: (index) => index % 2 === 0 ? -100 : 100, // Alternate from left and right
+  y: 50,
+  duration: 0.5,
+  stagger: {
+    each: 0.2,
+  },
+  ease: "power3.out",
+});
+
+// Animate experience details on hover
+document.querySelectorAll('.experience-item').forEach(item => {
+  item.addEventListener('mouseenter', () => {
+    gsap.to(item, { scale: 1.02, duration: 0.3 });
+    gsap.to(item.querySelector('.experience-details'), { opacity: 1, y: 0, duration: 0.3 });
+  });
+  item.addEventListener('mouseleave', () => {
+    gsap.to(item, { scale: 1, duration: 0.3 });
+    gsap.to(item.querySelector('.experience-details'), { opacity: 0.7, y: 10, duration: 0.3 });
+  });
+});
+
+// Pin the experience section
+// ScrollTrigger.create({
+//   trigger: '#experience',
+//   pin: true,
+//   pinSpacing: false // Prevents extra spacing
+// });
+
+
 // Skills Section Animation
 // gsap.from('.skills-title', {
 //   scrollTrigger: { trigger: '#skills', scrub:1 },
@@ -114,9 +198,18 @@ gsap.from('.skill-icon', {
   opacity: 0,
   rotation: -30,
   y: 20,
-  amount: 1,
+  // amount: 1, // gives error
   stagger: 0.1
 });
+
+// Pin the skills section
+ScrollTrigger.create({
+  trigger: '#skills',
+  pin: true,
+  pinSpacing: false, // Prevents extra spacing
+  end: '+=150%'
+});
+
 
 // Contact Section Animation
 gsap.from('.contact-field', {

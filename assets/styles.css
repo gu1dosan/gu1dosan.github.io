@@ -1,10 +1,22 @@
 body { margin: 0; font-family: Segoe UI, sans-serif; overflow-x: hidden; }
-section { padding: 4rem 2rem; }
-#hero { background: #1a202c; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh}
-#about { background: #edf2f7; min-height: 100vh; align-content: center;}
-#projects { background: #f7fafc; min-height: 100vh }
-#skills { background: #e2e8f0; min-height: 100vh }
-#contact { background: #2d3748; color: white; min-height: 100vh }
+section { padding: 4rem 2rem; position: relative}
+#hero { background: #1a202c; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; z-index: 0; }
+.section-spacer {
+  height: 50vh; /* Adjust this value for how long you want the pause */
+}
+#about { background: #edf2f7; min-height: 100vh; align-content: center; z-index: 1}
+#projects { background: #e2e2e9; min-height: 100vh; z-index: 2;}
+.projects-title {
+  position: relative;
+  z-index: 2;
+  /* margin-bottom: 2rem; */
+}
+#experience { background: #7c7c7c; z-index: 3;}
+.experience-title {
+  color: white;
+}
+#skills { background: #dddddd; min-height: 100vh; z-index: 4;}
+#contact { background: #2d3748; color: white; min-height: 100vh; z-index: 5;}
 .projects-container { display: flex; white-space: nowrap; }
 .project-card { width: 300px; height: 400px; margin-right: 20px; background: white; box-shadow: 0 4px 6px rgba(0,0,0,0.1); flex-shrink: 0; }
 .skill-icon { width: 60px; height: 60px; background: #4a5568; border-radius: 50%; }
