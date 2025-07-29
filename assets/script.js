@@ -4,58 +4,60 @@ CustomBounce.create("myBounce", {
   strength:0.5,
 })
 
-// Hero Section Animation
-let heroTitleSplit = SplitText.create(".hero-title", { type: "words" });
-gsap.from(heroTitleSplit.words[0], { 
-  opacity: 0, 
-  y: -50, 
-  duration: 0.5, 
-  stagger: 0.4 ,
-  ease: "myBounce",
+document.fonts.ready.then(() => {
+  // Hero Section Animation
+  let heroTitleSplit = SplitText.create(".hero-title", { type: "words" });
+  gsap.from(heroTitleSplit.words[0], { 
+    opacity: 0, 
+    y: -50, 
+    duration: 0.5, 
+    stagger: 0.4 ,
+    ease: "myBounce",
+  });
+  gsap.from(heroTitleSplit.words.slice(1), { 
+    opacity: 0, 
+    y: -50, 
+    delay: 0.5,
+    duration: 0.5, 
+    stagger: 0.2,
+    ease: "myBounce"
+  });
+  gsap.from('.hero-text', {
+    opacity: 0,
+    y: 20,
+    duration: 1,
+    delay: 1.5,
+    ease: "power2.out",
+  })
+  // let heroTextSplit = SplitText.create(".hero-text", { type: "words" });
+  // gsap.from(heroTextSplit.words, { 
+  //   opacity: 0, 
+  //   x: 200, 
+  //   duration: 0.3, 
+  //   delay: 1.3,
+  //   stagger: {
+  //     each: 0.1,
+  //     ease: "power2.in"
+  //   },
+  //   ease: "power2.out" 
+  // });
 });
-gsap.from(heroTitleSplit.words.slice(1), { 
-  opacity: 0, 
-  y: -50, 
-  delay: 0.5,
-  duration: 0.5, 
-  stagger: 0.2,
-  ease: "myBounce"
-});
-gsap.from('.hero-text', {
-  opacity: 0,
-  y: 20,
-  duration: 1,
-  delay: 1.5,
-  ease: "power2.out",
-})
-// let heroTextSplit = SplitText.create(".hero-text", { type: "words" });
-// gsap.from(heroTextSplit.words, { 
-//   opacity: 0, 
-//   x: 200, 
-//   duration: 0.3, 
-//   delay: 1.3,
-//   stagger: {
-//     each: 0.1,
-//     ease: "power2.in"
-//   },
-//   ease: "power2.out" 
-// });
 
 // Hero text parallax effect
-gsap.fromTo('.hero-content', 
-  { y: 0 },
-  {
-    y: () => -(document.querySelector('#hero').offsetHeight / 2),
-    ease: 'none',
-    scrollTrigger: {
-      trigger: '#about',
-      start: 'top bottom',
-      end: 'top top',
-      scrub: true,
-      refreshPriority: -1 // Lower priority to avoid conflicts
-    }
-  }
-);
+// gsap.fromTo('.hero-content', 
+//   { y: 0 },
+//   {
+//     y: () => -(document.querySelector('#hero').offsetHeight / 2),
+//     ease: 'none',
+//     scrollTrigger: {
+//       trigger: '#about',
+//       start: 'top bottom',
+//       end: 'top top',
+//       scrub: true,
+//       refreshPriority: -1 // Lower priority to avoid conflicts
+//     }
+//   }
+// );
 
 // Pin the hero section
 ScrollTrigger.create({
@@ -68,13 +70,13 @@ ScrollTrigger.create({
 // About Section Animation (Scrubbed with scroll)
 const aboutTl = gsap.timeline();
 aboutTl
-        .from('.about-title', { x: 500, opacity: 0, duration: 0.1 }, 0) // Overlap animations
-        .from('.about-text', { x: -500, opacity: 0, duration: 0.1, delay: 0.01 }, 0) // Overlap animations
-        .from('.about-image', { scale: 0.8, rotation: 45, duration: 0.1 }, 0)
+        .from('.about-title', { x: 500, opacity: 0, duration: 0.5 }, 0) // Overlap animations
+        .from('.about-text', { x: -500, opacity: 0, duration: 0.5, delay: 0.01 }, 0) // Overlap animations
+        .from('.about-image', { scale: 0.8, rotation: 45, duration: 1 }, 0)
 ScrollTrigger.create({
   trigger: '.about-title',
   start: 'top bottom',
-  end: '+=200',
+  end: 'top center',
   scrub: 1, // Animation progresses with scroll, reverses on scroll up
   animation: aboutTl
 });
@@ -125,7 +127,9 @@ gsap.to('.projects-container', {
     pin: true,
     scrub: 1,
     snap: 1 / (document.querySelectorAll('.project-card').length - 1), // Snap to each card
-    end: () => '+=' + document.querySelector('.projects-container').scrollWidth
+    // end: () => '+=' + document.querySelector('.projects-container').scrollWidth
+    end: 'top top',
+    endTrigger: '#experience', // Pin until the experience section starts
   }
 });
 // Hover effect for project cards
@@ -153,16 +157,74 @@ gsap.from('.experience-title', {
   ease: "power4.out",
 });
 
-gsap.from('.experience-item', {
-  scrollTrigger: { trigger: '#experience', scrub: 1 },
-  opacity: 0,
-  x: (index) => index % 2 === 0 ? -100 : 100, // Alternate from left and right
-  y: 50,
-  duration: 0.5,
-  stagger: {
-    each: 0.2,
-  },
-  ease: "power3.out",
+// Get container and dimensions
+const container = document.querySelector('.experience-items-container');
+const containerHeight = container.scrollHeight;
+const viewportHeight = window.innerHeight;
+
+// Calculate scroll distance (how much to move the container)
+const scrollDistance = containerHeight > viewportHeight ? containerHeight - viewportHeight : 0;
+
+// Pin the experience section
+ScrollTrigger.create({
+  trigger: '#experience',
+  pin: true,
+  pinSpacing: false,
+  // end: `+=${scrollDistance}`,  // Unpin when the container’s animation finishes
+  end: 'top top',
+  endTrigger: '#skills',
+  id: 'experiencePin'
+});
+
+// Animate the container upward (if needed)
+// const yValue = containerHeight > viewportHeight ? -(containerHeight - viewportHeight) : 0;
+
+gsap.to(container, {
+  y: -containerHeight,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#experience',
+    start: 'top top',
+    end: `+=${containerHeight}`,
+    scrub: true
+  }
+});
+
+// Animate individual items
+document.querySelectorAll('.experience-item').forEach((item, index) => {
+  // Fade in from bottom
+  gsap.fromTo(item, 
+    { opacity: 0, x: index % 2 === 0 ? -100 : 100, y: 50 },
+    { 
+      opacity: 1, 
+      x: 0, 
+      y: 0,
+      duration: 1,
+      scrollTrigger: {
+        trigger: item,
+        start: 'top 100%',
+        end: 'top 80%',
+        scrub: 0.5
+      }
+    }
+  );
+
+  // Fade out at top
+  gsap.fromTo(item, {
+    opacity: 1,
+    x: 0,
+    y: 0
+  }, {
+    opacity: 0,
+    x: index % 2 === 0 ? -100 : 100,
+    duration: 1,
+    scrollTrigger: {
+      trigger: item,
+      start: 'top 20%',  // Start fading when 30% from top
+      end: 'top 0%',    // Finish fading when 10% from top
+      scrub: 0.5
+    }
+  });
 });
 
 // Animate experience details on hover
@@ -176,13 +238,6 @@ document.querySelectorAll('.experience-item').forEach(item => {
     gsap.to(item.querySelector('.experience-details'), { opacity: 0.7, y: 10, duration: 0.3 });
   });
 });
-
-// Pin the experience section
-// ScrollTrigger.create({
-//   trigger: '#experience',
-//   pin: true,
-//   pinSpacing: false // Prevents extra spacing
-// });
 
 
 // Skills Section Animation
@@ -225,3 +280,7 @@ gsap.to('.submit-button', {
   repeat: -1, 
   yoyo: true 
 });
+
+
+// Refresh ScrollTrigger to ensure accurate calculations
+ScrollTrigger.refresh();
