@@ -4,6 +4,8 @@ CustomBounce.create("myBounce", {
   strength:0.5,
 })
 
+ScrollTrigger.defaults({ markers: true });
+
 document.fonts.ready.then(() => {
   // Hero Section Animation
   let heroTitleSplit = SplitText.create(".hero-title", { type: "words" });
@@ -90,7 +92,7 @@ ScrollTrigger.create({
 });
 
 
-// Projects Title Animation
+// Projects Section Animation
 gsap.from('.projects-title', {
   scrollTrigger: { trigger: '#projects', scrub: 1 },
   opacity: 0,
@@ -100,50 +102,66 @@ gsap.from('.projects-title', {
 });
 
 gsap.from('.project-card', {
-  scrollTrigger: { trigger: '#projects' },
+  scrollTrigger: { trigger: '#projects', start: 'top 80%' },
   opacity: 0,
-  scale: 0.5,
-  x: (index, target) => {
-    const cardRect = target.getBoundingClientRect();
-    const cardCenter = cardRect.left + cardRect.width / 2;
-    const screenCenter = window.innerWidth / 2;
-    return screenCenter - cardCenter;
-  },
-  y: -100,
-  duration: 0.7,
-  stagger: {
-    each: 0.15,
-    // ease: "power4.in",
-  },
-  ease: "power4.out",
-})
-
-// Projects Section Horizontal Scrolling
-gsap.to('.projects-container', {
-  x: () => -(document.querySelector('.projects-container').scrollWidth - window.innerWidth),
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#projects',
-    pin: true,
-    scrub: 1,
-    snap: 1 / (document.querySelectorAll('.project-card').length - 1), // Snap to each card
-    // end: () => '+=' + document.querySelector('.projects-container').scrollWidth
-    end: 'top top',
-    endTrigger: '#experience', // Pin until the experience section starts
-  }
-});
-// Hover effect for project cards
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mouseenter', () => gsap.to(card, { scale: 1.05, duration: 0.3 }));
-  card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.3 }));
+  scale: 0.8,
+  y: 50,
+  duration: 0.5,
+  stagger: 0.2,
+  ease: "power2.out",
 });
 
-// // Pin the projects section
+// Horizontal Scrolling for Projects
+const projectsContainer = document.querySelector('.projects-container');
+const projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300; // Calculate the scrollable width
+
 // ScrollTrigger.create({
 //   trigger: '#projects',
 //   pin: true,
-//   pinSpacing: false // Prevents extra spacing
+//   pinSpacing: false,
+//   // start: 'top top',
+//   // end: `+=${projectsScrollWidth}`, // Pin for the full scroll distance
+//   end: 'top top', // Pin for the full scroll distance
+//   endTrigger: '#experience',
+//   id: 'projectsPin'
 // });
+// Pin the projects section
+ScrollTrigger.create({
+  trigger: '#projects',
+  pin: true,
+  pinSpacing: true, // Allow spacing to extend the scroll duration
+  start: 'top top',
+  end: `+=${projectsScrollWidth}`, // Pin for the full horizontal scroll distance
+  id: 'projectsPin'
+});
+
+// Horizontal scroll animation
+gsap.to('.projects-container', {
+  x: -projectsScrollWidth, // Move left for natural scroll direction
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#projects',
+    start: 'top top',
+    // pin: true,
+    // pinSpacing: true, // Prevents extra spacing
+    end: `+=${projectsScrollWidth}`, // Pin for the full scroll distance
+    // end: 'top top', 
+    // endTrigger: `#experience`, // Match pinning duration
+    // id: 'projectsPin',
+    scrub: 1,
+    snap: {
+      snapTo: 1 / (document.querySelectorAll('.project-card').length - 1),
+      duration: 0.2,
+      ease: 'power1.inOut'
+    }
+  }
+});
+
+// Hover effect for project cards
+document.querySelectorAll('.project-card').forEach(card => {
+  card.addEventListener('mouseenter', () => gsap.to(card, { scale: 1.05, duration: 0.3, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }));
+  card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.3, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }));
+});
 
 
 
@@ -163,7 +181,7 @@ const containerHeight = container.scrollHeight;
 const viewportHeight = window.innerHeight;
 
 // Calculate scroll distance (how much to move the container)
-const scrollDistance = containerHeight > viewportHeight ? containerHeight - viewportHeight : 0;
+// const scrollDistance = containerHeight > viewportHeight ? containerHeight - viewportHeight : 0;
 
 // Pin the experience section
 ScrollTrigger.create({

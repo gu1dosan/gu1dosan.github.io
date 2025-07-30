@@ -5,12 +5,22 @@ section { padding: 4rem 2rem; position: relative}
   height: 50vh; /* Adjust this value for how long you want the pause */
 }
 #about { background: #edf2f7; min-height: 100vh; align-content: center; z-index: 1}
-#projects { background: #e2e2e9; min-height: 100vh; z-index: 2;}
+
+#projects { background: #e2e2e9; min-height: 100vh; z-index: 2; align-content: center;}
 .projects-title {
   position: relative;
   z-index: 2;
-  /* margin-bottom: 2rem; */
 }
+.projects-container {
+  /* overflow: hidden; */
+  display: flex;
+  flex-wrap: nowrap;
+}
+.project-card {
+  flex: 0 0 auto; /* Prevents shrinking */
+  transition: box-shadow 0.3s ease; /* Smooth shadow transition on hover */
+}
+
 #experience { background: #7c7c7c; z-index: 3;}
 .experience-title {
   color: white;
