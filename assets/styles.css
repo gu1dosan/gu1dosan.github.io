@@ -1,5 +1,5 @@
-body { margin: 0; font-family: Montserrat, sans-serif; overflow-x: hidden; }
-section { padding: 4rem 2rem; position: relative}
+body { margin: 0; font-family: "Montserrat", sans-serif; overflow-x: hidden; }
+section { padding: 4rem 2rem; position: relative }
 #hero { background: #1a202c; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; z-index: 0; }
 .section-spacer {
   height: 50vh; /* Adjust this value for how long you want the pause */

@@ -115,6 +115,7 @@ gsap.from('.project-card', {
 const projectsContainer = document.querySelector('.projects-container');
 const projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300; // Calculate the scrollable width
 
+// Pin the projects section
 // ScrollTrigger.create({
 //   trigger: '#projects',
 //   pin: true,
@@ -129,9 +130,9 @@ const projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 
 ScrollTrigger.create({
   trigger: '#projects',
   pin: true,
-  pinSpacing: true, // Allow spacing to extend the scroll duration
+  // pinSpacing: true, // Ensures spacer extends scroll duration
   start: 'top top',
-  end: `+=${projectsScrollWidth}`, // Pin for the full horizontal scroll distance
+  end: `+=${projectsScrollWidth+window.innerHeight}`, // Pin for the full horizontal scroll distance
   id: 'projectsPin'
 });
 
@@ -142,18 +143,14 @@ gsap.to('.projects-container', {
   scrollTrigger: {
     trigger: '#projects',
     start: 'top top',
-    // pin: true,
-    // pinSpacing: true, // Prevents extra spacing
-    end: `+=${projectsScrollWidth}`, // Pin for the full scroll distance
-    // end: 'top top', 
-    // endTrigger: `#experience`, // Match pinning duration
-    // id: 'projectsPin',
+    end: `+=${projectsScrollWidth}`, // Match pinning duration
     scrub: 1,
     snap: {
       snapTo: 1 / (document.querySelectorAll('.project-card').length - 1),
       duration: 0.2,
       ease: 'power1.inOut'
-    }
+    },
+    id: 'projectsScroll'
   }
 });
 
@@ -163,6 +160,17 @@ document.querySelectorAll('.project-card').forEach(card => {
   card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.3, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }));
 });
 
+// Optional: Fade out projects section when scrolling to experience section
+// gsap.to('#projects', {
+//   // opacity: 0.7, // Slightly fade projects section
+//   filter: 'blur(2px)', // Optional blur effect
+//   scrollTrigger: {
+//     trigger: '#experience',
+//     start: 'top bottom',
+//     end: 'top top',
+//     scrub: 1
+//   }
+// });
 
 
 // Work Experience Section Animation
@@ -186,6 +194,7 @@ const viewportHeight = window.innerHeight;
 // Pin the experience section
 ScrollTrigger.create({
   trigger: '#experience',
+  start: 'top top',
   pin: true,
   pinSpacing: false,
   // end: `+=${scrollDistance}`,  // Unpin when the container’s animation finishes
