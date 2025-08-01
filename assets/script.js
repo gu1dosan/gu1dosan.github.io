@@ -4,7 +4,7 @@ CustomBounce.create("myBounce", {
   strength: 0.5,
 });
 
-ScrollTrigger.defaults({ markers: true });
+// ScrollTrigger.defaults({ markers: true });
 
 // Initialize ScrollSmoother
 const smoother = ScrollSmoother.create({
@@ -48,7 +48,10 @@ ScrollTrigger.create({
   pinSpacing: false,
 });
 
-// About Section Animation
+
+// About Section Animations
+
+// About Section Text Animation
 const aboutTl = gsap.timeline();
 aboutTl
   .from('.about-title', { x: 500, opacity: 0, duration: 0.5 }, 0)
@@ -238,7 +241,7 @@ document.querySelectorAll('.experience-item').forEach(item => {
 
 // Skills Section Animation
 gsap.from('.skills-title', {
-  scrollTrigger: { trigger: '#skills', scrub:1 },
+  scrollTrigger: { trigger: '#skills', end: 'top center', scrub:1 },
   opacity: 0,
   y: 50,
   scale: 0.5,
