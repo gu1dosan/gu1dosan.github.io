@@ -16,7 +16,8 @@ const smoother = ScrollSmoother.create({
 
 document.fonts.ready.then(() => {
   // Hero Section Animation
-  let heroTitleSplit = SplitText.create(".hero-title", { type: "words" });
+  let heroTitleSplit = SplitText.create(".hero-title", { type: "chars, words" });
+  let heroTextSplit = SplitText.create(".hero-text", { type: "chars" }); // Split hero-text into chars
   gsap.from(heroTitleSplit.words[0], { 
     opacity: 0, 
     y: -50, 
@@ -39,7 +40,55 @@ document.fonts.ready.then(() => {
     delay: 1.5,
     ease: "power2.out",
   });
+
+  // Random single-letter jump and bounce
+  function triggerRandomJump() {
+    const randomIndex = Math.floor(Math.random() * heroTitleSplit.chars.length);
+    const randomChar = heroTitleSplit.chars[randomIndex];
+    gsap.to(randomChar, {
+      y: -20, // Smooth jump up
+      duration: 0.2, // Shorter for upward motion
+      ease: "power2.out", // Smooth ease up
+      onComplete: () => {
+        gsap.to(randomChar, {
+          y: 0, // Bounce back down
+          duration: 0.4, // Slightly longer for bounce
+          ease: "bounce", // Bounce effect
+          onComplete: () => {
+            // Ensure it stays at original position
+            gsap.set(randomChar, { y: 0 });
+            // Schedule next jump with random delay (2-5 seconds)
+            setTimeout(triggerRandomJump, 2000 + Math.random() * 3000);
+          }
+        });
+      }
+    });
+  }
+  // Start first jump after initial animations (2s delay)
+  setTimeout(triggerRandomJump, 3000);
+
+  // Periodic wave jump for hero-text
+  function triggerWaveJump() {
+    const waveTl = gsap.timeline({
+      repeat: -1,
+      repeatDelay: 3 + 2 * Math.random(), 
+    })
+      .to(heroTextSplit.chars, {
+        y: -5, // Smooth jump up
+        duration: 0.15,
+        // ease: "power2.out",
+        stagger:{
+          from: "start", // Start from the first character
+          amount: 1, // Stagger the jump for a wave effect
+          repeat: 1, // Repeat the stagger for the bounce back
+          yoyo: true, // Bounce back down
+        }
+      })
+  }
+  // Start first wave after initial animations (3s delay)
+  setTimeout(triggerWaveJump, 300);
 });
+
 
 // Pin the hero section
 ScrollTrigger.create({
