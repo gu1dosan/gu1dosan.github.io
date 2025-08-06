@@ -350,6 +350,70 @@ ScrollTrigger.create({
     mouseY = e.clientY - rect.top;
   });
 
+// Click handler for ripple effect
+  let clickX = null;
+  let clickY = null;
+  canvas.addEventListener('click', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    clickX = e.clientX - rect.left;
+    clickY = e.clientY - rect.top;
+    triggerRippleEffect();
+  });
+
+  // Ripple effect function
+  function triggerRippleEffect() {
+    if (clickX === null || clickY === null) return;
+
+    const rippleTl = gsap.timeline({ paused: true });
+    const maxRippleRadius = 2000; // Radius of the ripple effect
+
+    const affectedCircles = circles
+      .filter(circle => {
+        const dx = clickX - circle.x;
+        const dy = clickY - circle.y;
+        const distance = Math.sqrt(dx * dx + dy * dy);
+        return distance <= maxRippleRadius;
+      })
+      .sort((a, b) => {
+        const distA = Math.sqrt(Math.pow(clickX - a.x, 2) + Math.pow(clickY - a.y, 2));
+        const distB = Math.sqrt(Math.pow(clickX - b.x, 2) + Math.pow(clickY - b.y, 2));
+        return distA - distB;
+      });
+
+    if (affectedCircles.length === 0) {
+      clickX = null;
+      clickY = null;
+      return;
+    }
+
+    // Calculate start time based on distance for a true ripple
+    const totalDuration = 1.5; // Total time for the ripple to expand
+    affectedCircles.forEach(circle => {
+      const distance = Math.sqrt(Math.pow(clickX - circle.x, 2) + Math.pow(clickY - circle.y, 2));
+      const startTime = (distance / maxRippleRadius) * totalDuration;
+
+      rippleTl.to(circle, {
+        scale: 1.5,
+        opacity: 0.7,
+        duration: 0.2,
+        ease: "power2.out"
+      }, startTime).to(circle, {
+        scale: 1,
+        opacity: baseCircleOpacity,
+        duration: 0.2,
+        ease: "power2.in",
+        onComplete: () => {
+          if (circle === affectedCircles[affectedCircles.length - 1]) {
+            clickX = null;
+            clickY = null;
+          }
+        }
+      }, startTime + 0.08);
+    });
+
+    rippleTl.play();
+  }
+
   // Animation loop
   function animateCircles() {
     ctx.clearRect(0, 0, canvas.width, canvas.height);
