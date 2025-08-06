@@ -463,14 +463,6 @@ section {
   cursor: pointer;
   opacity: 100%;
 }
-@media (max-width: 768px) {
-  #floating-nav {
-    left: calc(var(--spacing) * 2);
-  }
-  #smooth-content {
-    padding-left: calc(var(--spacing) * 12);
-  }
-}
 #hero {
   padding: 4rem 2rem;
   background: #1a202c;

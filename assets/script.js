@@ -118,8 +118,7 @@ document.fonts.ready.then(() => {
           ease: "myBounce",
           onComplete: () => {
             gsap.set(randomChar, { y: 0, rotation: 0, scale: 1 });
-            // animationTimeout = setTimeout(triggerRandomAnimation, 3000 + Math.random() * 3000);
-            animationTimeout = setTimeout(triggerRandomAnimation, 4000);
+            animationTimeout = setTimeout(triggerRandomAnimation, 3000 + Math.random() * 3000);
           }
         });
       }
@@ -131,7 +130,8 @@ document.fonts.ready.then(() => {
   function triggerWaveJump() {
     const waveTl = gsap.timeline({
       repeat: -1,
-      repeatDelay: 4 + 2 * Math.random(), 
+      // repeatDelay: 4 + 2 * Math.random(), 
+      repeatDelay: 6, 
     })
       .to(heroTextSplit.chars, {
         y: -5, // Smooth jump up
@@ -145,8 +145,8 @@ document.fonts.ready.then(() => {
         }
       })
   }
-  // Start first wave after initial animations (3s delay)
-  setTimeout(triggerWaveJump, 3000);
+  // Start first wave after initial animations (4s delay)
+  setTimeout(triggerWaveJump, 4000);
 
 
   // Flag to ensure animation runs only once
@@ -341,7 +341,7 @@ ScrollTrigger.create({
       }, ring * 0.15 + 0.15);
     }
   }
-  setTimeout(triggerWavePulse, 3000); // Start after initial animations
+  setTimeout(triggerWavePulse, 4000); // Start after initial animations
 
   // Mouse movement handler
   document.addEventListener('mousemove', (e) => {

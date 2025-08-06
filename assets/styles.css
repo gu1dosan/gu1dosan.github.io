@@ -21,14 +21,14 @@ section { position: relative }
   @apply scale-110 opacity-100;
 } */
 
-@media (max-width: 768px) {
+/* @media (max-width: 768px) {
   #floating-nav {
     @apply left-2;
   }
   #smooth-content {
-    @apply pl-12; /* Adjust padding for mobile */
+    @apply pl-12;
   }
-}
+} */
 
 
 #hero {padding: 4rem 2rem; background: #1a202c; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; z-index: 0; }
