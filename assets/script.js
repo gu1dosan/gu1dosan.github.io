@@ -14,7 +14,22 @@ const smoother = ScrollSmoother.create({
   normalizeScroll: true, // Normalize scroll across devices
 });
 
+const NAV_ANIM_DELAY = 2; // Delay for floating nav animation
+
+// Map section IDs to text colors for contrast
+const sectionTextColors = {
+  '#hero': '#FFFFFF', // White text on bg-gray-900
+  '#about': '#1F2937', // Dark gray (gray-800) on bg-gray-100
+  '#projects': '#1F2937', // Dark gray on bg-gray-200
+  '#experience': '#FFFFFF', // White text on bg-gray-500
+  '#skills': '#1F2937', // Dark gray on bg-gray-300
+  '#contact': '#FFFFFF', // White text on bg-gray-800
+};
+
 document.fonts.ready.then(() => {
+  // Set initial opacity and text color for nav visibility
+  gsap.set('.nav-btn', { opacity: 1, color: sectionTextColors['#hero'] });
+
   // Hero Section Animation
   let heroTitleSplit = SplitText.create(".hero-title", { type: "chars, words" });
   let heroTextSplit = SplitText.create(".hero-text", { type: "chars" }); // Split hero-text into chars
@@ -64,7 +79,7 @@ document.fonts.ready.then(() => {
       }
     });
   }
-  // Start first jump after initial animations (2s delay)
+  // Start first jump after initial animations (3s delay)
   setTimeout(triggerRandomJump, 3000);
 
   // Periodic wave jump for hero-text
@@ -86,7 +101,104 @@ document.fonts.ready.then(() => {
       })
   }
   // Start first wave after initial animations (3s delay)
-  setTimeout(triggerWaveJump, 300);
+  setTimeout(triggerWaveJump, 3000);
+
+
+  // Flag to ensure animation runs only once
+  let navAnimTriggered = false;
+  // Floating navigation appearance animation
+  const floatingNavAnimation = gsap.to('.nav-btn', {
+    opacity: 0.5,
+    x: 124,
+    duration: 0.4,
+    stagger: 0.06,
+    ease: "power4.out",
+    // delay: 2
+    paused: true, // Start paused
+  });
+  // Delayed trigger
+  gsap.delayedCall(NAV_ANIM_DELAY, () => { // 3-second delay
+    if (!navAnimTriggered) {
+      floatingNavAnimation.play();
+      navAnimTriggered = true; // Set flag to true
+    }
+  });
+  // ScrollTrigger
+  ScrollTrigger.create({
+    trigger: "#about",
+    start: "top center", // Trigger when element is 80% from the top of viewport
+    scroller: "#smooth-wrapper",
+    onEnter: () => {
+      if (!navAnimTriggered) {
+        floatingNavAnimation.play();
+      }
+    },
+    once: true // Ensures ScrollTrigger only fires once
+  });
+  
+
+  // Hover animations for nav buttons
+  // document.querySelectorAll('.nav-btn').forEach(btn => {
+  //   btn.addEventListener('mouseenter', () => {
+  //     gsap.to(btn, { scale: 1.2, duration: 0.2, ease: "power2.out" });
+  //   });
+  //   btn.addEventListener('mouseleave', () => {
+  //     gsap.to(btn, { scale: 1, duration: 0.2, ease: "power2.out" });
+  //   });
+  // });
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('mouseenter', () => {
+      gsap.to(btn, { x: 132, duration: 0.2, ease: "power2.out" });
+    });
+    btn.addEventListener('mouseleave', () => {
+      gsap.to(btn, { x: btn.classList.contains('active') ? 132 : 124, duration: 0.2, ease: "power2.out" });
+    });
+  });
+
+  // Scroll to section on click
+  document.querySelectorAll('.nav-btn').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const section = btn.getAttribute('data-section');
+      if (section === '#hero') {
+        smoother.scrollTo(0, true); // Scroll to absolute top for #hero
+      } else {
+        smoother.scrollTo(section, true, 'top top');
+      }
+    });
+  });
+
+  // Highlight active section in nav with GSAP
+  const sections = ['#hero', '#about', '#projects', '#experience', '#skills', '#contact'];
+  sections.forEach(section => {
+    const btn = document.querySelector(`.nav-btn[data-section="${section}"]`);
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 15%',
+      end: section === '#projects' ? `+=${projectsScrollWidth+window.innerHeight}` : 'bottom 15%', // Extend for projects horizontal scroll
+      scroller: '#smooth-wrapper',
+      onEnter: () => {
+        // if(section !== '#hero') {
+          btn.classList.add('active');
+          gsap.to(btn, { x: 132, opacity: 1, duration: 0.3, ease: "power2.out", delay: navAnimTriggered ? 0 : section === '#hero' ? NAV_ANIM_DELAY+1 : 0.5 });
+          gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
+        // }
+      },
+      onEnterBack: () => {
+        btn.classList.add('active');
+        gsap.to(btn, { x: 132, opacity: 1, duration: 0.3, ease: "power2.out" });
+        gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
+      },
+      onLeave: () => {
+        btn.classList.remove('active');
+        gsap.to(btn, { x: 124, opacity: 0.5, duration: 0.3, ease: "power2.out" });
+      },
+      onLeaveBack: () => {
+        btn.classList.remove('active');
+        gsap.to(btn, { x: 124, opacity: 0.5, duration: 0.3, ease: "power2.out" });
+      }
+    });
+  });
+
 });
 
 
@@ -95,6 +207,7 @@ ScrollTrigger.create({
   trigger: '#hero',
   pin: true,
   pinSpacing: false,
+  scroller: '#smooth-wrapper',
 });
 
 
@@ -119,7 +232,7 @@ ScrollTrigger.create({
   trigger: '#about',
   pin: true,
   pinSpacing: false,
-  end: '150%',
+  // end: '150%',
 });
 
 // Projects Section Animation
@@ -149,7 +262,7 @@ gsap.from('.project-card', {
 
 // Horizontal Scrolling for Projects
 const projectsContainer = document.querySelector('.projects-container');
-const projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
+let projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
 const extraPinDistance = window.innerHeight;
 
 // Pin the projects section

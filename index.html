@@ -18,6 +18,15 @@
 </head>
 <body>
   <div id="smooth-wrapper">
+    <!-- Floating Navigation -->
+    <nav id="floating-nav" class="fixed left-[-100px] top-32 transform -translate-y-1/2 z-50 flex flex-col space-y-4">
+      <button class="nav-btn" data-section="#hero" title="Hero">Home</button>
+      <button class="nav-btn" data-section="#about" title="About">About Me</button>
+      <button class="nav-btn" data-section="#projects" title="Projects">Projects</button>
+      <button class="nav-btn" data-section="#experience" title="Experience">Experience</button>
+      <button class="nav-btn" data-section="#skills" title="Skills">Skills</button>
+      <button class="nav-btn" data-section="#contact" title="Contact">Contact</button>
+    </nav>
     <div id="smooth-content">
       <!-- Hero Section -->
       <section id="hero">
@@ -30,7 +39,7 @@
 
       <!-- About Section -->
       <section id="about">
-        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center">
+        <div class="max-w-4xl mx-auto flex flex-col md:flex-row items-center about-content">
           <div class="md:w-1/2">
             <h2 class="text-4xl font-bold mb-4 about-title">About Me</h2>
             <p class="text-lg about-text">I’m a passionate Full-Stack Developer with 2 years of professional React front-end experience, with a love for crafting pixel-perfect interactive experiences using modern web technologies.</p>
@@ -43,12 +52,12 @@
           </div>
         </div>
       </section>
-      <div class="section-spacer"></div>
+      <!-- <div class="section-spacer"></div> -->
 
 
       <!-- Projects Section with Horizontal Scrolling -->
       <section id="projects" class="bg-gray-100 py-12">
-        <h2 class="text-4xl font-bold text-center mb-12 projects-title">Recent Projects</h2>
+        <h2 class="text-4xl font-bold text-center mb-12 projects-title">Featured Projects</h2>
         <div class="projects-container flex flex-nowrap">
           <div class="project-card min-w-[600px] max-h-full mx-4 bg-white rounded-lg shadow-lg overflow-hidden">
             <img src="assets/project1.jpg" alt="Project 1" class="w-full h-48 object-cover">
@@ -158,16 +167,18 @@
 
       <!-- Skills Section -->
       <section id="skills">
-        <h2 class="text-4xl font-bold text-center mb-8 skills-title">My Skills</h2>
-        <div class="max-w-4xl mx-auto flex flex-wrap justify-center gap-8">
-          <div class="skill-icon"></div>
-          <div class="skill-icon"></div>
-          <div class="skill-icon"></div>
-          <div class="skill-icon"></div>
-          <div class="skill-icon"></div>
+        <div class="skills-content">
+          <h2 class="text-4xl font-bold text-center mb-8 skills-title">My Skills</h2>
+          <div class="max-w-4xl mx-auto flex flex-wrap justify-center gap-8">
+            <div class="skill-icon"></div>
+            <div class="skill-icon"></div>
+            <div class="skill-icon"></div>
+            <div class="skill-icon"></div>
+            <div class="skill-icon"></div>
+          </div>
         </div>
       </section>
-      <div class="section-spacer"></div>
+      <!-- <div class="section-spacer"></div> -->
 
       <!-- Contact Section -->
       <section id="contact">
