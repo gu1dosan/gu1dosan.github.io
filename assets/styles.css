@@ -32,6 +32,24 @@ section { position: relative }
 
 
 #hero {padding: 4rem 2rem; background: #1a202c; color: white; display: flex; align-items: center; justify-content: center; min-height: 100vh; z-index: 0; }
+#hero-canvas { opacity: 0.3; } /* Low opacity for subtle effect */
+
+.hero-text {
+  font-size: 1.25rem;
+  max-width: 600px;
+  transform-style: flat; /* Ensure 2D context */
+}
+
+#hero-canvas {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  transform: translateZ(0); /* Create new stacking context */
+}
+
 .section-spacer {
   height: 50vh; /* Adjust this value for how long you want the pause */
 }

@@ -14,7 +14,7 @@ const smoother = ScrollSmoother.create({
   normalizeScroll: true, // Normalize scroll across devices
 });
 
-const NAV_ANIM_DELAY = 2; // Delay for floating nav animation
+const NAV_ANIM_DELAY = 1.5; // Delay for floating nav animation
 
 // Map section IDs to text colors for contrast
 const sectionTextColors = {
@@ -52,10 +52,19 @@ document.fonts.ready.then(() => {
   });
   gsap.from('.hero-text', {
     opacity: 0,
+    scale: 0.8,
     y: 20,
-    rotation: 5,
+    // rotation: 5,
     duration: 0.7,
     delay: 1.5,
+    ease: "power2.out",
+  });
+  gsap.from('#hero-canvas', {
+    opacity: 0,
+    scale: 2,
+    rotation: 180,
+    duration: 2,
+    delay: 1,
     ease: "power2.out",
   });
   
@@ -109,7 +118,8 @@ document.fonts.ready.then(() => {
           ease: "myBounce",
           onComplete: () => {
             gsap.set(randomChar, { y: 0, rotation: 0, scale: 1 });
-            animationTimeout = setTimeout(triggerRandomAnimation, 2000 + Math.random() * 3000);
+            // animationTimeout = setTimeout(triggerRandomAnimation, 3000 + Math.random() * 3000);
+            animationTimeout = setTimeout(triggerRandomAnimation, 4000);
           }
         });
       }
@@ -121,7 +131,7 @@ document.fonts.ready.then(() => {
   function triggerWaveJump() {
     const waveTl = gsap.timeline({
       repeat: -1,
-      repeatDelay: 3 + 2 * Math.random(), 
+      repeatDelay: 4 + 2 * Math.random(), 
     })
       .to(heroTextSplit.chars, {
         y: -5, // Smooth jump up
@@ -152,7 +162,7 @@ document.fonts.ready.then(() => {
     paused: true, // Start paused
   });
   // Delayed trigger
-  gsap.delayedCall(NAV_ANIM_DELAY, () => { // 3-second delay
+  gsap.delayedCall(NAV_ANIM_DELAY, () => {
     if (!navAnimTriggered) {
       floatingNavAnimation.play();
       navAnimTriggered = true; // Set flag to true
@@ -236,7 +246,6 @@ document.fonts.ready.then(() => {
 
 });
 
-
 // Pin the hero section
 ScrollTrigger.create({
   trigger: '#hero',
@@ -244,6 +253,140 @@ ScrollTrigger.create({
   pinSpacing: false,
   scroller: '#smooth-wrapper',
 });
+
+// Canvas Concentric Circles Animation
+  const canvas = document.getElementById('hero-canvas');
+  const ctx = canvas.getContext('2d');
+  let animationFrameId;
+
+  // Set canvas size
+  function resizeCanvas() {
+    canvas.width = window.innerWidth;
+    canvas.height = window.innerHeight;
+  }
+  resizeCanvas();
+  window.addEventListener('resize', resizeCanvas);
+
+  // Get hero content center and bounds
+  const getHeroBounds = () => {
+    const titleRect = document.querySelector('.hero-title').getBoundingClientRect();
+    const textRect = document.querySelector('.hero-text').getBoundingClientRect();
+    const centerX = (titleRect.left + titleRect.right) / 2;
+    const centerY = (titleRect.top + textRect.bottom) / 2;
+    const width = Math.max(titleRect.width, textRect.width);
+    const height = textRect.bottom - titleRect.top;
+    return { centerX, centerY, width, height };
+  };
+
+  // Grid settings
+  const ringSpacing = 60; // Distance between concentric rings
+  const maxRings = 16; // Number of concentric rings
+  const baseCirclesPerRing = 32; // Base number of circles for the first ring
+  const circleRadius = 3; // Base radius of circles
+  const baseCircleOpacity = 0.3; // Base opacity of circles
+  const maxOffset = 10; // Max mouse movement offset
+  let mouseX = 0;
+  let mouseY = 0;
+
+  // Store circle objects
+  const circles = [];
+  function initCircles() {
+    circles.length = 0; // Clear existing circles
+    const { centerX, centerY, width, height } = getHeroBounds();
+    const minRadius = Math.sqrt(width * width + height * height) / 2 + 100; // Start 100px outside hero content
+
+    for (let ring = 0; ring < maxRings; ring++) {
+      const radius = minRadius + ring * ringSpacing;
+      const numCircles = baseCirclesPerRing + ring * 2; // Linear increase (8, 10, 12, 14, 16, 18)
+      for (let i = 0; i < numCircles; i++) {
+        let angle = (i / numCircles) * Math.PI * 2 + Math.PI / 12 * ring; // Stagger with offset
+        // angle += (Math.random() - 0.5) * 0.1; // Slight random jitter
+        circles.push({
+          baseX: centerX + Math.cos(angle) * radius,
+          baseY: centerY + Math.sin(angle) * radius,
+          x: centerX + Math.cos(angle) * radius,
+          y: centerY + Math.sin(angle) * radius,
+          radius: radius, // Store ring radius for wave animation
+          scale: 1,
+          opacity: baseCircleOpacity,
+        });
+      }
+    }
+  }
+  initCircles();
+
+  // Periodic wave pulse from center
+  function triggerWavePulse() {
+    const waveTl = gsap.timeline({
+      repeat: -1,
+      // repeatDelay: 3 + Math.random() * 3, // Random delay between 3-6s
+      repeatDelay: 4,
+    });
+    const { centerX, centerY, width, height } = getHeroBounds();
+    const minRadius = Math.sqrt(width * width + height * height) / 2 + 50; // Start 50px outside hero content
+    for (let ring = 0; ring < maxRings; ring++) {
+      const targetRadius = minRadius + ring * ringSpacing;
+      const ringCircles = circles.filter(c => Math.abs(c.radius - targetRadius) < ringSpacing / 2);
+      waveTl.to(ringCircles, {
+        scale: 1.5,
+        opacity: 1,
+        duration: 0.8, // Smoother wave
+        ease: "power2.out",
+      }, ring * 0.15) // Gentler stagger (0.15s)
+      .to(ringCircles, {
+        scale: 1,
+        opacity: baseCircleOpacity,
+        duration: 0.8,
+        ease: "power2.in",
+      }, ring * 0.15 + 0.15);
+    }
+  }
+  setTimeout(triggerWavePulse, 3000); // Start after initial animations
+
+  // Mouse movement handler
+  document.addEventListener('mousemove', (e) => {
+    const rect = canvas.getBoundingClientRect();
+    mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // Normalized -1 to 1
+    mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+  });
+
+  // Animation loop
+  function animateCircles() {
+    ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const { centerX, centerY } = getHeroBounds(); // Update center
+    circles.forEach(circle => {
+      // Update base position for centering
+      const angle = Math.atan2(circle.baseY - centerY, circle.baseX - centerX);
+      circle.baseX = centerX + Math.cos(angle) * circle.radius;
+      circle.baseY = centerY + Math.sin(angle) * circle.radius;
+
+      // Apply mouse offset
+      const dx = mouseX * maxOffset;
+      const dy = mouseY * maxOffset;
+      circle.x = circle.baseX + dx;
+      circle.y = circle.baseY + dy;
+
+      // Draw circle
+      ctx.beginPath();
+      ctx.arc(circle.x, circle.y, circleRadius * circle.scale, 0, Math.PI * 2);
+      ctx.fillStyle = `rgba(255, 255, 255, ${circle.opacity})`;
+      ctx.fill();
+    });
+    animationFrameId = requestAnimationFrame(animateCircles);
+  }
+  animateCircles();
+
+  // Clean up and reinitialize on scroll
+  ScrollTrigger.create({
+    trigger: '#hero',
+    start: 'top top',
+    end: 'bottom top',
+    onLeave: () => cancelAnimationFrame(animationFrameId),
+    onEnterBack: () => {
+      initCircles(); // Reinitialize circles on re-entry
+      animateCircles(); // Restart animation with updated positions
+    },
+  });
 
 
 // About Section Animations
