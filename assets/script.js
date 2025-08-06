@@ -309,6 +309,7 @@ ScrollTrigger.create({
           radius: radius, // Store ring radius for wave animation
           scale: 1,
           opacity: baseCircleOpacity,
+          pulseOpacity: baseCircleOpacity
         });
       }
     }
@@ -329,13 +330,13 @@ ScrollTrigger.create({
       const ringCircles = circles.filter(c => Math.abs(c.radius - targetRadius) < ringSpacing / 2);
       waveTl.to(ringCircles, {
         scale: 1.5,
-        opacity: 1,
+        pulseOpacity: 1,
         duration: 0.8, // Smoother wave
         ease: "power2.out",
       }, ring * 0.15) // Gentler stagger (0.15s)
       .to(ringCircles, {
         scale: 1,
-        opacity: baseCircleOpacity,
+        pulseOpacity: baseCircleOpacity,
         duration: 0.8,
         ease: "power2.in",
       }, ring * 0.15 + 0.15);
@@ -394,12 +395,12 @@ ScrollTrigger.create({
 
       rippleTl.to(circle, {
         scale: 1.5,
-        opacity: 0.7,
+        pulseOpacity: 0.7,
         duration: 0.2,
         ease: "power2.out"
       }, startTime).to(circle, {
         scale: 1,
-        opacity: baseCircleOpacity,
+        pulseOpacity: baseCircleOpacity,
         duration: 0.2,
         ease: "power2.in",
         onComplete: () => {
@@ -435,15 +436,23 @@ ScrollTrigger.create({
       const dy = mouseY - circle.y;
       const distance = Math.sqrt(dx * dx + dy * dy);
       // Apply localized offset with falloff
-      const maxInfluenceRadius = 1500; // Radius within which circles are affected
-      let influence = 1 - Math.min(distance / maxInfluenceRadius, 1); // Linear falloff from 1 to 0
+      const maxGravityInfluenceRadius = 1500; // Radius within which circles are affected with gravity
+      let influence = 1 - Math.min(distance / maxGravityInfluenceRadius, 1); // Linear falloff from 1 to 0
       influence = influence > 0 ? influence * influence : 0; // Quadratic falloff for smoother edge
-      const offsetX = dx * influence * (maxOffset / maxInfluenceRadius);
-      const offsetY = dy * influence * (maxOffset / maxInfluenceRadius);
+      const offsetX = dx * influence * (maxOffset / maxGravityInfluenceRadius);
+      const offsetY = dy * influence * (maxOffset / maxGravityInfluenceRadius);
       // Apply offset
       circle.x = circle.baseX + offsetX;
       circle.y = circle.baseY + offsetY;
-
+      
+      const maxOpacityInfluenceRadius = 200; // Radius within which circles are affected
+      // Adjust opacity based on proximity to mouse cursor (already calculated influence)
+      const maxOpacity = 1; // Maximum opacity when closest
+      const minOpacity = baseCircleOpacity; // Minimum opacity when farthest
+      const proximityInfluence = 1 - Math.min(distance / maxOpacityInfluenceRadius, 1); // 1 when closest, 0 when farthest
+      const proximityOpacity = minOpacity + (maxOpacity - minOpacity) * proximityInfluence;
+      circle.opacity = Math.max(proximityOpacity, circle.pulseOpacity); // Combine proximity and pulse opacity
+      
       // Draw circle
       ctx.beginPath();
       ctx.arc(circle.x, circle.y, circleRadius * circle.scale, 0, Math.PI * 2);
