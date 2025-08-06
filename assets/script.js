@@ -284,7 +284,7 @@ ScrollTrigger.create({
   const baseCirclesPerRing = 32; // Base number of circles for the first ring
   const circleRadius = 3; // Base radius of circles
   const baseCircleOpacity = 0.3; // Base opacity of circles
-  const maxOffset = 10; // Max mouse movement offset
+  const maxOffset = 200; // Max mouse movement offset
   let mouseX = 0;
   let mouseY = 0;
 
@@ -322,7 +322,7 @@ ScrollTrigger.create({
       // repeatDelay: 3 + Math.random() * 3, // Random delay between 3-6s
       repeatDelay: 4,
     });
-    const { centerX, centerY, width, height } = getHeroBounds();
+    const { width, height } = getHeroBounds();
     const minRadius = Math.sqrt(width * width + height * height) / 2 + 50; // Start 50px outside hero content
     for (let ring = 0; ring < maxRings; ring++) {
       const targetRadius = minRadius + ring * ringSpacing;
@@ -343,11 +343,11 @@ ScrollTrigger.create({
   }
   setTimeout(triggerWavePulse, 4000); // Start after initial animations
 
-  // Mouse movement handler
+// Mouse movement handler
   document.addEventListener('mousemove', (e) => {
     const rect = canvas.getBoundingClientRect();
-    mouseX = ((e.clientX - rect.left) / rect.width - 0.5) * 2; // Normalized -1 to 1
-    mouseY = ((e.clientY - rect.top) / rect.height - 0.5) * 2;
+    mouseX = e.clientX - rect.left; // Absolute canvas coordinates
+    mouseY = e.clientY - rect.top;
   });
 
   // Animation loop
@@ -360,11 +360,25 @@ ScrollTrigger.create({
       circle.baseX = centerX + Math.cos(angle) * circle.radius;
       circle.baseY = centerY + Math.sin(angle) * circle.radius;
 
-      // Apply mouse offset
-      const dx = mouseX * maxOffset;
-      const dy = mouseY * maxOffset;
-      circle.x = circle.baseX + dx;
-      circle.y = circle.baseY + dy;
+      // // Apply mouse offset // FOR GLOBAL PARALLAX EFFECT
+      // const dx = mouseX * maxOffset;
+      // const dy = mouseY * maxOffset;
+      // circle.x = circle.baseX + dx;
+      // circle.y = circle.baseY + dy;
+
+      // Calculate distance from mouse to circle // FOR LOCAL PARALLAX EFFECT
+      const dx = mouseX - circle.x;
+      const dy = mouseY - circle.y;
+      const distance = Math.sqrt(dx * dx + dy * dy);
+      // Apply localized offset with falloff
+      const maxInfluenceRadius = 1500; // Radius within which circles are affected
+      let influence = 1 - Math.min(distance / maxInfluenceRadius, 1); // Linear falloff from 1 to 0
+      influence = influence > 0 ? influence * influence : 0; // Quadratic falloff for smoother edge
+      const offsetX = dx * influence * (maxOffset / maxInfluenceRadius);
+      const offsetY = dy * influence * (maxOffset / maxInfluenceRadius);
+      // Apply offset
+      circle.x = circle.baseX + offsetX;
+      circle.y = circle.baseY + offsetY;
 
       // Draw circle
       ctx.beginPath();
