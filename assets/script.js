@@ -35,14 +35,16 @@ document.fonts.ready.then(() => {
   let heroTextSplit = SplitText.create(".hero-text", { type: "chars" }); // Split hero-text into chars
   gsap.from(heroTitleSplit.words[0], { 
     opacity: 0, 
-    y: -50, 
+    y: -30, 
+    rotation: 10,
     duration: 0.5, 
     stagger: 0.4,
     ease: "myBounce",
   });
   gsap.from(heroTitleSplit.words.slice(1), { 
     opacity: 0, 
-    y: -50, 
+    y: -30, 
+    rotation: 10,
     delay: 0.5,
     duration: 0.5, 
     stagger: 0.2,
@@ -51,36 +53,69 @@ document.fonts.ready.then(() => {
   gsap.from('.hero-text', {
     opacity: 0,
     y: 20,
-    duration: 1,
+    rotation: 5,
+    duration: 0.7,
     delay: 1.5,
     ease: "power2.out",
   });
-
-  // Random single-letter jump and bounce
-  function triggerRandomJump() {
+  
+  // Random animation for hero-title characters
+  let animationTimeout = null;
+  function triggerRandomAnimation() {
     const randomIndex = Math.floor(Math.random() * heroTitleSplit.chars.length);
     const randomChar = heroTitleSplit.chars[randomIndex];
+    // const animationTypes = ['jump', 'spin', 'scale', 'wobble', 'flipY', 'flipX'];
+    const animationTypes = ['spin', 'scale', 'wobble', 'flipY', 'flipX'];
+    const animationType = animationTypes[Math.floor(Math.random() * animationTypes.length)];
+    // const animationType = 'spin';
+
+    let animationProps;
+    let animationPropsBack;
+    switch (animationType) {
+      case 'jump':
+        animationProps = { y: -40 };
+        break;
+      case 'spin':
+        animationProps = { y: -60, rotation: 180 };
+        animationPropsBack = { y: 0, rotation: 360 };
+        break;
+      case 'scale':
+        animationProps = { scale: 1.5 };
+        break;
+      case 'wobble':
+        animationProps = { scaleX: 1.3, scaleY: 0.7, rotation: 10 };
+        animationPropsBack = { scaleX: 1, scaleY: 1, rotation: 0 };
+        break;
+      case 'flipY':
+        animationProps = { rotationX: 180, y: -40 };
+        animationPropsBack = { rotationX: 0, y: 0 };
+        break;
+      case 'flipX':
+        animationProps = { rotationY: 180 , y: -40 };
+        animationPropsBack = { rotationY: 0 };
+        break;
+
+    }
     gsap.to(randomChar, {
-      y: -20, // Smooth jump up
-      duration: 0.2, // Shorter for upward motion
-      ease: "power2.out", // Smooth ease up
+      ...animationProps,
+      duration: 0.3,
+      ease: "power2.out",
       onComplete: () => {
         gsap.to(randomChar, {
-          y: 0, // Bounce back down
-          duration: 0.4, // Slightly longer for bounce
-          ease: "bounce", // Bounce effect
+          ...animationPropsBack,
+          y: 0,
+          scale: 1,
+          duration: 0.5,
+          ease: "myBounce",
           onComplete: () => {
-            // Ensure it stays at original position
-            gsap.set(randomChar, { y: 0 });
-            // Schedule next jump with random delay (2-5 seconds)
-            setTimeout(triggerRandomJump, 2000 + Math.random() * 3000);
+            gsap.set(randomChar, { y: 0, rotation: 0, scale: 1 });
+            animationTimeout = setTimeout(triggerRandomAnimation, 2000 + Math.random() * 3000);
           }
         });
       }
     });
   }
-  // Start first jump after initial animations (3s delay)
-  setTimeout(triggerRandomJump, 3000);
+  setTimeout(triggerRandomAnimation, 3000);
 
   // Periodic wave jump for hero-text
   function triggerWaveJump() {
