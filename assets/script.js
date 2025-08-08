@@ -653,8 +653,8 @@ ScrollTrigger.create({
   pin: true,
   pinSpacing: true,
   start: 'top top',
-  end: `+=${projectsScrollWidth}`,
-  // end: `+=${projectsScrollWidth + extraPinDistance}`,
+  // end: `+=${projectsScrollWidth}`,
+  end: `+=${projectsScrollWidth + extraPinDistance}`,
   id: 'projectsPin',
 });
 
