@@ -26,6 +26,15 @@ const sectionTextColors = {
   '#contact': '#FFFFFF', // White text on bg-gray-800
 };
 
+const sectionBackgroundColors = {
+  '#hero': '#1a202c', // Dark background for hero
+  '#about': '#edf2f7', // Light background for about
+  '#projects': '#e2e2e9', // Light background for projects
+  '#experience': '#7c7c7c', // Dark background for experience
+  '#skills': '#dddddd', // Light background for skills
+  '#contact': '#2d3748', // Dark background for contact
+};
+
 document.fonts.ready.then(() => {
   // Set initial opacity and text color for nav visibility
   gsap.set('.nav-btn', { opacity: 1, color: sectionTextColors['#hero'] });
@@ -148,38 +157,115 @@ document.fonts.ready.then(() => {
   // Start first wave after initial animations (4s delay)
   setTimeout(triggerWaveJump, 4000);
 
+  // Hamburger Menu Toggle
+  const navToggle = document.getElementById('nav-toggle');
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const floatingNav = document.getElementById('floating-nav');
+  let isMenuOpen = false;
+
+  function toggleMenu() {
+    isMenuOpen = !isMenuOpen;
+    hamburgerBtn.classList.toggle('active');
+    const tl = gsap.timeline();
+    if (isMenuOpen) {
+    //   floatingNav.classList.remove('hidden');
+    //   tl
+    //   // .fromTo(floatingNav, { 
+    //   //   x: '-100%', 
+    //   //   // opacity: 0 
+    //   // }, { 
+    //   //   x: 0, 
+    //   //   // opacity: 1, 
+    //   //   duration: 0.3, 
+    //   //   ease: "power2.out" 
+    //   // })
+    //     .fromTo('.nav-btn', { 
+    //       // x: -100,
+    //       // y: 20, 
+    //       // opacity: 0 
+    //     }, { 
+    //       x: 124,
+    //       // y: 0, 
+    //       // opacity: 1, 
+    //       stagger: 0.05, 
+    //       duration: 0.2, 
+    //       ease: "power2.out" 
+    //     }, 0.1);
+    floatingNavAnimation.play()
+    } else {
+      // tl
+      // .to('.nav-btn', { 
+      //   x: -100,
+      //   // y: 20, 
+      //   // opacity: 0, 
+      //   stagger: -0.1, 
+      //   duration: 0.3, 
+      //   ease: "power2.in" 
+      // })
+      //   // .to(floatingNav, { 
+      //   //   x: '-100%', 
+      //   //   // opacity: 0, 
+      //   //   duration: 0.3, 
+      //   //   ease: "power2.in", 
+      //   //   onComplete: () => {
+      //   //     floatingNav.classList.add('hidden');
+      //   //   }
+      //   // }, 0.1);
+      floatingNavAnimation.reverse();
+    }
+  }
+
+  navToggle.addEventListener('click', (e) => {
+    e.preventDefault();
+    toggleMenu();
+  });
+
+  // Close menu on scroll or click outside
+  document.addEventListener('click', (e) => {
+    if (isMenuOpen && !navToggle.contains(e.target) && !floatingNav.contains(e.target)) {
+      toggleMenu();
+    }
+  });
+  window.addEventListener('scroll', () => {
+    if (isMenuOpen) toggleMenu();
+  });
 
   // Flag to ensure animation runs only once
   let navAnimTriggered = false;
   // Floating navigation appearance animation
+  const floatingNavDefaultX = 140
+  const floatingNavActiveX = 148
   const floatingNavAnimation = gsap.to('.nav-btn', {
-    opacity: 0.5,
-    x: 124,
+    opacity: window.visualViewport.width >= 768 ? 0.5 : 1,
+    x: floatingNavDefaultX,
     duration: 0.4,
     stagger: 0.06,
     ease: "power4.out",
     // delay: 2
     paused: true, // Start paused
   });
-  // Delayed trigger
-  gsap.delayedCall(NAV_ANIM_DELAY, () => {
-    if (!navAnimTriggered) {
-      floatingNavAnimation.play();
-      navAnimTriggered = true; // Set flag to true
-    }
-  });
-  // ScrollTrigger
-  ScrollTrigger.create({
-    trigger: "#about",
-    start: "top center", // Trigger when element is 80% from the top of viewport
-    scroller: "#smooth-wrapper",
-    onEnter: () => {
-      if (!navAnimTriggered) {
+  // Delayed trigger only for desktop
+  if (!navAnimTriggered && window.visualViewport.width >= 768) {
+    gsap.delayedCall(NAV_ANIM_DELAY, () => {
         floatingNavAnimation.play();
-      }
-    },
-    once: true // Ensures ScrollTrigger only fires once
-  });
+        navAnimTriggered = true; // Set flag to true
+    });
+  }
+  // ScrollTrigger
+  if (window.visualViewport.width >= 768) {
+    ScrollTrigger.create({
+      trigger: "#about",
+      start: "top center", // Trigger when element is 80% from the top of viewport
+      scroller: "#smooth-wrapper",
+      onEnter: () => {
+        if (!navAnimTriggered) {
+          floatingNavAnimation.play();
+        }
+      },
+      once: true // Ensures ScrollTrigger only fires once
+    });
+  }
+  
   
 
   // Hover animations for nav buttons
@@ -191,14 +277,16 @@ document.fonts.ready.then(() => {
   //     gsap.to(btn, { scale: 1, duration: 0.2, ease: "power2.out" });
   //   });
   // });
-  document.querySelectorAll('.nav-btn').forEach(btn => {
-    btn.addEventListener('mouseenter', () => {
-      gsap.to(btn, { x: 132, duration: 0.2, ease: "power2.out" });
+  if (window.visualViewport.width >= 768) {
+    document.querySelectorAll('.nav-btn').forEach(btn => {
+      btn.addEventListener('mouseenter', () => {
+        gsap.to(btn, { x: floatingNavActiveX, duration: 0.2, ease: "power2.out" });
+      });
+      btn.addEventListener('mouseleave', () => {
+        gsap.to(btn, { x: btn.classList.contains('active') ? floatingNavActiveX : floatingNavDefaultX, duration: 0.2, ease: "power2.out" });
+      });
     });
-    btn.addEventListener('mouseleave', () => {
-      gsap.to(btn, { x: btn.classList.contains('active') ? 132 : 124, duration: 0.2, ease: "power2.out" });
-    });
-  });
+  }
 
   // Scroll to section on click
   document.querySelectorAll('.nav-btn').forEach(btn => {
@@ -224,23 +312,52 @@ document.fonts.ready.then(() => {
       onEnter: () => {
         // if(section !== '#hero') {
           btn.classList.add('active');
-          gsap.to(btn, { x: 132, opacity: 1, duration: 0.3, ease: "power2.out", delay: navAnimTriggered ? 0 : section === '#hero' ? NAV_ANIM_DELAY+1 : 0.5 });
+          if (window.visualViewport.width >= 768) {
+            gsap.to(btn, { x: floatingNavActiveX, opacity: 1, duration: 0.3, ease: "power2.out", delay: navAnimTriggered ? 0 : section === '#hero' ? NAV_ANIM_DELAY+1 : 0.5 });
+          }
           gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
+          if (window.visualViewport.width < 768) {
+            gsap.to('.nav-btn', { backgroundColor: sectionBackgroundColors[section], boxShadow: `0 0 4px 6px ${sectionBackgroundColors[section]}`, duration: 0.3, ease: "power2.out" });
+          }
+          // }
+      },
+      onEnterBack: () => {
+        btn.classList.add('active');
+        if (window.visualViewport.width >= 768) {
+          gsap.to(btn, { x: floatingNavActiveX, opacity: 1, duration: 0.3, ease: "power2.out" });
+        }
+        gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
+        if (window.visualViewport.width < 768) {
+          gsap.to('.nav-btn', { backgroundColor: sectionBackgroundColors[section], boxShadow: `0 0 4px 6px ${sectionBackgroundColors[section]}`, duration: 0.3, ease: "power2.out" });
+        }
+      },
+      onLeave: () => {
+        btn.classList.remove('active');
+        if (window.visualViewport.width >= 768) {
+          gsap.to(btn, { x: floatingNavDefaultX, opacity: 0.5, duration: 0.3, ease: "power2.out" });
+        }
+      },
+      onLeaveBack: () => {
+        btn.classList.remove('active');
+        if (window.visualViewport.width >= 768) {
+          gsap.to(btn, { x: floatingNavDefaultX, opacity: 0.5, duration: 0.3, ease: "power2.out" });
+        }
+      }
+    });
+    ScrollTrigger.create({
+      trigger: section,
+      start: 'top 1%',
+      end: section === '#projects' ? `+=${projectsScrollWidth+window.innerHeight}` : 'bottom 1%', // Extend for projects horizontal scroll
+      scroller: '#smooth-wrapper',
+      onEnter: () => {
+        // if(section !== '#hero') {
+          gsap.to('#hamburger-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
         // }
       },
       onEnterBack: () => {
         btn.classList.add('active');
-        gsap.to(btn, { x: 132, opacity: 1, duration: 0.3, ease: "power2.out" });
-        gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
+        gsap.to('#hamburger-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
       },
-      onLeave: () => {
-        btn.classList.remove('active');
-        gsap.to(btn, { x: 124, opacity: 0.5, duration: 0.3, ease: "power2.out" });
-      },
-      onLeaveBack: () => {
-        btn.classList.remove('active');
-        gsap.to(btn, { x: 124, opacity: 0.5, duration: 0.3, ease: "power2.out" });
-      }
     });
   });
 

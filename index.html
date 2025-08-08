@@ -19,14 +19,29 @@
 <body>
   <div id="smooth-wrapper">
     <!-- Floating Navigation -->
-    <nav id="floating-nav" class="fixed left-[-100px] top-32 transform -translate-y-1/2 z-50 flex flex-col space-y-4">
+    <!-- <nav id="floating-nav" class="fixed left-[-100px] top-32 transform -translate-y-1/2 z-50 flex flex-col space-y-4">
       <button class="nav-btn" data-section="#hero" title="Hero">Home</button>
       <button class="nav-btn" data-section="#about" title="About">About Me</button>
       <button class="nav-btn" data-section="#projects" title="Projects">Projects</button>
       <button class="nav-btn" data-section="#experience" title="Experience">Experience</button>
       <button class="nav-btn" data-section="#skills" title="Skills">Skills</button>
       <button class="nav-btn" data-section="#contact" title="Contact">Contact</button>
-    </nav>
+    </nav> -->
+    <!-- Hamburger Menu Button -->
+      <div id="nav-toggle">
+        <button id="hamburger-btn">
+          ☰
+        </button>
+      </div>
+      <!-- Navigation Menu -->
+      <nav id="floating-nav" class="fixed md:flex left-[-128px] top-36 transform -translate-y-1/2 z-50 flex flex-col">
+        <button class="nav-btn" data-section="#hero" title="Hero">Home</button>
+        <button class="nav-btn" data-section="#about" title="About">About Me</button>
+        <button class="nav-btn" data-section="#projects" title="Projects">Projects</button>
+        <button class="nav-btn" data-section="#experience" title="Experience">Experience</button>
+        <button class="nav-btn" data-section="#skills" title="Skills">Skills</button>
+        <button class="nav-btn" data-section="#contact" title="Contact">Contact</button>
+      </nav>
     <div id="smooth-content">
       <!-- Hero Section -->
       <section id="hero">
