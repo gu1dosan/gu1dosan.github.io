@@ -27,7 +27,7 @@ const sectionTextColors = {
 };
 
 const sectionBackgroundColors = {
-  '#hero': '#2c3d55',
+  '#hero': '#233043',
   '#about': '#c0bfc5',
   '#projects': '#a8a7b4',
   '#experience': '#3b3a41',

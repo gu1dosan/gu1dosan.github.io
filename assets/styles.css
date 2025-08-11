@@ -15,7 +15,7 @@ section {
   padding: 5rem 2rem; 
 }
 
-#hero { background: #2c3d55; color: #ffffff; }
+#hero { background: #233043; color: #ffffff; }
 #about { background: #c0bfc5; color: #000000; }
 #projects { background: #a8a7b4; color: #000000; }
 #experience { background: #3b3a41; color: #ffffff; }
@@ -205,6 +205,7 @@ section {
   color: white;
 } */
 .experience-item {
+  color: black;
   display: flex;
   flex-direction: column;
   gap: 1rem;

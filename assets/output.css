@@ -451,7 +451,7 @@ section {
   padding: 5rem 2rem;
 }
 #hero {
-  background: #2c3d55;
+  background: #233043;
   color: #ffffff;
 }
 #about {
@@ -622,6 +622,7 @@ section {
   z-index: 3;
 }
 .experience-item {
+  color: black;
   display: flex;
   flex-direction: column;
   gap: 1rem;
