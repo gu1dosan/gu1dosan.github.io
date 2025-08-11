@@ -320,7 +320,7 @@ document.fonts.ready.then(() => {
     ScrollTrigger.create({
       trigger: section,
       start: 'top 5%',
-      end: section === '#projects' ? `+=${projectsScrollWidth+window.innerHeight}` : 'bottom 5%', // Extend for projects horizontal scroll
+      end:'bottom 5%', // Extend for projects horizontal scroll
       // scroller: '#smooth-wrapper',
       onEnter: () => {
         // if(section !== '#hero') {
@@ -360,7 +360,7 @@ document.fonts.ready.then(() => {
     ScrollTrigger.create({
       trigger: section,
       start: 'top 1%',
-      end: section === '#projects' ? `+=${projectsScrollWidth+window.innerHeight}` : 'bottom 1%', // Extend for projects horizontal scroll
+      end: 'bottom 1%', // Extend for projects horizontal scroll
       scroller: '#smooth-wrapper',
       onEnter: () => {
         // if(section !== '#hero') {
@@ -631,69 +631,70 @@ ScrollTrigger.create({
 });
 
 // Projects Section Animation
-gsap.from('.projects-title', {
-  scrollTrigger: { 
-    trigger: '#projects', 
-    scrub: 1,
-  },
-  opacity: 0,
-  scale: 0.1,
-  duration: 0.2,
-  ease: "power4.out",
-});
+// gsap.from('.projects-title', {
+//   scrollTrigger: { 
+//     trigger: '#projects', 
+//     scrub: 1,
+//   },
+//   opacity: 0,
+//   scale: 0.1,
+//   duration: 0.2,
+//   ease: "power4.out",
+// });
 
-gsap.from('.project-card', {
-  scrollTrigger: { 
-    trigger: '#projects', 
-    start: 'top 80%',
-  },
-  opacity: 0,
-  scale: 0.8,
-  y: 50,
-  duration: 0.5,
-  stagger: 0.2,
-  ease: "power2.out",
-});
+// gsap.from('.project-card', {
+//   scrollTrigger: { 
+//     trigger: '#projects', 
+//     start: 'top 80%',
+//   },
+//   opacity: 0,
+//   scale: 0.8,
+//   y: 50,
+//   duration: 0.5,
+//   stagger: 0.2,
+//   ease: "power2.out",
+// });
 
 // Horizontal Scrolling for Projects
-const projectsContainer = document.querySelector('.projects-container');
-let projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
-const extraPinDistance = window.innerHeight;
+// const projectsContainer = document.querySelector('.projects-container');
+// let projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
+// const extraPinDistance = window.innerHeight;
 
 // Pin the projects section
 ScrollTrigger.create({
   trigger: '#projects',
   pin: true,
-  pinSpacing: true,
-  start: 'top top',
+  pinSpacing: false,
+  // start: 'top top',
+  // end: '150%',
   // end: `+=${projectsScrollWidth}`,
-  end: `+=${projectsScrollWidth + extraPinDistance}`,
+  // end: `+=${projectsScrollWidth + extraPinDistance}`,
   id: 'projectsPin',
 });
 
 // Horizontal scroll animation
-gsap.to('.projects-container', {
-  x: -projectsScrollWidth,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#projects',
-    start: 'top top',
-    end: `+=${projectsScrollWidth}`,
-    scrub: 1,
-    snap: {
-      snapTo: 1 / (document.querySelectorAll('.project-card').length - 1),
-      duration: 0.2,
-      ease: 'power1.inOut',
-    },
-    id: 'projectsScroll',
-  },
-});
+// gsap.to('.projects-container', {
+//   x: -projectsScrollWidth,
+//   ease: 'none',
+//   scrollTrigger: {
+//     trigger: '#projects',
+//     start: 'top top',
+//     end: `+=${projectsScrollWidth}`,
+//     scrub: 1,
+//     snap: {
+//       snapTo: 1 / (document.querySelectorAll('.project-card').length - 1),
+//       duration: 0.2,
+//       ease: 'power1.inOut',
+//     },
+//     id: 'projectsScroll',
+//   },
+// });
 
 // Hover effect for project cards
-document.querySelectorAll('.project-card').forEach(card => {
-  card.addEventListener('mouseenter', () => gsap.to(card, { scale: 1.05, duration: 0.3, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }));
-  card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.3, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }));
-});
+// document.querySelectorAll('.project-card').forEach(card => {
+//   card.addEventListener('mouseenter', () => gsap.to(card, { scale: 1.05, duration: 0.3, boxShadow: "0 10px 20px rgba(0,0,0,0.2)" }));
+//   card.addEventListener('mouseleave', () => gsap.to(card, { scale: 1, duration: 0.3, boxShadow: "0 4px 6px rgba(0,0,0,0.1)" }));
+// });
 
 // Fade effect for projects during experience overlap (uncommented and adjusted)
 // gsap.to('#projects', {
@@ -706,6 +707,32 @@ document.querySelectorAll('.project-card').forEach(card => {
 //     id: 'projectsFade',
 //   },
 // });
+
+const swiper = new Swiper(".mySwiper", {
+  slidesPerView: 1,
+  spaceBetween: 30,
+  centeredSlides: true,
+  loop: true,
+  autoplay: {
+    delay: 4000,
+    disableOnInteraction: false,
+  },
+  pagination: {
+    el: ".swiper-pagination",
+    clickable: true,
+  },
+  navigation: {
+    nextEl: ".swiper-button-next",
+    prevEl: ".swiper-button-prev",
+  },
+});
+
+// Pause autoplay on hover
+const swiperEl = document.querySelector('.mySwiper');
+swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
+swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
+
+
 
 // Work Experience Section Animation
 gsap.from('.experience-title', {
@@ -731,9 +758,9 @@ ScrollTrigger.create({
   trigger: '#experience',
   pin: true,
   pinSpacing: false,
-  start: 'top top',
-  end: 'top top',
-  endTrigger: '#skills',
+  // start: 'top top',
+  // end: 'top top',
+  // endTrigger: '#skills',
   id: 'experiencePin',
 });
 
@@ -849,7 +876,7 @@ gsap.to('.submit-button', {
 ScrollTrigger.refresh();
 // smoother.scrollTop(0); // Reset scroll position
 window.addEventListener('resize', () => {
-  projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
+  // projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
   ScrollTrigger.refresh();
   smoother.refresh();
 });

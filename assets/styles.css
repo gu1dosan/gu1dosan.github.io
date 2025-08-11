@@ -156,14 +156,38 @@ section {
 } */
 
 #projects { 
-  padding: 4rem 2rem; 
+  /* padding: 0;  */
   /* background: #e2e2e9;  */
-  min-height: 100vh; 
+  min-height: 150vh; 
   z-index: 2; 
-  align-content: center;}
+  /* align-content: center; */
+}
 .projects-title {
   position: relative;
   z-index: 2;
+}
+.projects-content {
+  height: 80vh;
+  /* padding: 4rem 2rem;  */
+}
+.swiper {
+  width: 100%;
+  height: 80vh;
+}
+
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.swiper-button-next,
+.swiper-button-prev {
+  color: #1a202c; /* Hero navy */
+}
+
+.swiper-pagination-bullet {
+  background: #1a202c;
 }
 .projects-container {
   /* overflow: hidden; */

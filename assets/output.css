@@ -228,9 +228,6 @@
       max-width: 96rem;
     }
   }
-  .mx-4 {
-    margin-inline: calc(var(--spacing) * 4);
-  }
   .mx-auto {
     margin-inline: auto;
   }
@@ -249,9 +246,6 @@
   .mb-8 {
     margin-bottom: calc(var(--spacing) * 8);
   }
-  .mb-12 {
-    margin-bottom: calc(var(--spacing) * 12);
-  }
   .mb-48 {
     margin-bottom: calc(var(--spacing) * 48);
   }
@@ -261,14 +255,11 @@
   .hidden {
     display: none;
   }
-  .h-48 {
-    height: calc(var(--spacing) * 48);
-  }
   .h-64 {
     height: calc(var(--spacing) * 64);
   }
-  .max-h-full {
-    max-height: 100%;
+  .h-full {
+    height: 100%;
   }
   .w-64 {
     width: calc(var(--spacing) * 64);
@@ -282,9 +273,6 @@
   .max-w-md {
     max-width: var(--container-md);
   }
-  .min-w-\[600px\] {
-    min-width: 600px;
-  }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -297,9 +285,6 @@
   }
   .flex-col {
     flex-direction: column;
-  }
-  .flex-nowrap {
-    flex-wrap: nowrap;
   }
   .flex-wrap {
     flex-wrap: wrap;
@@ -348,9 +333,6 @@
   .object-cover {
     object-fit: cover;
   }
-  .p-4 {
-    padding: calc(var(--spacing) * 4);
-  }
   .p-6 {
     padding: calc(var(--spacing) * 6);
   }
@@ -383,10 +365,6 @@
   .font-bold {
     --tw-font-weight: var(--font-weight-bold);
     font-weight: var(--font-weight-bold);
-  }
-  .font-semibold {
-    --tw-font-weight: var(--font-weight-semibold);
-    font-weight: var(--font-weight-semibold);
   }
   .text-blue-500 {
     color: var(--color-blue-500);
@@ -585,14 +563,30 @@ section {
   justify-content: center;
 }
 #projects {
-  padding: 4rem 2rem;
-  min-height: 100vh;
+  min-height: 150vh;
   z-index: 2;
-  align-content: center;
 }
 .projects-title {
   position: relative;
   z-index: 2;
+}
+.projects-content {
+  height: 80vh;
+}
+.swiper {
+  width: 100%;
+  height: 80vh;
+}
+.swiper-slide {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.swiper-button-next, .swiper-button-prev {
+  color: #1a202c;
+}
+.swiper-pagination-bullet {
+  background: #1a202c;
 }
 .projects-container {
   display: flex;
