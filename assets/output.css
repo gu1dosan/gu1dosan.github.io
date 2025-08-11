@@ -199,14 +199,14 @@
   .top-32 {
     top: calc(var(--spacing) * 32);
   }
-  .top-36 {
-    top: calc(var(--spacing) * 36);
+  .top-\[-28px\] {
+    top: -28px;
+  }
+  .left-8 {
+    left: calc(var(--spacing) * 8);
   }
   .left-\[-100px\] {
     left: -100px;
-  }
-  .left-\[-128px\] {
-    left: -128px;
   }
   .z-50 {
     z-index: 50;
@@ -436,11 +436,6 @@
       margin-top: calc(var(--spacing) * 0);
     }
   }
-  .md\:flex {
-    @media (width >= 48rem) {
-      display: flex;
-    }
-  }
   .md\:w-1\/2 {
     @media (width >= 48rem) {
       width: calc(1/2 * 100%);
@@ -459,6 +454,7 @@ body {
 }
 section {
   position: relative;
+  padding: 5rem 2rem;
 }
 #nav-toggle {
   position: fixed;
@@ -511,7 +507,9 @@ section {
 }
 @media (max-width: 768px) {
   #floating-nav {
-    top: calc(var(--spacing) * 48);
+    top: calc(var(--spacing) * 20);
+    left: -128px;
+    flex-direction: column;
   }
   #floating-nav .nav-btn {
     font-size: var(--text-lg);
@@ -521,7 +519,6 @@ section {
   }
 }
 #hero {
-  padding: 4rem 2rem;
   background: #1a202c;
   color: white;
   display: flex;
@@ -563,6 +560,7 @@ section {
   background: #edf2f7;
   min-height: 150vh;
   z-index: 1;
+  padding: 0;
 }
 .about-content {
   padding: 4rem 2rem;
@@ -606,7 +604,6 @@ section {
   }
 }
 #experience {
-  padding: 4rem 2rem;
   background: #7c7c7c;
   z-index: 3;
 }

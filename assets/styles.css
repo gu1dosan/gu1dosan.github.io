@@ -11,7 +11,8 @@ body {
   sans-serif; overflow-x: hidden; 
 }
 section { 
-  position: relative 
+  position: relative;
+  padding: 5rem 2rem; 
 }
 
 /* Hamburger Menu Styling */
@@ -50,7 +51,7 @@ section {
 } */
 @media (max-width: 768px) {
   #floating-nav {
-    @apply top-48;
+    @apply left-[-128px] top-20 flex-col;
   }
   #floating-nav .nav-btn {
     @apply text-lg;
@@ -82,7 +83,7 @@ section {
 
 
 #hero {
-  padding: 4rem 2rem; 
+  /* padding: 4rem 2rem;  */
   background: #1a202c; 
   color: white; 
   display: flex; 
@@ -133,7 +134,8 @@ section {
 #about { 
   background: #edf2f7; 
   min-height: 150vh; 
-  z-index: 1
+  z-index: 1;
+  padding: 0;
 }
 .about-content {
   padding: 4rem 2rem; 
@@ -187,7 +189,11 @@ section {
   }
 }
 
-#experience {padding: 4rem 2rem; background: #7c7c7c; z-index: 3;}
+#experience {
+  /* padding: 4rem 2rem;  */
+  background: #7c7c7c; 
+  z-index: 3;
+}
 .experience-title {
   color: white;
 }

@@ -191,7 +191,7 @@ document.fonts.ready.then(() => {
     //       duration: 0.2, 
     //       ease: "power2.out" 
     //     }, 0.1);
-    floatingNavAnimation.play()
+    floatingNavAnimationMobile.play()
     } else {
       // tl
       // .to('.nav-btn', { 
@@ -211,7 +211,7 @@ document.fonts.ready.then(() => {
       //   //     floatingNav.classList.add('hidden');
       //   //   }
       //   // }, 0.1);
-      floatingNavAnimation.reverse();
+      floatingNavAnimationMobile.reverse();
     }
   }
 
@@ -233,11 +233,23 @@ document.fonts.ready.then(() => {
   // Flag to ensure animation runs only once
   let navAnimTriggered = false;
   // Floating navigation appearance animation
-  const floatingNavDefaultX = 140
-  const floatingNavActiveX = 148
+  const floatingNavDefaultX = 140 // mobile
+  const floatingNavActiveX = 148 // mobile
+  const floatingNavDefaultY = 48 // desktop
+  const floatingNavActiveY = 44 // desktop
+  const floatingNavInactiveOpacity = 0.5
   const floatingNavAnimation = gsap.to('.nav-btn', {
-    opacity: window.visualViewport.width >= 768 ? 0.5 : 1,
-    x: floatingNavDefaultX,
+    opacity: 1,
+    y: floatingNavDefaultY,
+    duration: 0.4,
+    stagger: 0.06,
+    ease: "power4.out",
+    // delay: 2
+    paused: true, // Start paused
+  });
+  const floatingNavAnimationMobile = gsap.to('.nav-btn', {
+    opacity: (i, target) => target.classList.contains('active') ? 1 : floatingNavInactiveOpacity,
+    x: (i, target) => target.classList.contains('active') ? floatingNavActiveX : floatingNavDefaultX,
     duration: 0.4,
     stagger: 0.06,
     ease: "power4.out",
@@ -280,10 +292,10 @@ document.fonts.ready.then(() => {
   if (window.visualViewport.width >= 768) {
     document.querySelectorAll('.nav-btn').forEach(btn => {
       btn.addEventListener('mouseenter', () => {
-        gsap.to(btn, { x: floatingNavActiveX, duration: 0.2, ease: "power2.out" });
+        gsap.to(btn, { y: floatingNavActiveY, duration: 0.2, ease: "power2.out" });
       });
       btn.addEventListener('mouseleave', () => {
-        gsap.to(btn, { x: btn.classList.contains('active') ? floatingNavActiveX : floatingNavDefaultX, duration: 0.2, ease: "power2.out" });
+        gsap.to(btn, { y: btn.classList.contains('active') ? floatingNavActiveY : floatingNavDefaultY, duration: 0.2, ease: "power2.out" });
       });
     });
   }
@@ -306,14 +318,14 @@ document.fonts.ready.then(() => {
     const btn = document.querySelector(`.nav-btn[data-section="${section}"]`);
     ScrollTrigger.create({
       trigger: section,
-      start: 'top 15%',
-      end: section === '#projects' ? `+=${projectsScrollWidth+window.innerHeight}` : 'bottom 15%', // Extend for projects horizontal scroll
-      scroller: '#smooth-wrapper',
+      start: 'top 5%',
+      end: section === '#projects' ? `+=${projectsScrollWidth+window.innerHeight}` : 'bottom 5%', // Extend for projects horizontal scroll
+      // scroller: '#smooth-wrapper',
       onEnter: () => {
         // if(section !== '#hero') {
           btn.classList.add('active');
           if (window.visualViewport.width >= 768) {
-            gsap.to(btn, { x: floatingNavActiveX, opacity: 1, duration: 0.3, ease: "power2.out", delay: navAnimTriggered ? 0 : section === '#hero' ? NAV_ANIM_DELAY+1 : 0.5 });
+            gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out", delay: navAnimTriggered ? 0 : section === '#hero' ? NAV_ANIM_DELAY+1 : 0.5 });
           }
           gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
           if (window.visualViewport.width < 768) {
@@ -324,7 +336,7 @@ document.fonts.ready.then(() => {
       onEnterBack: () => {
         btn.classList.add('active');
         if (window.visualViewport.width >= 768) {
-          gsap.to(btn, { x: floatingNavActiveX, opacity: 1, duration: 0.3, ease: "power2.out" });
+          gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out" });
         }
         gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
         if (window.visualViewport.width < 768) {
@@ -334,13 +346,13 @@ document.fonts.ready.then(() => {
       onLeave: () => {
         btn.classList.remove('active');
         if (window.visualViewport.width >= 768) {
-          gsap.to(btn, { x: floatingNavDefaultX, opacity: 0.5, duration: 0.3, ease: "power2.out" });
+          gsap.to(btn, { y: floatingNavDefaultY, opacity: 0.5, duration: 0.3, ease: "power2.out" });
         }
       },
       onLeaveBack: () => {
         btn.classList.remove('active');
         if (window.visualViewport.width >= 768) {
-          gsap.to(btn, { x: floatingNavDefaultX, opacity: 0.5, duration: 0.3, ease: "power2.out" });
+          gsap.to(btn, { y: floatingNavDefaultY, opacity: 0.5, duration: 0.3, ease: "power2.out" });
         }
       }
     });
