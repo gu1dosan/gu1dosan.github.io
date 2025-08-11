@@ -272,6 +272,7 @@ document.fonts.ready.then(() => {
       onEnter: () => {
         if (!navAnimTriggered) {
           floatingNavAnimation.play();
+          navAnimTriggered = true;
         }
       },
       once: true // Ensures ScrollTrigger only fires once
@@ -324,8 +325,8 @@ document.fonts.ready.then(() => {
       onEnter: () => {
         // if(section !== '#hero') {
           btn.classList.add('active');
-          if (window.visualViewport.width >= 768) {
-            gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out", delay: navAnimTriggered ? 0 : section === '#hero' ? NAV_ANIM_DELAY+1 : 0.5 });
+          if (window.visualViewport.width >= 768 && navAnimTriggered) {
+            gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out" });
           }
           gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
           if (window.visualViewport.width < 768) {
