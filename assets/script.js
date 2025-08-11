@@ -239,8 +239,8 @@ document.fonts.ready.then(() => {
   const floatingNavActiveY = 44 // desktop
   const floatingNavInactiveOpacity = 0.5
   const floatingNavAnimation = gsap.to('.nav-btn', {
-    opacity: 1,
-    y: floatingNavDefaultY,
+    opacity: (i, target) => target.classList.contains('active') ? 1 : floatingNavInactiveOpacity,
+    y: (i, target) => target.classList.contains('active') ? floatingNavActiveY : floatingNavDefaultY,
     duration: 0.4,
     stagger: 0.06,
     ease: "power4.out",
@@ -773,6 +773,7 @@ document.querySelectorAll('.experience-item').forEach((item, index) => {
   }, {
     opacity: 0,
     x: index % 2 === 0 ? -100 : 100,
+    y: -50,
     duration: 1,
     scrollTrigger: {
       trigger: item,
