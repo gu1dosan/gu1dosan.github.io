@@ -9,13 +9,9 @@
       "Courier New", monospace;
     --color-blue-500: oklch(62.3% 0.214 259.815);
     --color-gray-100: oklch(96.7% 0.003 264.542);
-    --color-gray-200: oklch(92.8% 0.006 264.531);
     --color-gray-300: oklch(87.2% 0.01 258.338);
-    --color-gray-500: oklch(55.1% 0.027 264.364);
     --color-gray-600: oklch(44.6% 0.03 256.802);
     --color-gray-700: oklch(37.3% 0.034 259.733);
-    --color-gray-800: oklch(27.8% 0.033 256.848);
-    --color-gray-900: oklch(21% 0.034 264.665);
     --color-white: #fff;
     --spacing: 0.25rem;
     --container-md: 28rem;
@@ -343,20 +339,8 @@
   .bg-gray-100 {
     background-color: var(--color-gray-100);
   }
-  .bg-gray-200 {
-    background-color: var(--color-gray-200);
-  }
   .bg-gray-300 {
     background-color: var(--color-gray-300);
-  }
-  .bg-gray-500 {
-    background-color: var(--color-gray-500);
-  }
-  .bg-gray-800 {
-    background-color: var(--color-gray-800);
-  }
-  .bg-gray-900 {
-    background-color: var(--color-gray-900);
   }
   .bg-white {
     background-color: var(--color-white);
@@ -466,6 +450,30 @@ section {
   position: relative;
   padding: 5rem 2rem;
 }
+#hero {
+  background: #2c3d55;
+  color: #ffffff;
+}
+#about {
+  background: #c0bfc5;
+  color: #000000;
+}
+#projects {
+  background: #a8a7b4;
+  color: #000000;
+}
+#experience {
+  background: #3b3a41;
+  color: #ffffff;
+}
+#skills {
+  background: #ADB8C2;
+  color: #000000;
+}
+#contact {
+  background: #3e4c5e;
+  color: #ffffff;
+}
 #nav-toggle {
   position: fixed;
   top: calc(var(--spacing) * 0);
@@ -529,7 +537,6 @@ section {
   }
 }
 #hero {
-  background: #1a202c;
   color: white;
   display: flex;
   align-items: center;
@@ -567,7 +574,6 @@ section {
   height: 50vh;
 }
 #about {
-  background: #edf2f7;
   min-height: 150vh;
   z-index: 1;
   padding: 0;
@@ -580,7 +586,6 @@ section {
 }
 #projects {
   padding: 4rem 2rem;
-  background: #e2e2e9;
   min-height: 100vh;
   z-index: 2;
   align-content: center;
@@ -614,11 +619,7 @@ section {
   }
 }
 #experience {
-  background: #7c7c7c;
   z-index: 3;
-}
-.experience-title {
-  color: white;
 }
 .experience-item {
   display: flex;
@@ -642,7 +643,6 @@ section {
 }
 #skills {
   padding: 4rem 2rem;
-  background: #dddddd;
   min-height: 150vh;
   z-index: 4;
 }
@@ -669,7 +669,6 @@ section {
 }
 #contact {
   padding: 4rem 2rem;
-  background: #2d3748;
   color: white;
   min-height: 100vh;
   z-index: 5;

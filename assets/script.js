@@ -18,21 +18,21 @@ const NAV_ANIM_DELAY = 1.5; // Delay for floating nav animation
 
 // Map section IDs to text colors for contrast
 const sectionTextColors = {
-  '#hero': '#FFFFFF', // White text on bg-gray-900
-  '#about': '#1F2937', // Dark gray (gray-800) on bg-gray-100
-  '#projects': '#1F2937', // Dark gray on bg-gray-200
-  '#experience': '#FFFFFF', // White text on bg-gray-500
-  '#skills': '#1F2937', // Dark gray on bg-gray-300
-  '#contact': '#FFFFFF', // White text on bg-gray-800
+  '#hero': '#FFFFFF',
+  '#about': '#000000',
+  '#projects': '#000000',
+  '#experience': '#FFFFFF',
+  '#skills': '#000000',
+  '#contact': '#FFFFFF',
 };
 
 const sectionBackgroundColors = {
-  '#hero': '#1a202c', // Dark background for hero
-  '#about': '#edf2f7', // Light background for about
-  '#projects': '#e2e2e9', // Light background for projects
-  '#experience': '#7c7c7c', // Dark background for experience
-  '#skills': '#dddddd', // Light background for skills
-  '#contact': '#2d3748', // Dark background for contact
+  '#hero': '#2c3d55',
+  '#about': '#c0bfc5',
+  '#projects': '#a8a7b4',
+  '#experience': '#3b3a41',
+  '#skills': '#ADB8C2',
+  '#contact': '#3e4c5e',
 };
 
 document.fonts.ready.then(() => {
