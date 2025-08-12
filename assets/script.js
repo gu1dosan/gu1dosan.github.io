@@ -137,7 +137,7 @@ document.fonts.ready.then(() => {
 
   // Periodic wave jump for hero-text
   function triggerWaveJump() {
-    const waveTl = gsap.timeline({
+    gsap.timeline({
       repeat: -1,
       // repeatDelay: 4 + 2 * Math.random(), 
       repeatDelay: 6, 
@@ -635,9 +635,9 @@ gsap.from('.projects-title', {
   scrollTrigger: { 
     trigger: '#projects', 
     scrub: 1,
+    start: 'top bottom',
+    end: 'top 20%',
   },
-  start: 'top bottom',
-  end: 'top 100%',
   opacity: 0,
   scale: 0.5,
   // duration: 0.2,
@@ -912,17 +912,38 @@ gsap.from('.skills-title', {
   duration: 0.5,
   ease: "power2.out"
 })
-gsap.from('.skill-icon', {
-  scrollTrigger: { 
-    trigger: '#skills', 
-    end:() => `+=${document.querySelector('#skills').offsetHeight - 200}`,
-    scrub: 1,
-  },
-  opacity: 0,
-  rotation: -30,
-  y: 20,
-  stagger: 0.1,
+
+gsap.utils.toArray('.skill-category').forEach((category, index) => {
+  const fromX = index % 2 === 0 ? -50 : 50; // alternate sides
+  const skillsText = category.querySelector('.skill-list');
+
+  // Split skills into individual words/items for stagger
+  const skillsArray = skillsText.innerText.split(',').map(s => s.trim());
+  skillsText.innerHTML = skillsArray.map(skill => `<span class="inline-block opacity-0">${skill}</span>`).join(', ');
+
+  const skillItems = skillsText.querySelectorAll('span');
+
+  gsap.fromTo(category, 
+    { opacity: 0, x: fromX }, 
+    { 
+      scrollTrigger: { trigger: category, start: 'top 90%', end: 'bottom 80%', scrub: 0.5 }, 
+      opacity: 1, 
+      x: 0, 
+      duration: 0.6, 
+      ease: "power2.out",
+      onComplete: () => {
+        gsap.to(skillItems, {
+          opacity: 1,
+          y: 0,
+          stagger: 0.05,
+          duration: 0.3,
+          ease: "power2.out"
+        });
+      }
+    }
+  );
 });
+
 
 // Pin the skills section
 ScrollTrigger.create({
