@@ -606,21 +606,49 @@ ScrollTrigger.create({
   });
 
 
-// About Section Animations
-
-// About Section Text Animation
-const aboutTl = gsap.timeline();
-aboutTl
-  .from('.about-title', { x: 500, opacity: 0, duration: 0.5 }, 0)
-  .from('.about-text', { x: -500, opacity: 0, duration: 0.5, delay: 0.01 }, 0)
-  .from('.about-image', { scale: 0.8, rotation: 45, duration: 1 }, 0);
-ScrollTrigger.create({
-  trigger: '.about-title',
-  start: 'top bottom',
-  end: 'top center',
-  scrub: 1,
-  animation: aboutTl,
+// About Me animations
+gsap.from('.about-photo', {
+  scrollTrigger: { trigger: '#about', start: 'top 60%', end: 'top top', scrub: 1 },
+  opacity: 0,
+  x: -50,
+  duration: 0.7,
+  ease: "power2.out"
 });
+gsap.from('.about-title', {
+  scrollTrigger: { trigger: '#about', start: 'top 60%', end: 'top top', scrub: 1 },
+  opacity: 0,
+  y: -30,
+  duration: 0.6,
+  delay: 0.2,
+  ease: "power2.out"
+});
+gsap.from('#about p', {
+  scrollTrigger: { trigger: '#about', start: 'top 60%', end: 'top top', scrub: 1 },
+  opacity: 0,
+  y: 20,
+  duration: 0.5,
+  stagger: 0.15,
+  delay: 0.3,
+  ease: "power2.out"
+});
+// Scroll-activated shimmer effect
+ScrollTrigger.create({
+  trigger: '#about',
+  start: 'top 80%',
+  onEnter: () => {
+    gsap.to('.highlight', {
+      backgroundPosition: '200% center',
+      duration: 3,
+      repeat: -1,
+      ease: 'linear'
+    });
+  },
+  onLeaveBack: () => {
+    // reset to initial state when scrolling back up
+    gsap.set('.highlight', { backgroundPosition: '0% center' });
+  }
+});
+
 
 // Pin the about section
 ScrollTrigger.create({

@@ -16,7 +16,7 @@ section {
 }
 
 #hero { background: #233043; color: #ffffff; }
-#about { background: #c0bfc5; color: #000000; }
+#about { background: #ffffff; color: #000000; }
 #projects { background: #a8a7b4; color: #000000; }
 #experience { background: #3b3a41; color: #ffffff; }
 #skills { background: #ADB8C2; color: #000000; }
@@ -149,6 +149,23 @@ section {
   min-height: 100vh; 
   align-content: center;
   justify-content: center;
+}
+/* Highlight keywords */
+.highlight {
+  background: linear-gradient(120deg, #0077ff 0%, #00d4ff 50%, #0077ff 100%);
+  background-size: 200% auto; /* allows gradient movement */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+
+/* About Me photo hover effect */
+.about-photo img {
+  transition: transform 0.4s ease, box-shadow 0.4s ease;
+}
+.about-photo img:hover {
+  transform: scale(1.03) rotate(1deg);
+  box-shadow: 0 20px 30px rgba(0,0,0,0.15);
 }
 /* @media (max-width: 768px) {
   #about { min-height: 100vh; }
