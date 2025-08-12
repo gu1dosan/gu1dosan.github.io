@@ -631,16 +631,18 @@ ScrollTrigger.create({
 });
 
 // Projects Section Animation
-// gsap.from('.projects-title', {
-//   scrollTrigger: { 
-//     trigger: '#projects', 
-//     scrub: 1,
-//   },
-//   opacity: 0,
-//   scale: 0.1,
-//   duration: 0.2,
-//   ease: "power4.out",
-// });
+gsap.from('.projects-title', {
+  scrollTrigger: { 
+    trigger: '#projects', 
+    scrub: 1,
+  },
+  start: 'top bottom',
+  end: 'top 100%',
+  opacity: 0,
+  scale: 0.5,
+  // duration: 0.2,
+  ease: "power4.out",
+});
 
 // gsap.from('.project-card', {
 //   scrollTrigger: { 
@@ -708,29 +710,106 @@ ScrollTrigger.create({
 //   },
 // });
 
+
+/* --- Pre-set initial states so nothing flashes visible --- */
+gsap.set('.mySwiper .swiper-slide img', { scale: 1.05, opacity: 0, transformOrigin: 'center center' });
+gsap.set('.mySwiper .swiper-slide .project-details > *', { x: 30, opacity: 0 });
+
+/* --- Create the Swiper WITHOUT autoplay initially --- */
 const swiper = new Swiper(".mySwiper", {
   slidesPerView: 1,
   spaceBetween: 30,
   centeredSlides: true,
   loop: true,
-  autoplay: {
-    delay: 4000,
-    disableOnInteraction: false,
-  },
-  pagination: {
-    el: ".swiper-pagination",
-    clickable: true,
-  },
-  navigation: {
-    nextEl: ".swiper-button-next",
-    prevEl: ".swiper-button-prev",
-  },
+  speed: 700, // match with GSAP timing for smoother feel
+  pagination: { el: ".swiper-pagination", clickable: true },
+  navigation: { nextEl: ".swiper-button-next", prevEl: ".swiper-button-prev" },
+  on: {
+    init: function () {
+      // Slow, dramatic hero reveal for very first slide
+      animateSlideIn(this.slides[this.activeIndex], { first: true, onComplete: () => {
+        // Start autoplay only after initial reveal completes
+        this.params.autoplay = { delay: 4000, disableOnInteraction: false };
+        this.autoplay.start();
+      }});
+    },
+    // When a slide change begins -> animate OUT the previous slide
+    slideChangeTransitionStart: function () {
+      const prev = this.slides[this.previousIndex];
+      if (prev) animateSlideOut(prev);
+    },
+    // After the slide transition ends -> animate IN the active slide
+    slideChangeTransitionEnd: function () {
+      const active = this.slides[this.activeIndex];
+      animateSlideIn(active);
+    }
+  }
 });
 
-// Pause autoplay on hover
+/* Pause autoplay on hover */
 const swiperEl = document.querySelector('.mySwiper');
-swiperEl.addEventListener('mouseenter', () => swiper.autoplay.stop());
-swiperEl.addEventListener('mouseleave', () => swiper.autoplay.start());
+swiperEl.addEventListener('mouseenter', () => swiper.autoplay?.stop());
+swiperEl.addEventListener('mouseleave', () => swiper.autoplay?.start());
+
+/* --- Animation helpers --- */
+function animateSlideIn(slide, opts = {}) {
+  if (!slide) return;
+  const image = slide.querySelector('img');
+  const textBlocks = slide.querySelectorAll('.project-details > *');
+
+  // kill any running tweens on these elements to avoid overlap
+  gsap.killTweensOf([image, textBlocks]);
+
+  const imageDur = opts.first ? 1.2 : 0.8;
+  const textDelay = opts.first ? 0.45 : 0.2;
+
+  // Reset start values (ensures consistent behaviour)
+  gsap.set(image, { scale: 1.05, opacity: 0 });
+  gsap.set(textBlocks, { x: 30, opacity: 0 });
+
+  // Image reveal
+  gsap.to(image, {
+    scale: 1,
+    opacity: 1,
+    duration: imageDur,
+    ease: "power2.out"
+  });
+
+  // Text staggered slide-in
+  gsap.to(textBlocks, {
+    x: 0,
+    opacity: 1,
+    duration: 0.55,
+    delay: textDelay,
+    stagger: 0.08,
+    ease: "power2.out",
+    onComplete: opts.onComplete || null
+  });
+}
+
+function animateSlideOut(slide, onComplete) {
+  if (!slide) { if (onComplete) onComplete(); return; }
+  const image = slide.querySelector('img');
+  const textBlocks = slide.querySelectorAll('.project-details > *');
+
+  gsap.killTweensOf([image, textBlocks]);
+
+  gsap.to(image, {
+    scale: 0.95,
+    opacity: 0,
+    duration: 0.45,
+    ease: "power2.in"
+  });
+
+  gsap.to(textBlocks, {
+    x: -30,
+    opacity: 0,
+    duration: 0.35,
+    stagger: 0.04,
+    ease: "power2.in",
+    onComplete: onComplete || null
+  });
+}
 
 
 
