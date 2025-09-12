@@ -329,9 +329,6 @@ document.fonts.ready.then(() => {
             gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out" });
           }
           gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
-          if (window.visualViewport.width < 768) {
-            gsap.to('.nav-btn', { backgroundColor: sectionBackgroundColors[section], boxShadow: `0 0 4px 6px ${sectionBackgroundColors[section]}`, duration: 0.3, ease: "power2.out" });
-          }
           // }
       },
       onEnterBack: () => {
@@ -340,9 +337,6 @@ document.fonts.ready.then(() => {
           gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out" });
         }
         gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
-        if (window.visualViewport.width < 768) {
-          gsap.to('.nav-btn', { backgroundColor: sectionBackgroundColors[section], boxShadow: `0 0 4px 6px ${sectionBackgroundColors[section]}`, duration: 0.3, ease: "power2.out" });
-        }
       },
       onLeave: () => {
         btn.classList.remove('active');
@@ -693,6 +687,7 @@ gsap.from('.projects-title', {
 // Pin the projects section
 ScrollTrigger.create({
   trigger: '#projects',
+  scroller: '#smooth-wrapper',
   pin: true,
   pinSpacing: false,
   // start: 'top top',
@@ -757,8 +752,8 @@ const swiper = new Swiper(".mySwiper", {
       // Slow, dramatic hero reveal for very first slide
       animateSlideIn(this.slides[this.activeIndex], { first: true, onComplete: () => {
         // Start autoplay only after initial reveal completes
-        this.params.autoplay = { delay: 4000, disableOnInteraction: false };
-        this.autoplay.start();
+        this.params.autoplay = { delay: 4000, disableOnInteraction: true };
+        // this.autoplay.start();
       }});
     },
     // // When a slide change begins -> animate OUT the previous slide
@@ -865,6 +860,8 @@ ScrollTrigger.create({
   trigger: '#experience',
   pin: true,
   pinSpacing: false,
+  scroller: '#smooth-wrapper',
+  // end: `+=${containerHeight}`,
   // start: 'top top',
   // end: 'top top',
   // endTrigger: '#skills',
@@ -877,7 +874,7 @@ gsap.to(container, {
   scrollTrigger: {
     trigger: '#experience',
     start: 'top top',
-    end: `+=${containerHeight}`,
+    end: `+=${containerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
     scrub: true,
     id: 'experienceContainer',
   },
@@ -927,7 +924,7 @@ ScrollTrigger.matchMedia({
     });
   },
 
-  // Mobile: disable fade out
+  // Mobile: only fade in
   "(max-width: 767px)": function() {
     document.querySelectorAll('.experience-item').forEach((item, index) => {
       gsap.fromTo(item, 
