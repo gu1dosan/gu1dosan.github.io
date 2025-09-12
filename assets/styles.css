@@ -9,6 +9,7 @@ body {
   margin: 0; 
   font-family: "Montserrat", 
   sans-serif; overflow-x: hidden; 
+  background: #233043;
 }
 section { 
   position: relative;
@@ -17,9 +18,9 @@ section {
 
 #hero { background: #233043; color: #ffffff; }
 #about { background: #ffffff; color: #000000; }
-#projects { background: #a8a7b4; color: #000000; }
+#projects { background: #f5fbff; color: #000000; }
 #experience { background: #3b3a41; color: #ffffff; }
-#skills { background: #ADB8C2; color: #000000; }
+#skills { background: #deefff; color: #000000; }
 #contact { background: #3e4c5e; color: #ffffff; }
 
 /* Hamburger Menu Styling */
@@ -146,9 +147,19 @@ section {
 }
 .about-content {
   padding: 4rem 2rem; 
-  min-height: 100vh; 
+  height: 100vh; 
   align-content: center;
   justify-content: center;
+}
+@media (max-width: 768px) {
+  .about-content {
+    padding: 4rem 2rem; 
+    /* display: flex;
+    gap: 4rem;
+    height: calc(100vh - 2rem);
+    align-items: center;
+    justify-content: center; */
+  }
 }
 /* Highlight keywords */
 .highlight {
@@ -167,13 +178,14 @@ section {
   transform: scale(1.03) rotate(1deg);
   box-shadow: 0 20px 30px rgba(0,0,0,0.15);
 }
-/* @media (max-width: 768px) {
-  #about { min-height: 100vh; }
-  .about-content { min-height: 80vh; }
-} */
+@media (max-width: 768px) {
+  #about-photo img { 
+    max-width: 50vh;
+   }
+}
 
 #projects { 
-  /* padding: 0;  */
+  padding: 0; 
   /* background: #e2e2e9;  */
   min-height: 150vh; 
   z-index: 2; 
@@ -184,12 +196,16 @@ section {
   z-index: 2;
 }
 .projects-content {
-  height: 80vh;
-  /* padding: 4rem 2rem;  */
+  /* height: 80vh; */
+  padding: 4rem 2rem; 
+  min-height: 100vh; 
+  align-content: center;
+  justify-content: center;
 }
 .swiper {
   width: 100%;
-  height: 80vh;
+  height: 70vh;
+  overflow: visible;
 }
 
 .swiper-slide {
@@ -197,7 +213,7 @@ section {
   align-items: center;
   justify-content: center;
 }
-.swiper-slide img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.swiper-slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
 .swiper-button-next,
 .swiper-button-prev {
   color: #1a202c; /* Hero navy */
@@ -235,6 +251,30 @@ section {
     margin-bottom: 1rem;
     margin-right: 0;
   }
+}
+.project-details {
+  /* background-color: #ffffff; */
+  /* color: #0a1a2f; */
+}
+.project-details h3 {
+  color: #0077ff;
+}
+
+.project-details a {
+  color: #00d4ff;
+}
+
+.project-details a:hover {
+  color: #0077ff;
+}
+.swiper-button-next, .swiper-button-prev {
+  background: linear-gradient(120deg, #0077ff, #00d4ff);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+.swiper-pagination-bullet-active {
+  background: linear-gradient(120deg, #0077ff, #00d4ff);
 }
 
 #experience {
@@ -276,7 +316,11 @@ section {
   z-index: 4;
 }
 .skills-content {
-  min-height: 100vh;
+  min-height: calc(100vh - 8rem);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 .skill-icon { width: 60px; 
   height: 60px; 
@@ -291,6 +335,10 @@ section {
 
 #contact {
   padding: 4rem 2rem; 
+  display: flex; 
+  flex-direction: column; 
+  align-items: center;
+  justify-content: center;
   /* background: #2d3748;  */
   color: white; 
   min-height: 100vh; 
@@ -303,6 +351,7 @@ section {
   margin-bottom: 1rem; 
   background-color: white; 
   color: black;
+  border-radius: 0.25rem;
 }
 @media (max-width: 768px) {
   #contact { min-height: 80vh; }
@@ -317,6 +366,98 @@ section {
   border-radius: 0.25rem; 
 }
 
+.contact-form { max-width: 700px; margin: 0 auto; }
+.form-row { margin-bottom: 1rem; display:flex; flex-direction:column; }
+.form-row label { font-weight:600; margin-bottom:6px; }
+.form-row input, .form-row textarea {
+  padding: .6rem .8rem;
+  border: 1px solid #cbd5e1;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+.contact-status { margin-top: 1rem; font-size: 0.95rem; color: #0f172a; }
+.contact-status.success { color: #0f9d58; }
+.contact-status.error { color: #d64545; }
 
+
+
+.experience-header {
+  display: flex;
+  flex-direction: column;
+  height: -webkit-fill-available;
+}
+
+/* Company logos in experience items */
+.company-logos { display: flex; gap: 0.5rem; margin-top: auto; align-items: center; }
+.company-logo { max-width: 8rem; max-height: 2.5rem; display: inline-block; }
+@media (max-width: 768px) {
+  .company-logos { position:absolute; top: 4rem; right: 24px; width: 8rem; height: 3rem; }
+}
+
+/* Featured thumbnail button */
+.thumb-btn { 
+  cursor: pointer; 
+  border: 1px solid rgba(0,0,0,0.06); 
+  padding: 0; 
+  background: white; 
+  position: relative;
+  overflow: hidden;
+}
+.thumb-btn .view-icon {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  /* border-radius: 6px; */
+  padding: 8px 12px;
+  font-size: 18px;
+  line-height: 1;
+  pointer-events: none; /* doesn't block clicks */
+}
+.thumb-btn img { display: block; width: 100%; height: 100%; object-fit: cover; }
+.thumb-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.thumb-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.thumb-btn::after {
+  content: "View more";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.thumb-btn:hover::after {
+  opacity: 1;
+}
+
+
+/* Modal styles */
+.case-modal.hidden { display: none; }
+.case-modal { display: flex; }
+.modal-card button { background: transparent; border: none; font-size: 1.25rem; padding: .25rem; cursor: pointer; }
+.modal-backdrop { position: absolute; inset: 0; }
+.modal-card img { max-height: 460px; width: 100%; object-fit: cover; }
+
+/* Modal gallery specific styles */
+.modal-gallery { padding: 1.5rem; }
+.modal-gallery .swiper { height: 420px; }
+.modal-gallery .swiper .swiper-slide img { width: 100%; height: 100%; object-fit: contain; display: block; }
+.modal-caption { max-width: 1100px; margin-top: 2rem; }
+.modal-card { max-height: 90vh; overflow: hidden; }
+.modal-gallery .swiper-button-next, .modal-gallery .swiper-button-prev { color: #0077ff; }
+.modal-gallery .swiper-pagination-bullet-active { background: linear-gradient(120deg,#0077ff,#00d4ff); }
 
 

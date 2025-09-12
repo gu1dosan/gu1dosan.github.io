@@ -31,7 +31,7 @@ const sectionBackgroundColors = {
   '#about': '#c0bfc5',
   '#projects': '#a8a7b4',
   '#experience': '#3b3a41',
-  '#skills': '#ADB8C2',
+  '#skills': '#deefff',
   '#contact': '#3e4c5e',
 };
 
@@ -610,7 +610,7 @@ ScrollTrigger.create({
 gsap.from('.about-photo', {
   scrollTrigger: { trigger: '#about', start: 'top 60%', end: 'top top', scrub: 1 },
   opacity: 0,
-  x: -50,
+  x: -200,
   duration: 0.7,
   ease: "power2.out"
 });
@@ -627,7 +627,7 @@ gsap.from('#about p', {
   opacity: 0,
   y: 20,
   duration: 0.5,
-  stagger: 0.15,
+  stagger: 0.5,
   delay: 0.3,
   ease: "power2.out"
 });
@@ -740,13 +740,13 @@ ScrollTrigger.create({
 
 
 /* --- Pre-set initial states so nothing flashes visible --- */
-gsap.set('.mySwiper .swiper-slide img', { scale: 1.05, opacity: 0, transformOrigin: 'center center' });
-gsap.set('.mySwiper .swiper-slide .project-details > *', { x: 30, opacity: 0 });
+// gsap.set('.mySwiper .swiper-slide img', { scale: 1.05, opacity: 0, transformOrigin: 'center center' });
+// gsap.set('.mySwiper .swiper-slide .project-details > *', { x: 30, opacity: 0 });
 
 /* --- Create the Swiper WITHOUT autoplay initially --- */
 const swiper = new Swiper(".mySwiper", {
   slidesPerView: 1,
-  spaceBetween: 30,
+  spaceBetween: 32,
   centeredSlides: true,
   loop: true,
   speed: 700, // match with GSAP timing for smoother feel
@@ -761,16 +761,16 @@ const swiper = new Swiper(".mySwiper", {
         this.autoplay.start();
       }});
     },
-    // When a slide change begins -> animate OUT the previous slide
-    slideChangeTransitionStart: function () {
-      const prev = this.slides[this.previousIndex];
-      if (prev) animateSlideOut(prev);
-    },
-    // After the slide transition ends -> animate IN the active slide
-    slideChangeTransitionEnd: function () {
-      const active = this.slides[this.activeIndex];
-      animateSlideIn(active);
-    }
+    // // When a slide change begins -> animate OUT the previous slide
+    // slideChangeTransitionStart: function () {
+    //   const prev = this.slides[this.previousIndex];
+    //   if (prev) animateSlideOut(prev);
+    // },
+    // // After the slide transition ends -> animate IN the active slide
+    // slideChangeTransitionEnd: function () {
+    //   const active = this.slides[this.activeIndex];
+    //   animateSlideIn(active);
+    // }
   }
 });
 
@@ -883,40 +883,77 @@ gsap.to(container, {
   },
 });
 
-// Animate individual items
-document.querySelectorAll('.experience-item').forEach((item, index) => {
-  gsap.fromTo(item, 
-    { opacity: 0, x: index % 2 === 0 ? -100 : 100, y: 50 },
-    { 
-      opacity: 1, 
-      x: 0, 
-      y: 0,
-      duration: 1,
-      scrollTrigger: {
-        trigger: item,
-        start: 'top 100%',
-        end: 'top 80%',
-        scrub: 0.5,
-      },
-    }
-  );
+ScrollTrigger.matchMedia({
 
-  gsap.fromTo(item, {
-    opacity: 1,
-    x: 0,
-    y: 0,
-  }, {
-    opacity: 0,
-    x: index % 2 === 0 ? -100 : 100,
-    y: -50,
-    duration: 1,
-    scrollTrigger: {
-      trigger: item,
-      start: 'top 20%',
-      end: 'top 0%',
-      scrub: 0.5,
-    },
-  });
+  // Desktop and tablet: enable animations
+  "(min-width: 768px)": function() {
+
+    // Animate individual items
+    document.querySelectorAll('.experience-item').forEach((item, index) => {
+      gsap.fromTo(item, 
+        { opacity: 0, x: index % 2 === 0 ? -100 : 100, y: 50 },
+        { 
+          opacity: 1, 
+          x: 0, 
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: item,
+            scroller: '#smooth-wrapper',
+            start: 'top 100%',
+            end: 'top 80%',
+            scrub: 0.5,
+          },
+        }
+      );
+
+      gsap.fromTo(item, {
+        opacity: 1,
+        x: 0,
+        y: 0,
+      }, {
+        opacity: 0,
+        x: index % 2 === 0 ? -100 : 100,
+        y: -50,
+        duration: 1,
+        scrollTrigger: {
+          trigger: item,
+          scroller: '#smooth-wrapper',
+          start: 'top 20%',
+          end: 'top 0%',
+          scrub: 0.5,
+        },
+      });
+    });
+  },
+
+  // Mobile: disable fade out
+  "(max-width: 767px)": function() {
+    document.querySelectorAll('.experience-item').forEach((item, index) => {
+      gsap.fromTo(item, 
+        { opacity: 0, x: index % 2 === 0 ? -100 : 100, y: 50 },
+        { 
+          opacity: 1, 
+          x: 0, 
+          y: 0,
+          duration: 1,
+          scrollTrigger: {
+            trigger: item,
+            scroller: '#smooth-wrapper',
+            start: 'top 100%',
+            end: 'top 80%',
+            scrub: 0.5,
+          },
+        }
+      );
+    });
+  },
+
+  // optional: a cleanup function returned for when the media query no longer matches
+  "all": function() {
+    // runs for all sizes - you can put code that should always run here
+  }
+
 });
 
 // Animate experience details on hover
@@ -946,15 +983,15 @@ gsap.utils.toArray('.skill-category').forEach((category, index) => {
   const skillsText = category.querySelector('.skill-list');
 
   // Split skills into individual words/items for stagger
-  const skillsArray = skillsText.innerText.split(',').map(s => s.trim());
-  skillsText.innerHTML = skillsArray.map(skill => `<span class="inline-block opacity-0">${skill}</span>`).join(', ');
+  const skillsArray = skillsText.innerText.split(' ').map(s => s.trim());
+  skillsText.innerHTML = skillsArray.map(skill => `<span class="inline-block opacity-0">${skill}</span>`).join(' ');
 
   const skillItems = skillsText.querySelectorAll('span');
 
   gsap.fromTo(category, 
     { opacity: 0, x: fromX }, 
     { 
-      scrollTrigger: { trigger: category, start: 'top 90%', end: 'bottom 80%', scrub: 0.5 }, 
+      scrollTrigger: { trigger: category, start: 'top 100%', end: 'top 85%', scrub: 0.5 }, 
       opacity: 1, 
       x: 0, 
       duration: 0.6, 
@@ -985,11 +1022,11 @@ ScrollTrigger.create({
 gsap.from('.contact-field', {
   scrollTrigger: { 
     trigger: '#contact', 
-    start: 'top 80%',
+    start: 'top 70%',
   },
   opacity: 0,
-  y: 50,
-  duration: 1,
+  y: 100,
+  duration: 0.5,
   stagger: 0.2,
 });
 
@@ -1001,10 +1038,329 @@ gsap.to('.submit-button', {
 });
 
 // Refresh ScrollTrigger and ScrollSmoother
+
+// Modal gallery logic (uses Swiper inside modal)
+(function() {
+  let modalSwiperInstance = null;
+  const modal = document.getElementById('case-modal');
+  const closeBtn = document.getElementById('closeModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const modalSwiperEl = () => document.querySelector('.modalSwiper');
+  const modalWrapperEl = () => document.querySelector('.modalSwiper .swiper-wrapper');
+
+  function parseImagesAttr(str) {
+    if (!str) return [];
+    // Try JSON parse first
+    try {
+      const parsed = JSON.parse(str);
+      if (Array.isArray(parsed)) return parsed;
+    } catch (e) {
+      // not JSON
+    }
+    // Fallback: comma-separated list
+    return str.split(',').map(s => s.trim()).filter(Boolean);
+  }
+
+  function buildSlides(images) {
+    const wrapper = modalWrapperEl();
+    if (!wrapper) return;
+    wrapper.innerHTML = '';
+    images.forEach(src => {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      img.loading = 'lazy';
+      slide.appendChild(img);
+      wrapper.appendChild(slide);
+    });
+  }
+
+  function initModalSwiper() {
+    // Destroy previous instance if exists
+    try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); } catch(e){}
+    // Create new Swiper instance
+    try {
+      modalSwiperInstance = new Swiper('.modalSwiper', {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.modal-swiper-next',
+          prevEl: '.modal-swiper-prev'
+        },
+        pagination: {
+          el: '.modal-swiper-pagination',
+          clickable: true
+        },
+        loop: false,
+        watchOverflow: true
+      });
+    } catch (e) {
+      console.warn('Swiper not available yet, will retry on next tick.', e);
+      setTimeout(initModalSwiper, 50);
+    }
+  }
+
+  function openModal(images, title, desc) {
+    if (!modal) return;
+    // build slides and init swiper
+    buildSlides(images);
+    modal.classList.remove('hidden');
+    initModalSwiper();
+    modalTitle.textContent = title || '';
+    modalBody.textContent = desc || '';
+    // pause smoother if available
+    try { smoother.paused(true); } catch (e) {}
+    // Prevent body scroll while modal open
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    // destroy swiper to free memory
+    try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); modalSwiperInstance = null; } catch(e){}
+    // clear slides
+    const wrapper = modalWrapperEl(); if (wrapper) wrapper.innerHTML = '';
+    try { smoother.paused(false); } catch (e) {}
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+
+  // Attach to thumb buttons (supports data-images JSON or comma-separated, or data-full-src fallback)
+  function attachThumbHandlers(root=document) {
+    root.querySelectorAll('.thumb-btn').forEach(btn => {
+      // Avoid double-binding
+      if (btn.dataset.modalBound) return;
+      btn.dataset.modalBound = 'true';
+      btn.addEventListener('click', (e) => {
+        const imagesAttr = btn.getAttribute('data-images') || btn.dataset.images || '';
+        const full = btn.getAttribute('data-full-src') || btn.dataset.fullSrc || '';
+        const images = imagesAttr ? parseImagesAttr(imagesAttr) : (full ? [full] : []);
+        const title = btn.getAttribute('data-title') || '';
+        const desc = btn.getAttribute('data-description') || '';
+        openModal(images, title, desc);
+      });
+    });
+  }
+  attachThumbHandlers();
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // close when clicking backdrop
+  document.addEventListener('click', (e) => {
+    if (e.target.classList && (e.target.classList.contains('case-modal') || e.target.classList.contains('modal-backdrop'))) {
+      closeModal();
+    }
+  });
+  // Escape key closes
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  // Expose a helper in case you add thumbnails dynamically later
+  window.__attachModalThumbs = attachThumbHandlers;
+})();
+
+
 ScrollTrigger.refresh();
 // smoother.scrollTop(0); // Reset scroll position
 window.addEventListener('resize', () => {
   // projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
-  ScrollTrigger.refresh();
+  
+// Modal gallery logic (uses Swiper inside modal)
+(function() {
+  let modalSwiperInstance = null;
+  const modal = document.getElementById('case-modal');
+  const closeBtn = document.getElementById('closeModal');
+  const modalTitle = document.getElementById('modalTitle');
+  const modalBody = document.getElementById('modalBody');
+  const modalSwiperEl = () => document.querySelector('.modalSwiper');
+  const modalWrapperEl = () => document.querySelector('.modalSwiper .swiper-wrapper');
+
+  function parseImagesAttr(str) {
+    if (!str) return [];
+    // Try JSON parse first
+    try {
+      const parsed = JSON.parse(str);
+      if (Array.isArray(parsed)) return parsed;
+    } catch (e) {
+      // not JSON
+    }
+    // Fallback: comma-separated list
+    return str.split(',').map(s => s.trim()).filter(Boolean);
+  }
+
+  function buildSlides(images) {
+    const wrapper = modalWrapperEl();
+    if (!wrapper) return;
+    wrapper.innerHTML = '';
+    images.forEach(src => {
+      const slide = document.createElement('div');
+      slide.className = 'swiper-slide';
+      const img = document.createElement('img');
+      img.src = src;
+      img.alt = '';
+      img.loading = 'lazy';
+      slide.appendChild(img);
+      wrapper.appendChild(slide);
+    });
+  }
+
+  function initModalSwiper() {
+    // Destroy previous instance if exists
+    try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); } catch(e){}
+    // Create new Swiper instance
+    try {
+      modalSwiperInstance = new Swiper('.modalSwiper', {
+        slidesPerView: 1,
+        spaceBetween: 10,
+        navigation: {
+          nextEl: '.modal-swiper-next',
+          prevEl: '.modal-swiper-prev'
+        },
+        pagination: {
+          el: '.modal-swiper-pagination',
+          clickable: true
+        },
+        loop: false,
+        watchOverflow: true
+      });
+    } catch (e) {
+      console.warn('Swiper not available yet, will retry on next tick.', e);
+      setTimeout(initModalSwiper, 50);
+    }
+  }
+
+  function openModal(images, title, desc) {
+    if (!modal) return;
+    // build slides and init swiper
+    buildSlides(images);
+    modal.classList.remove('hidden');
+    initModalSwiper();
+    modalTitle.textContent = title || '';
+    modalBody.textContent = desc || '';
+    // pause smoother if available
+    try { smoother.paused(true); } catch (e) {}
+    // Prevent body scroll while modal open
+    document.documentElement.style.overflow = 'hidden';
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeModal() {
+    if (!modal) return;
+    modal.classList.add('hidden');
+    // destroy swiper to free memory
+    try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); modalSwiperInstance = null; } catch(e){}
+    // clear slides
+    const wrapper = modalWrapperEl(); if (wrapper) wrapper.innerHTML = '';
+    try { smoother.paused(false); } catch (e) {}
+    document.documentElement.style.overflow = '';
+    document.body.style.overflow = '';
+  }
+
+  // Attach to thumb buttons (supports data-images JSON or comma-separated, or data-full-src fallback)
+  function attachThumbHandlers(root=document) {
+    root.querySelectorAll('.thumb-btn').forEach(btn => {
+      // Avoid double-binding
+      if (btn.dataset.modalBound) return;
+      btn.dataset.modalBound = 'true';
+      btn.addEventListener('click', (e) => {
+        const imagesAttr = btn.getAttribute('data-images') || btn.dataset.images || '';
+        const full = btn.getAttribute('data-full-src') || btn.dataset.fullSrc || '';
+        const images = imagesAttr ? parseImagesAttr(imagesAttr) : (full ? [full] : []);
+        const title = btn.getAttribute('data-title') || '';
+        const desc = btn.getAttribute('data-description') || '';
+        openModal(images, title, desc);
+      });
+    });
+  }
+  attachThumbHandlers();
+
+  if (closeBtn) closeBtn.addEventListener('click', closeModal);
+  // close when clicking backdrop
+  document.addEventListener('click', (e) => {
+    if (e.target.classList && (e.target.classList.contains('case-modal') || e.target.classList.contains('modal-backdrop'))) {
+      closeModal();
+    }
+  });
+  // Escape key closes
+  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
+
+  // Expose a helper in case you add thumbnails dynamically later
+  window.__attachModalThumbs = attachThumbHandlers;
+})();
+
+
+ScrollTrigger.refresh();
   smoother.refresh();
 });
+
+
+
+
+
+
+// Contact form submit via fetch to Formspree
+(function() {
+  const FORM_ENDPOINT = 'https://formspree.io/f/mgvlqwbp'; // <- replace this
+  const form = document.getElementById('contactForm');
+  const submitBtn = document.getElementById('submitBtn');
+  const status = document.getElementById('contactStatus');
+
+  if (!form) return;
+
+  form.addEventListener('submit', async (e) => {
+    e.preventDefault();
+    status.className = 'contact-status';
+    status.textContent = '';
+
+    // Basic client validation
+    const name = form.querySelector('#name').value.trim();
+    const email = form.querySelector('#email').value.trim();
+    const message = form.querySelector('#message').value.trim();
+
+    if (!name || !email || !message) {
+      status.classList.add('error');
+      status.textContent = 'Please fill in all required fields.';
+      return;
+    }
+
+    try {
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Sending...';
+
+      // Build payload
+      const formData = new FormData(form);
+      // optional: you can append extra fields here, e.g. source url
+      formData.append('source', window.location.href);
+
+      const res = await fetch(FORM_ENDPOINT, {
+        method: 'POST',
+        body: formData,
+        headers: {
+          'Accept': 'application/json'
+        }
+      });
+
+      const data = await res.json();
+
+      if (res.ok) {
+        status.classList.add('success');
+        status.textContent = 'Thanks — message sent! I’ll reply as soon as I can.';
+        form.reset();
+      } else {
+        // Formspree returns errors in JSON
+        status.classList.add('error');
+        status.textContent = (data && data.error) ? data.error : 'Oops — something went wrong.';
+      }
+    } catch (err) {
+      status.classList.add('error');
+      status.textContent = 'Network error — please try again later.';
+    } finally {
+      submitBtn.disabled = false;
+      submitBtn.textContent = 'Send message';
+    }
+  });
+
+})();
