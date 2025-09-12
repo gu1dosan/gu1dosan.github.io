@@ -282,9 +282,12 @@ section {
   /* background: #7c7c7c;  */
   z-index: 3;
 }
-/* .experience-title {
-  color: white;
-} */
+.experience-title {
+  position: relative;
+  z-index: 3;
+  /* -webkit-text-stroke: #3b3a41 0.5px; */
+  /* text-shadow: 1px 1px 0 #3b3a41, -1px -1px 0 #3b3a41, 1px -1px 0 #3b3a41, -1px 1px 0 #3b3a41; */
+}
 .experience-item {
   color: black;
   display: flex;
@@ -306,6 +309,18 @@ section {
   .experience-details {
     flex: 2;
     padding-left: 1rem;
+  }
+}
+@media (max-width: 768px) {
+  #experience { padding: 0 2rem; }
+  .experience-title {
+    background-color: #3b3a41;
+    height: 5.5rem;
+    width: 100vw;
+    position: relative;
+    left: -2rem;
+    align-content: center;
+    /* box-shadow: 0 10px 8px 0px #3b3a41; */
   }
 }
 
