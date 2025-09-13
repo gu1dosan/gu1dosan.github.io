@@ -60,6 +60,7 @@ section {
 @media (max-width: 768px) {
   #floating-nav {
     @apply left-[-128px] top-20 flex-col;
+    z-index: 47;
   }
   #floating-nav .nav-btn {
     @apply text-lg;
@@ -70,6 +71,35 @@ section {
     /* text-shadow: 0 0px 64px #edf2f7; */
     /* text-shadow: 0 0px 64px #1a202c; */
   }
+  #floating-nav.open {
+  pointer-events: auto;
+}
+}
+/* Expanding circle backdrop for mobile nav */
+#nav-circle-container {
+  position: fixed;
+  inset: 0;
+  pointer-events: none; /* container itself doesn't intercept clicks */
+  z-index: 45; /* ensure it's above normal content but below the nav buttons which are z-50 */
+}
+
+.nav-circle-svg {
+  position: fixed;
+  left: 0;
+  top: 0;
+  pointer-events: none;
+  z-index: 46;
+  width: 0; /* initial; we'll set transform/translate and scale through JS */
+  height: 0;
+  overflow: visible;
+  will-change: transform, opacity;
+  opacity: 0;
+}
+
+/* limit to mobile */
+@media (min-width: 768px) {
+  #nav-circle-container { display: none; }
+  .nav-circle { display: none; }
 }
 
 /* #floating-nav .nav-btn.active {
@@ -255,6 +285,12 @@ section {
 .project-details {
   /* background-color: #ffffff; */
   /* color: #0a1a2f; */
+  padding: 1.5rem;
+}
+@media (max-width: 768px) {
+  .project-details {
+    padding: 1.5rem 0rem;
+  }
 }
 .project-details h3 {
   color: #0077ff;
@@ -312,12 +348,13 @@ section {
   }
 }
 @media (max-width: 768px) {
-  #experience { padding: 0 2rem; }
+  #experience { padding: 0 2rem;}
   .experience-title {
     background-color: #3b3a41;
     height: 5.5rem;
     width: 100vw;
     position: relative;
+    top: -1px;
     left: -2rem;
     align-content: center;
     /* box-shadow: 0 10px 8px 0px #3b3a41; */

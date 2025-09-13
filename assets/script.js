@@ -28,8 +28,8 @@ const sectionTextColors = {
 
 const sectionBackgroundColors = {
   '#hero': '#233043',
-  '#about': '#c0bfc5',
-  '#projects': '#a8a7b4',
+  '#about': '#ffffff',
+  '#projects': '#f5fbff',
   '#experience': '#3b3a41',
   '#skills': '#deefff',
   '#contact': '#3e4c5e',
@@ -162,55 +162,116 @@ document.fonts.ready.then(() => {
   const hamburgerBtn = document.getElementById('hamburger-btn');
   const floatingNav = document.getElementById('floating-nav');
   let isMenuOpen = false;
+  /* ========== expanding circle backdrop for mobile nav ========== */
+  const svg = document.getElementById('nav-circle-svg');
+  const navCircle = document.getElementById('nav-circle-shape');
+
+  // set svg to full viewport and viewBox in px so circle coords are in page pixels
+  function sizeSvgToViewport() {
+    const w = window.innerWidth;
+    const h = window.innerHeight;
+    svg.setAttribute('width', w);
+    svg.setAttribute('height', h);
+    svg.setAttribute('viewBox', `0 0 ${w} ${h}`);
+    svg.style.width = `${w}px`;
+    svg.style.height = `${h}px`;
+  }
+
+  // compute final radius to cover the floating nav box from center (cx,cy)
+  function radiusToCoverNav(cx, cy, navRect) {
+    // corners of the nav rect
+    const corners = [
+      { x: navRect.left, y: navRect.top },
+      { x: navRect.left + navRect.width, y: navRect.top },
+      { x: navRect.left, y: navRect.top + navRect.height },
+      { x: navRect.left + navRect.width, y: navRect.top + navRect.height }
+    ];
+    // distance from center to farthest corner
+    let maxDist = 0;
+    corners.forEach(c => {
+      const d = Math.hypot(cx - (c.x + 0), cy - (c.y + 0));
+      if (d > maxDist) maxDist = d;
+    });
+    // add a little padding so menu is comfortably inside circle
+    return Math.ceil(maxDist + 16); // 16px padding
+  }
+
+  // animate opening by animating r (px). rFinal should be enough to cover viewport.
+  function openSvgCircleFromButton(buttonRect, navSelector = '#floating-nav') {
+
+    // ensure svg sizing is up-to-date
+    sizeSvgToViewport();
+
+    const cx = Math.round(buttonRect.left + buttonRect.width / 2);
+    const cy = Math.round(buttonRect.top + buttonRect.height / 2);
+
+    // get nav rect to compute radius to cover the nav, not whole screen
+    const navEl = document.querySelector(navSelector);
+    const navRect = navEl ? navEl.getBoundingClientRect() : { left: 0, top: 0, width: window.innerWidth, height: window.innerHeight };
+
+    const rStart = Math.max(buttonRect.width, buttonRect.height) / 2;
+    const rFinal = radiusToCoverNav(cx, cy, navRect);
+
+    // position circle (we use absolute page-pixel coords in svg viewBox)
+    navCircle.setAttribute('cx', cx);
+    navCircle.setAttribute('cy', cy);
+    navCircle.setAttribute('r', rStart);
+
+    // ensure visible
+    svg.style.opacity = '1';
+
+    // animate radius (attr animation keeps it vector crisp)
+    gsap.killTweensOf(navCircle);
+    gsap.fromTo(navCircle, 
+      { attr: { r: rStart } }, 
+      { attr: { r: rFinal }, x:-120, y: 20, duration: 0.55, ease: 'power4.out' }
+    );
+  }
+
+  function closeSvgCircle(buttonRect) {
+    sizeSvgToViewport();
+    const rClose = Math.max(buttonRect.width, buttonRect.height) / 2;
+    gsap.killTweensOf(navCircle);
+    gsap.to(navCircle, {
+      attr: { r: rClose },
+      duration: 0.55,
+      ease: 'power4.in',
+      onComplete: () => {
+        // hide quickly so it doesn't cause visual artifact
+        svg.style.opacity = '0';
+      }
+    });
+  }
+
+  // expose functions to global so toggleMenu can call them
+  window.__openNavCircleSVG = openSvgCircleFromButton;
+  window.__closeNavCircleSVG = closeSvgCircle;
+
+  // keep responsive
+  window.addEventListener('resize', sizeSvgToViewport, { passive: true });
+
+  // initialize size once
+  sizeSvgToViewport();
 
   function toggleMenu() {
     isMenuOpen = !isMenuOpen;
     hamburgerBtn.classList.toggle('active');
-    const tl = gsap.timeline();
+    const rect = hamburgerBtn.getBoundingClientRect();
     if (isMenuOpen) {
-    //   floatingNav.classList.remove('hidden');
-    //   tl
-    //   // .fromTo(floatingNav, { 
-    //   //   x: '-100%', 
-    //   //   // opacity: 0 
-    //   // }, { 
-    //   //   x: 0, 
-    //   //   // opacity: 1, 
-    //   //   duration: 0.3, 
-    //   //   ease: "power2.out" 
-    //   // })
-    //     .fromTo('.nav-btn', { 
-    //       // x: -100,
-    //       // y: 20, 
-    //       // opacity: 0 
-    //     }, { 
-    //       x: 124,
-    //       // y: 0, 
-    //       // opacity: 1, 
-    //       stagger: 0.05, 
-    //       duration: 0.2, 
-    //       ease: "power2.out" 
-    //     }, 0.1);
-    floatingNavAnimationMobile.play()
+      window.__openNavCircleSVG(rect);
+      // add .open class so nav can become pointer-events enabled
+      floatingNav.classList.add('open');
+      // set aria state
+      hamburgerBtn.setAttribute('aria-expanded', 'true');
+      // focus first nav item for a11y
+      setTimeout(()=>{ floatingNav.querySelector('.nav-btn')?.focus(); }, 300);
+      floatingNavAnimationMobile.play()
     } else {
-      // tl
-      // .to('.nav-btn', { 
-      //   x: -100,
-      //   // y: 20, 
-      //   // opacity: 0, 
-      //   stagger: -0.1, 
-      //   duration: 0.3, 
-      //   ease: "power2.in" 
-      // })
-      //   // .to(floatingNav, { 
-      //   //   x: '-100%', 
-      //   //   // opacity: 0, 
-      //   //   duration: 0.3, 
-      //   //   ease: "power2.in", 
-      //   //   onComplete: () => {
-      //   //     floatingNav.classList.add('hidden');
-      //   //   }
-      //   // }, 0.1);
+      window.__closeNavCircleSVG(rect);
+      floatingNav.classList.remove('open');
+      hamburgerBtn.setAttribute('aria-expanded', 'false');
+      // return focus to button
+      setTimeout(()=>{ hamburgerBtn.focus(); }, 250);
       floatingNavAnimationMobile.reverse();
     }
   }
@@ -249,6 +310,7 @@ document.fonts.ready.then(() => {
   });
   const floatingNavAnimationMobile = gsap.to('.nav-btn', {
     opacity: (i, target) => target.classList.contains('active') ? 1 : floatingNavInactiveOpacity,
+    // opacity: 1,
     x: (i, target) => target.classList.contains('active') ? floatingNavActiveX : floatingNavDefaultX,
     duration: 0.4,
     stagger: 0.06,
@@ -324,12 +386,13 @@ document.fonts.ready.then(() => {
       // scroller: '#smooth-wrapper',
       onEnter: () => {
         // if(section !== '#hero') {
-          btn.classList.add('active');
-          if (window.visualViewport.width >= 768 && navAnimTriggered) {
-            gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out" });
-          }
-          gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
-          // }
+        btn.classList.add('active');
+        if (window.visualViewport.width >= 768 && navAnimTriggered) {
+          gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out" });
+        }
+        gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
+        navCircle.setAttribute('fill', sectionBackgroundColors[section]);
+        // }
       },
       onEnterBack: () => {
         btn.classList.add('active');
@@ -337,6 +400,7 @@ document.fonts.ready.then(() => {
           gsap.to(btn, { y: floatingNavActiveY, opacity: 1, duration: 0.3, ease: "power2.out" });
         }
         gsap.to('.nav-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
+        navCircle.setAttribute('fill', sectionBackgroundColors[section]);
       },
       onLeave: () => {
         btn.classList.remove('active');
@@ -771,8 +835,8 @@ const swiper = new Swiper(".mySwiper", {
 
 /* Pause autoplay on hover */
 const swiperEl = document.querySelector('.mySwiper');
-swiperEl.addEventListener('mouseenter', () => swiper.autoplay?.stop());
-swiperEl.addEventListener('mouseleave', () => swiper.autoplay?.start());
+// swiperEl.addEventListener('mouseenter', () => swiper.autoplay?.stop());
+// swiperEl.addEventListener('mouseleave', () => swiper.autoplay?.start());
 
 /* --- Animation helpers --- */
 function animateSlideIn(slide, opts = {}) {
@@ -840,13 +904,15 @@ function animateSlideOut(slide, onComplete) {
 gsap.from('.experience-title', {
   scrollTrigger: {
     trigger: '#experience',
-    // start: 'top top',
-    end: () => `+=${document.querySelector('#experience').offsetHeight - 100}`,
+    start: 'top bottom',
+    end: 'top 20%',
+    scroller: '#smooth-wrapper',
+    // end: () => `+=${document.querySelector('#experience').offsetHeight - 100}`,
     scrub: 1,
   },
   opacity: 0,
   scale: 0.8,
-  rotation: 5,
+  // rotation: 5,
   duration: 0.5,
   ease: "power4.out",
 });
@@ -1082,7 +1148,7 @@ gsap.to('.submit-button', {
     try {
       modalSwiperInstance = new Swiper('.modalSwiper', {
         slidesPerView: 1,
-        spaceBetween: 10,
+        spaceBetween: 24,
         navigation: {
           nextEl: '.modal-swiper-next',
           prevEl: '.modal-swiper-prev'
@@ -1091,8 +1157,8 @@ gsap.to('.submit-button', {
           el: '.modal-swiper-pagination',
           clickable: true
         },
-        loop: false,
-        watchOverflow: true
+        loop: true,
+        // watchOverflow: true
       });
     } catch (e) {
       console.warn('Swiper not available yet, will retry on next tick.', e);
@@ -1125,6 +1191,7 @@ gsap.to('.submit-button', {
     try { smoother.paused(false); } catch (e) {}
     document.documentElement.style.overflow = '';
     document.body.style.overflow = '';
+    // swiper.autoplay?.start();
   }
 
   // Attach to thumb buttons (supports data-images JSON or comma-separated, or data-full-src fallback)
@@ -1139,6 +1206,7 @@ gsap.to('.submit-button', {
         const images = imagesAttr ? parseImagesAttr(imagesAttr) : (full ? [full] : []);
         const title = btn.getAttribute('data-title') || '';
         const desc = btn.getAttribute('data-description') || '';
+        // swiper.autoplay?.stop(); // pause main swiper autoplay if running 
         openModal(images, title, desc);
       });
     });
@@ -1163,133 +1231,7 @@ gsap.to('.submit-button', {
 ScrollTrigger.refresh();
 // smoother.scrollTop(0); // Reset scroll position
 window.addEventListener('resize', () => {
-  // projectsScrollWidth = projectsContainer.scrollWidth - window.innerWidth + 300;
-  
-// Modal gallery logic (uses Swiper inside modal)
-(function() {
-  let modalSwiperInstance = null;
-  const modal = document.getElementById('case-modal');
-  const closeBtn = document.getElementById('closeModal');
-  const modalTitle = document.getElementById('modalTitle');
-  const modalBody = document.getElementById('modalBody');
-  const modalSwiperEl = () => document.querySelector('.modalSwiper');
-  const modalWrapperEl = () => document.querySelector('.modalSwiper .swiper-wrapper');
-
-  function parseImagesAttr(str) {
-    if (!str) return [];
-    // Try JSON parse first
-    try {
-      const parsed = JSON.parse(str);
-      if (Array.isArray(parsed)) return parsed;
-    } catch (e) {
-      // not JSON
-    }
-    // Fallback: comma-separated list
-    return str.split(',').map(s => s.trim()).filter(Boolean);
-  }
-
-  function buildSlides(images) {
-    const wrapper = modalWrapperEl();
-    if (!wrapper) return;
-    wrapper.innerHTML = '';
-    images.forEach(src => {
-      const slide = document.createElement('div');
-      slide.className = 'swiper-slide';
-      const img = document.createElement('img');
-      img.src = src;
-      img.alt = '';
-      img.loading = 'lazy';
-      slide.appendChild(img);
-      wrapper.appendChild(slide);
-    });
-  }
-
-  function initModalSwiper() {
-    // Destroy previous instance if exists
-    try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); } catch(e){}
-    // Create new Swiper instance
-    try {
-      modalSwiperInstance = new Swiper('.modalSwiper', {
-        slidesPerView: 1,
-        spaceBetween: 10,
-        navigation: {
-          nextEl: '.modal-swiper-next',
-          prevEl: '.modal-swiper-prev'
-        },
-        pagination: {
-          el: '.modal-swiper-pagination',
-          clickable: true
-        },
-        loop: false,
-        watchOverflow: true
-      });
-    } catch (e) {
-      console.warn('Swiper not available yet, will retry on next tick.', e);
-      setTimeout(initModalSwiper, 50);
-    }
-  }
-
-  function openModal(images, title, desc) {
-    if (!modal) return;
-    // build slides and init swiper
-    buildSlides(images);
-    modal.classList.remove('hidden');
-    initModalSwiper();
-    modalTitle.textContent = title || '';
-    modalBody.textContent = desc || '';
-    // pause smoother if available
-    try { smoother.paused(true); } catch (e) {}
-    // Prevent body scroll while modal open
-    document.documentElement.style.overflow = 'hidden';
-    document.body.style.overflow = 'hidden';
-  }
-
-  function closeModal() {
-    if (!modal) return;
-    modal.classList.add('hidden');
-    // destroy swiper to free memory
-    try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); modalSwiperInstance = null; } catch(e){}
-    // clear slides
-    const wrapper = modalWrapperEl(); if (wrapper) wrapper.innerHTML = '';
-    try { smoother.paused(false); } catch (e) {}
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-  }
-
-  // Attach to thumb buttons (supports data-images JSON or comma-separated, or data-full-src fallback)
-  function attachThumbHandlers(root=document) {
-    root.querySelectorAll('.thumb-btn').forEach(btn => {
-      // Avoid double-binding
-      if (btn.dataset.modalBound) return;
-      btn.dataset.modalBound = 'true';
-      btn.addEventListener('click', (e) => {
-        const imagesAttr = btn.getAttribute('data-images') || btn.dataset.images || '';
-        const full = btn.getAttribute('data-full-src') || btn.dataset.fullSrc || '';
-        const images = imagesAttr ? parseImagesAttr(imagesAttr) : (full ? [full] : []);
-        const title = btn.getAttribute('data-title') || '';
-        const desc = btn.getAttribute('data-description') || '';
-        openModal(images, title, desc);
-      });
-    });
-  }
-  attachThumbHandlers();
-
-  if (closeBtn) closeBtn.addEventListener('click', closeModal);
-  // close when clicking backdrop
-  document.addEventListener('click', (e) => {
-    if (e.target.classList && (e.target.classList.contains('case-modal') || e.target.classList.contains('modal-backdrop'))) {
-      closeModal();
-    }
-  });
-  // Escape key closes
-  document.addEventListener('keydown', (e) => { if (e.key === 'Escape') closeModal(); });
-
-  // Expose a helper in case you add thumbnails dynamically later
-  window.__attachModalThumbs = attachThumbHandlers;
-})();
-
-
-ScrollTrigger.refresh();
+  ScrollTrigger.refresh();
   smoother.refresh();
 });
 
