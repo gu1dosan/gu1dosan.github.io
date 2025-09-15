@@ -1167,6 +1167,7 @@ gsap.to('.submit-button', {
     // build slides and init swiper
     buildSlides(images);
     modal.classList.remove('hidden');
+    modal.style.display = 'flex';
     initModalSwiper();
     modalTitle.textContent = title || '';
     modalBody.textContent = desc || '';
@@ -1175,19 +1176,48 @@ gsap.to('.submit-button', {
     // Prevent body scroll while modal open
     document.documentElement.style.overflow = 'hidden';
     document.body.style.overflow = 'hidden';
+
+    const card = modal.querySelector('.modal-card');
+    const backdrop = modal.querySelector('.modal-backdrop');
+
+    // prepare initial states
+    gsap.set(modal, { opacity: 0 });
+    if (backdrop) gsap.set(backdrop, { opacity: 0 });
+    if (card) gsap.set(card, { y: 18, scale: 0.985, opacity: 0, transformOrigin: '50% 50%' });
+
+    // animate in: backdrop fade, modal fade, card pop
+    const tl = gsap.timeline();
+    tl.to(backdrop || modal, { opacity: 0.6, duration: 0.18, ease: 'power1.out' }, 0);
+    tl.to(modal, { opacity: 1, duration: 0.18, ease: 'power1.out' }, 0);
+    tl.to(card, { y: 0, scale: 1, opacity: 1, duration: 0.46, ease: 'back.out(1.1)' }, 0.06);
+
+    // focus close for accessibility after animation
+    tl.call(() => { try { document.getElementById('closeModal').focus(); } catch(e){} });
+
   }
 
   function closeModal() {
     if (!modal) return;
-    modal.classList.add('hidden');
-    // destroy swiper to free memory
-    try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); modalSwiperInstance = null; } catch(e){}
-    // clear slides
-    const wrapper = modalWrapperEl(); if (wrapper) wrapper.innerHTML = '';
-    try { smoother.paused(false); } catch (e) {}
-    document.documentElement.style.overflow = '';
-    document.body.style.overflow = '';
-    // swiper.autoplay?.start();
+    const card = modal.querySelector('.modal-card');
+    const backdrop = modal.querySelector('.modal-backdrop');
+
+    // animate out: card down/shrink, backdrop fade
+    const tl = gsap.timeline({
+      onComplete: () => {
+        // hide and cleanup after animation
+        modal.classList.add('hidden');
+        modal.style.display = '';
+        try { if (modalSwiperInstance && modalSwiperInstance.destroy) modalSwiperInstance.destroy(true, true); modalSwiperInstance = null; } catch(e){}
+        const wrapper = modalWrapperEl(); if (wrapper) wrapper.innerHTML = '';
+        try { smoother.paused(false); } catch (e) {}
+        document.documentElement.style.overflow = '';
+        document.body.style.overflow = '';
+      }
+    });
+
+    if (card) tl.to(card, { y: 18, scale: 0.985, opacity: 0, duration: 0.28, ease: 'power2.in' });
+    tl.to(backdrop || modal, { opacity: 0, duration: 0.18, ease: 'power1.in' }, '-=0.12');
+
   }
 
   // Attach to thumb buttons (supports data-images JSON or comma-separated, or data-full-src fallback)
