@@ -59,12 +59,13 @@ section {
 } */
 @media (max-width: 768px) {
   #floating-nav {
-    @apply left-[-128px] top-20 flex-col;
+    @apply left-[-160px] top-24 flex-col;
     z-index: 47;
   }
   #floating-nav .nav-btn {
-    @apply text-lg;
+    @apply text-2xl;
     opacity: 1;
+    margin-bottom: 2rem;
     /* background-color: #edf2f7; */
     border-radius: 0.5rem;
     /* box-shadow: 0 0 4px 6px #edf2f7; */
@@ -406,7 +407,7 @@ section {
   border-radius: 0.25rem;
 }
 @media (max-width: 768px) {
-  #contact { min-height: 80vh; }
+  /* #contact { min-height: 80vh; } */
   .contact-field { max-width: 100%; }
 }
 

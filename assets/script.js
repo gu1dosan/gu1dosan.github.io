@@ -8,11 +8,16 @@ CustomBounce.create("myBounce", {
 
 // Initialize ScrollSmoother
 const smoother = ScrollSmoother.create({
-  wrapper: '#smooth-wrapper',
-  content: '#smooth-content',
+  // wrapper: '#smooth-wrapper',
+  // content: '#smooth-content',
   smooth: 1, // Smoothness duration (seconds)
-  normalizeScroll: true, // Normalize scroll across devices
+  // normalizeScroll: true, // Normalize scroll across devices
+  effects: true, // looks for data-speed and data-lag attributes on elements
+  smoothTouch: 0.1, // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
 });
+
+// Utility to compute pixel height for pin end (safer than percentages)
+function px(val){ return typeof val === 'number' ? `${val}` : val; }
 
 const NAV_ANIM_DELAY = 1.5; // Delay for floating nav animation
 
@@ -193,7 +198,7 @@ document.fonts.ready.then(() => {
       if (d > maxDist) maxDist = d;
     });
     // add a little padding so menu is comfortably inside circle
-    return Math.ceil(maxDist + 16); // 16px padding
+    return Math.ceil(maxDist); // padding
   }
 
   // animate opening by animating r (px). rFinal should be enough to cover viewport.
@@ -224,7 +229,7 @@ document.fonts.ready.then(() => {
     gsap.killTweensOf(navCircle);
     gsap.fromTo(navCircle, 
       { attr: { r: rStart } }, 
-      { attr: { r: rFinal }, x:-120, y: 20, duration: 0.55, ease: 'power4.out' }
+      { attr: { r: rFinal }, x:-100, y: 50, duration: 0.55, ease: 'power4.out' }
     );
   }
 
@@ -294,10 +299,10 @@ document.fonts.ready.then(() => {
   // Flag to ensure animation runs only once
   let navAnimTriggered = false;
   // Floating navigation appearance animation
-  const floatingNavDefaultX = 140 // mobile
-  const floatingNavActiveX = 148 // mobile
+  const floatingNavDefaultX = 172 // mobile
+  const floatingNavActiveX = floatingNavDefaultX + 8 // mobile
   const floatingNavDefaultY = 48 // desktop
-  const floatingNavActiveY = 44 // desktop
+  const floatingNavActiveY = floatingNavDefaultY - 4 // desktop
   const floatingNavInactiveOpacity = 0.5
   const floatingNavAnimation = gsap.to('.nav-btn', {
     opacity: (i, target) => target.classList.contains('active') ? 1 : floatingNavInactiveOpacity,
@@ -383,7 +388,6 @@ document.fonts.ready.then(() => {
       trigger: section,
       start: 'top 5%',
       end:'bottom 5%', // Extend for projects horizontal scroll
-      // scroller: '#smooth-wrapper',
       onEnter: () => {
         // if(section !== '#hero') {
         btn.classList.add('active');
@@ -419,7 +423,6 @@ document.fonts.ready.then(() => {
       trigger: section,
       start: 'top 1%',
       end: 'bottom 1%', // Extend for projects horizontal scroll
-      scroller: '#smooth-wrapper',
       onEnter: () => {
         // if(section !== '#hero') {
           gsap.to('#hamburger-btn', { color: sectionTextColors[section], duration: 0.3, ease: "power2.out" });
@@ -439,7 +442,6 @@ ScrollTrigger.create({
   trigger: '#hero',
   pin: true,
   pinSpacing: false,
-  scroller: '#smooth-wrapper',
 });
 
 // Canvas Concentric Circles Animation
@@ -751,7 +753,6 @@ gsap.from('.projects-title', {
 // Pin the projects section
 ScrollTrigger.create({
   trigger: '#projects',
-  scroller: '#smooth-wrapper',
   pin: true,
   pinSpacing: false,
   // start: 'top top',
@@ -906,7 +907,6 @@ gsap.from('.experience-title', {
     trigger: '#experience',
     start: 'top bottom',
     end: 'top 20%',
-    scroller: '#smooth-wrapper',
     // end: () => `+=${document.querySelector('#experience').offsetHeight - 100}`,
     scrub: 1,
   },
@@ -918,29 +918,28 @@ gsap.from('.experience-title', {
 });
 
 // Get container and dimensions
-const container = document.querySelector('.experience-items-container');
-const containerHeight = container.scrollHeight;
+const experienceContainer = document.querySelector('.experience-items-container');
+const experienceContainerHeight = experienceContainer.scrollHeight;
 
 // Pin the experience section
 ScrollTrigger.create({
   trigger: '#experience',
   pin: true,
   pinSpacing: false,
-  scroller: '#smooth-wrapper',
-  // end: `+=${containerHeight}`,
+  // end: `+=${experienceContainerHeight}`,
   // start: 'top top',
   // end: 'top top',
   // endTrigger: '#skills',
   id: 'experiencePin',
 });
 
-gsap.to(container, {
-  y: -containerHeight,
+gsap.to(experienceContainer, {
+  y: -experienceContainerHeight,
   ease: 'none',
   scrollTrigger: {
     trigger: '#experience',
     start: 'top top',
-    end: `+=${containerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
+    end: `+=${experienceContainerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
     scrub: true,
     id: 'experienceContainer',
   },
@@ -962,7 +961,6 @@ ScrollTrigger.matchMedia({
           duration: 1,
           scrollTrigger: {
             trigger: item,
-            scroller: '#smooth-wrapper',
             start: 'top 100%',
             end: 'top 80%',
             scrub: 0.5,
@@ -981,7 +979,6 @@ ScrollTrigger.matchMedia({
         duration: 1,
         scrollTrigger: {
           trigger: item,
-          scroller: '#smooth-wrapper',
           start: 'top 20%',
           end: 'top 0%',
           scrub: 0.5,
@@ -1002,7 +999,6 @@ ScrollTrigger.matchMedia({
           duration: 1,
           scrollTrigger: {
             trigger: item,
-            scroller: '#smooth-wrapper',
             start: 'top 100%',
             end: 'top 80%',
             scrub: 0.5,

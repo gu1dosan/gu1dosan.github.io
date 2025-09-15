@@ -628,15 +628,16 @@ section {
 }
 @media (max-width: 768px) {
   #floating-nav {
-    top: calc(var(--spacing) * 20);
-    left: -128px;
+    top: calc(var(--spacing) * 24);
+    left: -160px;
     flex-direction: column;
     z-index: 47;
   }
   #floating-nav .nav-btn {
-    font-size: var(--text-lg);
-    line-height: var(--tw-leading, var(--text-lg--line-height));
+    font-size: var(--text-2xl);
+    line-height: var(--tw-leading, var(--text-2xl--line-height));
     opacity: 1;
+    margin-bottom: 2rem;
     border-radius: 0.5rem;
   }
   #floating-nav.open {
@@ -919,9 +920,6 @@ section {
   border-radius: 0.25rem;
 }
 @media (max-width: 768px) {
-  #contact {
-    min-height: 80vh;
-  }
   .contact-field {
     max-width: 100%;
   }
