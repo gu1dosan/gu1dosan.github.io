@@ -200,6 +200,38 @@ section {
   -webkit-text-fill-color: transparent;
   font-weight: 600;
 }
+.highlight-english {
+  white-space: nowrap;
+  background: linear-gradient(120deg, #002279, #ca122b, white );
+  background-size: 200% auto; /* allows gradient movement */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+.highlight-spanish {
+  white-space: nowrap;
+  background: linear-gradient(90deg, #d20f22, #d20f22 30%, #ffffff 50%, #d20f22 70%, #d20f22);
+  background-size: 130% auto; /* allows gradient movement */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+.highlight-cantonese {
+  white-space: nowrap;
+  background: linear-gradient(120deg, #d20f22, #d20f22 40%, #ffffff 50%, #d20f22 60%, #d20f22);
+  background-size: 125% auto; /* allows gradient movement */
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+.flag-icon {
+  display: inline;
+  width: 1.2rem;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 0.25rem;
+  /* border-radius: 0.125rem; */
+}
 
 /* About Me photo hover effect */
 .about-photo img {
@@ -512,5 +544,3 @@ section {
 .modal-card { max-height: 90vh; overflow: hidden; }
 .modal-gallery .swiper-button-next, .modal-gallery .swiper-button-prev { color: #0077ff; }
 .modal-gallery .swiper-pagination-bullet-active { background: linear-gradient(120deg,#0077ff,#00d4ff); }
-
-

@@ -667,13 +667,13 @@ ScrollTrigger.create({
 
 
 // About Me animations
-gsap.from('.about-photo', {
-  scrollTrigger: { trigger: '#about', start: 'top 60%', end: 'top top', scrub: 1 },
-  opacity: 0,
-  x: -200,
-  duration: 0.7,
-  ease: "power2.out"
-});
+// gsap.from('.about-photo', {
+//   scrollTrigger: { trigger: '#about', start: 'top 60%', end: 'top top', scrub: 1 },
+//   opacity: 0,
+//   x: -200,
+//   duration: 0.7,
+//   ease: "power2.out"
+// });
 gsap.from('.about-title', {
   scrollTrigger: { trigger: '#about', start: 'top 60%', end: 'top top', scrub: 1 },
   opacity: 0,

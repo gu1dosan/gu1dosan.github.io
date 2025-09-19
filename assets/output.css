@@ -512,11 +512,6 @@
       }
     }
   }
-  .md\:col-span-2 {
-    @media (width >= 48rem) {
-      grid-column: span 2 / span 2;
-    }
-  }
   .md\:mt-0 {
     @media (width >= 48rem) {
       margin-top: calc(var(--spacing) * 0);
@@ -729,6 +724,37 @@ section {
   -webkit-background-clip: text;
   -webkit-text-fill-color: transparent;
   font-weight: 600;
+}
+.highlight-english {
+  white-space: nowrap;
+  background: linear-gradient(120deg, #002279, #ca122b, white );
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+.highlight-spanish {
+  white-space: nowrap;
+  background: linear-gradient(90deg, #d20f22, #d20f22 30%, #ffffff 50%, #d20f22 70%, #d20f22);
+  background-size: 130% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+.highlight-cantonese {
+  white-space: nowrap;
+  background: linear-gradient(120deg, #d20f22, #d20f22 40%, #ffffff 50%, #d20f22 60%, #d20f22);
+  background-size: 125% auto;
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  font-weight: 600;
+}
+.flag-icon {
+  display: inline;
+  width: 1.2rem;
+  height: auto;
+  vertical-align: middle;
+  margin-right: 0.25rem;
 }
 .about-photo img {
   transition: transform 0.4s ease, box-shadow 0.4s ease;
