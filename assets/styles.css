@@ -281,7 +281,9 @@ section {
 .swiper-button-prev {
   color: #1a202c; /* Hero navy */
 }
-
+.swiper-pagination-bullets {
+  bottom: -16px !important;
+}
 .swiper-pagination-bullet {
   background: #1a202c;
 }

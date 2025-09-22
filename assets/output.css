@@ -802,6 +802,9 @@ section {
 .swiper-button-next, .swiper-button-prev {
   color: #1a202c;
 }
+.swiper-pagination-bullets {
+  bottom: -16px !important;
+}
 .swiper-pagination-bullet {
   background: #1a202c;
 }
