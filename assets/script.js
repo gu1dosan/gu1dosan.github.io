@@ -492,11 +492,10 @@ ScrollTrigger.create({
         let angle = (i / numCircles) * Math.PI * 2 + Math.PI / 12 * ring; // Stagger with offset
         // angle += (Math.random() - 0.5) * 0.1; // Slight random jitter
         circles.push({
-          baseX: centerX + Math.cos(angle) * radius,
-          baseY: centerY + Math.sin(angle) * radius,
-          x: centerX + Math.cos(angle) * radius,
-          y: centerY + Math.sin(angle) * radius,
-          radius: radius, // Store ring radius for wave animation
+          x: centerX + Math.cos(angle) * radius,       // Keep for initial draw
+          y: centerY + Math.sin(angle) * radius,       // Keep for initial draw
+          radius: radius,                              // This is the ring's radius
+          angle: angle,
           scale: 1,
           opacity: baseCircleOpacity,
           pulseOpacity: baseCircleOpacity
@@ -611,9 +610,10 @@ ScrollTrigger.create({
     const { centerX, centerY } = getHeroBounds(); // Update center
     circles.forEach(circle => {
       // Update base position for centering
-      const angle = Math.atan2(circle.baseY - centerY, circle.baseX - centerX);
-      circle.baseX = centerX + Math.cos(angle) * circle.radius;
-      circle.baseY = centerY + Math.sin(angle) * circle.radius;
+      // Recalculate baseX and baseY on every frame based on the current center
+      // This makes the animation resilient to the center point changing.
+      const baseX = centerX + Math.cos(circle.angle) * circle.radius;
+      const baseY = centerY + Math.sin(circle.angle) * circle.radius;
 
       // // Apply mouse offset // FOR GLOBAL PARALLAX EFFECT
       // const dx = mouseX * maxOffset;
@@ -622,8 +622,8 @@ ScrollTrigger.create({
       // circle.y = circle.baseY + dy;
 
       // Calculate distance from mouse to circle // FOR LOCAL PARALLAX EFFECT
-      const dx = mouseX - circle.x;
-      const dy = mouseY - circle.y;
+      const dx = mouseX - baseX;
+      const dy = mouseY - baseY;
       const distance = Math.sqrt(dx * dx + dy * dy);
       // Apply localized offset with falloff
       const maxGravityInfluenceRadius = 1500; // Radius within which circles are affected with gravity
@@ -632,8 +632,8 @@ ScrollTrigger.create({
       const offsetX = dx * influence * (maxOffset / maxGravityInfluenceRadius);
       const offsetY = dy * influence * (maxOffset / maxGravityInfluenceRadius);
       // Apply offset
-      circle.x = circle.baseX + offsetX;
-      circle.y = circle.baseY + offsetY;
+      circle.x = baseX + offsetX;
+      circle.y = baseY + offsetY;
       
       const maxOpacityInfluenceRadius = 200; // Radius within which circles are affected
       // Adjust opacity based on proximity to mouse cursor (already calculated influence)
