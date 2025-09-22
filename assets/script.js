@@ -1096,7 +1096,14 @@ gsap.to('.submit-button', {
   yoyo: true,
 });
 
-// Refresh ScrollTrigger and ScrollSmoother
+
+// // Pin the contact section
+// ScrollTrigger.create({
+//   trigger: '#contact',
+//   pin: true,
+//   pinSpacing: false,
+//   end: '+=150%',
+// });
 
 // Modal gallery logic (uses Swiper inside modal)
 (function() {

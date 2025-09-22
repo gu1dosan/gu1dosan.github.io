@@ -931,13 +931,15 @@ section {
 }
 #contact {
   padding: 4rem 2rem;
+  min-height: 100vh;
+  z-index: 5;
+}
+.contact-content {
+  min-height: calc(100vh - 8rem);
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  color: white;
-  min-height: 100vh;
-  z-index: 5;
 }
 .contact-field {
   width: 100%;
@@ -989,6 +991,55 @@ section {
 }
 .contact-status.error {
   color: #d64545;
+}
+.contact-links {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 1rem;
+  margin-top: 1rem;
+}
+.contact-link {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  font-weight: 500;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: color 0.2s ease;
+}
+.contact-link:hover {
+  color: var(--accent-color);
+}
+.contact-link.linkedin:hover {
+  color: #0077B5;
+}
+.site-footer {
+  position: relative;
+  z-index: 6;
+  text-align: center;
+  padding: 1.5rem;
+  background: var(--background-alt, #111);
+  color: #bbb;
+  font-size: 0.9rem;
+}
+.footer-socials {
+  margin-top: 1rem;
+  display: flex;
+  justify-content: center;
+  gap: 1.2rem;
+}
+.footer-socials a {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  color: inherit;
+  transition: color 0.2s ease;
+}
+.footer-socials a:hover {
+  opacity: 0.7;
+}
+.footer-socials a img {
+  height: 1rem;
 }
 .experience-header {
   display: flex;

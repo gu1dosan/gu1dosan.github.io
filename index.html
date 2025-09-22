@@ -385,39 +385,59 @@
 
       <!-- Contact Section -->
       <section id="contact">
-        <h2 class="text-4xl font-bold text-center mb-8">Get in Touch</h2>
-        <div class="w-full max-w-md mx-auto">
-          <!-- <input type="text" class="contact-field" placeholder="Name">
-          <input type="email" class="contact-field" placeholder="Email">
-          <textarea class="contact-field" rows="4" placeholder="Message"></textarea>
-          <button class="submit-button">Send</button> -->
-          <form id="contactForm" class="contact-form" method="POST" novalidate>
-            <!-- <div class="form-row"> -->
-              <!-- <label for="name">Name</label> -->
-              <input class="contact-field" id="name" name="name" type="text" required placeholder="Your Name">
-            <!-- </div> -->
+        <div class="max-w-5xl mx-auto contact-content">
+          <h2 class="text-4xl font-bold text-center mb-8">Get in Touch</h2>
+          <div class="w-full max-w-md mx-auto">
+            <!-- <input type="text" class="contact-field" placeholder="Name">
+            <input type="email" class="contact-field" placeholder="Email">
+            <textarea class="contact-field" rows="4" placeholder="Message"></textarea>
+            <button class="submit-button">Send</button> -->
+            <form id="contactForm" class="contact-form" method="POST" novalidate>
+              <!-- <div class="form-row"> -->
+                <!-- <label for="name">Name</label> -->
+                <input class="contact-field" id="name" name="name" type="text" required placeholder="Your Name">
+              <!-- </div> -->
 
-            <!-- <div class="form-row"> -->
-              <!-- <label for="email">Email</label> -->
-              <input class="contact-field" id="email" name="email" type="email" required placeholder="Your Email">
-            <!-- </div> -->
+              <!-- <div class="form-row"> -->
+                <!-- <label for="email">Email</label> -->
+                <input class="contact-field" id="email" name="email" type="email" required placeholder="Your Email">
+              <!-- </div> -->
 
-            <!-- <div class="form-row"> -->
-              <!-- <label for="message">Message</label> -->
-              <textarea class="contact-field" id="message" name="message" rows="6" required placeholder="Your Message"></textarea>
-            <!-- </div> -->
+              <!-- <div class="form-row"> -->
+                <!-- <label for="message">Message</label> -->
+                <textarea class="contact-field" id="message" name="message" rows="6" required placeholder="Your Message"></textarea>
+              <!-- </div> -->
 
-            <input type="text" name="_gotcha" style="display:none">
+              <input type="text" name="_gotcha" style="display:none">
 
-            <input type="hidden" name="_replyto" id="_replyto">
+              <input type="hidden" name="_replyto" id="_replyto">
 
-            <button id="submitBtn" type="submit" class="submit-button">Send message</button>
+              <button id="submitBtn" type="submit" class="submit-button">Send message</button>
 
-            <div id="contactStatus" role="status" aria-live="polite" class="contact-status"></div>
-          </form>
+              <div id="contactStatus" role="status" aria-live="polite" class="contact-status"></div>
+            </form>
+          </div>
+          <!-- <div class="contact-links">
+            <a href="mailto:youremail@example.com" class="contact-link">
+              <i class="fas fa-envelope"></i> Email
+            </a>
+            <a href="https://github.com/yourusername" target="_blank" rel="noopener noreferrer" class="contact-link">
+              <i class="fab fa-github"></i> GitHub
+            </a>
+            <a href="https://www.linkedin.com/in/yourusername/" target="_blank" rel="noopener noreferrer" class="contact-link linkedin">
+              <i class="fab fa-linkedin"></i> LinkedIn
+            </a>
+          </div> -->
         </div>
       </section>
-
+      <footer class="site-footer">
+        <p>© 2025 Guido He</p>
+        <div class="footer-socials">
+          <a href="https://github.com/gu1dosan" target="_blank" rel="noopener noreferrer"><img src="assets/images/icons/github-mark-white.png" alt="GitHub">GitHub</a>
+          <a href="https://www.linkedin.com/in/gmhw/" target="_blank" rel="noopener noreferrer"><img src="assets/images/icons/InBug-White.png" alt="LinkedIn">LinkedIn</a>
+          <a href="mailto:guidohe@outlook.com"><img src="assets/images/icons/mail-24.svg" alt="Email">Email</a>
+        </div>
+      </footer>
     </div>
   </div>
   
