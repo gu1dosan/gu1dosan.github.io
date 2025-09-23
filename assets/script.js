@@ -443,6 +443,26 @@ ScrollTrigger.create({
   pin: true,
   pinSpacing: false,
 });
+// animate hero on exit
+const heroExitAnimation = gsap.fromTo('#hero', {
+  opacity: 1,
+  rotation: 0,
+  scale: 1,
+  ease: "power2.out",
+},{
+  opacity: 0,
+  rotation: -90,
+  scale: 2,
+  ease: "power2.in",
+});
+ScrollTrigger.create({
+  trigger: '#about',
+  start: 'top bottom',
+  end: 'top center',
+  scrub: true,
+  animation: heroExitAnimation,
+  toggleActions: 'play none none none'
+})
 
 // Canvas Concentric Circles Animation
   const canvas = document.getElementById('hero-canvas');
@@ -709,7 +729,6 @@ ScrollTrigger.create({
   }
 });
 
-
 // Pin the about section
 ScrollTrigger.create({
   trigger: '#about',
@@ -717,6 +736,24 @@ ScrollTrigger.create({
   pinSpacing: false,
   // end: '150%',
 });
+// animate section on exit
+const aboutExitAnimation = gsap.fromTo('.about-content', {
+    opacity: 1,
+    y: 0,
+    scale: 1,
+  },{
+    opacity: 0,
+    scale: 0.9,
+    ease: "power1.in",
+  });
+  ScrollTrigger.create({
+    trigger: '#projects',
+    start: 'top bottom',
+    end: 'top center',
+    scrub: true,
+    animation: aboutExitAnimation,
+    toggleActions: 'play none none none'
+  })
 
 // Projects Section Animation
 gsap.from('.projects-title', {
@@ -761,6 +798,24 @@ ScrollTrigger.create({
   // end: `+=${projectsScrollWidth + extraPinDistance}`,
   id: 'projectsPin',
 });
+// animate section on exit
+const projectsExitAnimation = gsap.fromTo('.projects-content', {
+  opacity: 1,
+  y: 0,
+  scale: 1,
+},{
+  opacity: 0,
+  scale: 0.9,
+  ease: "power1.in",
+});
+ScrollTrigger.create({
+  trigger: '#experience',
+  start: 'top bottom',
+  end: 'top center',
+  scrub: true,
+  animation: projectsExitAnimation,
+  toggleActions: 'play none none none'
+})
 
 // Horizontal scroll animation
 // gsap.to('.projects-container', {
@@ -932,6 +987,24 @@ ScrollTrigger.create({
   // endTrigger: '#skills',
   id: 'experiencePin',
 });
+// animate section on exit
+const experienceExitAnimation = gsap.fromTo('.experience-title', {
+  opacity: 1,
+  y: 0,
+  scale: 1,
+},{
+  opacity: 0,
+  scale: 0.9,
+  ease: "power1.in",
+});
+ScrollTrigger.create({
+  trigger: '#skills',
+  start: 'top bottom',
+  end: 'top center',
+  scrub: true,
+  animation: experienceExitAnimation,
+  toggleActions: 'play none none none'
+})
 
 gsap.to(experienceContainer, {
   y: -experienceContainerHeight,
@@ -1076,6 +1149,24 @@ ScrollTrigger.create({
   pinSpacing: false,
   end: '+=150%',
 });
+// animate section on exit
+const skillsExitAnimation = gsap.fromTo('.skills-content', {
+  opacity: 1,
+  y: 0,
+  scale: 1,
+},{
+  opacity: 0,
+  scale: 0.9,
+  ease: "power1.in",
+});
+ScrollTrigger.create({
+  trigger: '#contact',
+  start: 'top bottom',
+  end: 'top center',
+  scrub: true,
+  animation: skillsExitAnimation,
+  toggleActions: 'play none none none'
+})
 
 // Contact Section Animation
 gsap.from('.contact-field', {
