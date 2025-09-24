@@ -16,6 +16,9 @@ const smoother = ScrollSmoother.create({
   smoothTouch: 0.1, // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
 });
 
+// matchMedia
+let matchMedia = ScrollTrigger.matchMedia();
+
 // Utility to compute pixel height for pin end (safer than percentages)
 function px(val){ return typeof val === 'number' ? `${val}` : val; }
 
@@ -987,24 +990,30 @@ ScrollTrigger.create({
   // endTrigger: '#skills',
   id: 'experiencePin',
 });
-// animate section on exit
-const experienceExitAnimation = gsap.fromTo('.experience-title', {
-  opacity: 1,
-  y: 0,
-  scale: 1,
-},{
-  opacity: 0,
-  scale: 0.9,
-  ease: "power1.in",
-});
-ScrollTrigger.create({
-  trigger: '#skills',
-  start: 'top bottom',
-  end: 'top center',
-  scrub: true,
-  animation: experienceExitAnimation,
-  toggleActions: 'play none none none'
-})
+
+matchMedia.add(
+  // only fade experience on Desktop
+  "(min-width: 768px)", function() {
+    // animate section on exit
+    const experienceExitAnimation = gsap.fromTo('.experience-title', {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+    },{
+      opacity: 0,
+      scale: 0.9,
+      ease: "power1.in",
+    });
+    ScrollTrigger.create({
+      trigger: '#skills',
+      start: 'top bottom',
+      end: 'top center',
+      scrub: true,
+      animation: experienceExitAnimation,
+      toggleActions: 'play none none none'
+    })
+  },
+);
 
 gsap.to(experienceContainer, {
   y: -experienceContainerHeight,
@@ -1018,11 +1027,9 @@ gsap.to(experienceContainer, {
   },
 });
 
-ScrollTrigger.matchMedia({
-
+matchMedia.add(
   // Desktop and tablet: enable animations
-  "(min-width: 768px)": function() {
-
+  "(min-width: 768px)", function() {
     // Animate individual items
     document.querySelectorAll('.experience-item').forEach((item, index) => {
       gsap.fromTo(item, 
@@ -1058,10 +1065,11 @@ ScrollTrigger.matchMedia({
         },
       });
     });
-  },
-
+  }
+)
+matchMedia.add(
   // Mobile: only fade in
-  "(max-width: 767px)": function() {
+  "(max-width: 767px)", function() {
     document.querySelectorAll('.experience-item').forEach((item, index) => {
       gsap.fromTo(item, 
         { opacity: 0, x: index % 2 === 0 ? -100 : 100, y: 50 },
@@ -1080,13 +1088,7 @@ ScrollTrigger.matchMedia({
       );
     });
   },
-
-  // optional: a cleanup function returned for when the media query no longer matches
-  "all": function() {
-    // runs for all sizes - you can put code that should always run here
-  }
-
-});
+)
 
 // Animate experience details on hover
 document.querySelectorAll('.experience-item').forEach(item => {
