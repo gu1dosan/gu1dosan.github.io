@@ -1165,6 +1165,14 @@ section {
 .modal-gallery .swiper-pagination-bullet-active {
   background: linear-gradient(120deg,#0077ff,#00d4ff);
 }
+.modal-actions {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  margin-top: 1rem;
+  align-items: center;
+  flex-wrap: wrap;
+}
 @property --tw-translate-x {
   syntax: "*";
   inherits: false;

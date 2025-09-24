@@ -1205,6 +1205,7 @@ gsap.to('.submit-button', {
   const closeBtn = document.getElementById('closeModal');
   const modalTitle = document.getElementById('modalTitle');
   const modalBody = document.getElementById('modalBody');
+  const modalViewLive = document.getElementById('modalViewLive');
   const modalSwiperEl = () => document.querySelector('.modalSwiper');
   const modalWrapperEl = () => document.querySelector('.modalSwiper .swiper-wrapper');
 
@@ -1262,7 +1263,7 @@ gsap.to('.submit-button', {
     }
   }
 
-  function openModal(images, title, desc) {
+  function openModal(images, title, desc, link) {
     if (!modal) return;
     // build slides and init swiper
     buildSlides(images);
@@ -1271,6 +1272,14 @@ gsap.to('.submit-button', {
     initModalSwiper();
     modalTitle.textContent = title || '';
     modalBody.textContent = desc || '';
+    if(link){
+      modalViewLive.href = link || '';
+      modalViewLive.style.display = '';
+    } else {
+      modalViewLive.href = '#';
+      modalViewLive.style.display = 'none';
+    }
+    
     // pause smoother if available
     try { smoother.paused(true); } catch (e) {}
     // Prevent body scroll while modal open
@@ -1332,8 +1341,9 @@ gsap.to('.submit-button', {
         const images = imagesAttr ? parseImagesAttr(imagesAttr) : (full ? [full] : []);
         const title = btn.getAttribute('data-title') || '';
         const desc = btn.getAttribute('data-description') || '';
-        // swiper.autoplay?.stop(); // pause main swiper autoplay if running 
-        openModal(images, title, desc);
+        const link = btn.getAttribute('data-link') || '';
+        // swiper.autoplay?.stop(); // pause main swiper autoplay if running
+        openModal(images, title, desc, link);
       });
     });
   }
