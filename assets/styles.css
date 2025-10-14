@@ -120,6 +120,9 @@ section {
   }
 } */
 
+#hero {
+  will-change: transform, opacity;
+}
 
 #hero {
   /* padding: 4rem 2rem;  */
