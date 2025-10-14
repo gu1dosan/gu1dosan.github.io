@@ -456,6 +456,7 @@ const heroExitAnimation = gsap.fromTo('#hero', {
   opacity: 0,
   rotation: -90,
   scale: 2,
+  force3D: true,
   ease: "power2.in",
 });
 ScrollTrigger.create({
