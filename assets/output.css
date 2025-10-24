@@ -296,9 +296,6 @@
   .inline-block {
     display: inline-block;
   }
-  .table {
-    display: table;
-  }
   .h-40 {
     height: calc(var(--spacing) * 40);
   }
@@ -326,16 +323,6 @@
   .max-w-md {
     max-width: var(--container-md);
   }
-  .flex-shrink {
-    flex-shrink: 1;
-  }
-  .border-collapse {
-    border-collapse: collapse;
-  }
-  .-translate-y-1 {
-    --tw-translate-y: calc(var(--spacing) * -1);
-    translate: var(--tw-translate-x) var(--tw-translate-y);
-  }
   .-translate-y-1\/2 {
     --tw-translate-y: calc(calc(1/2 * 100%) * -1);
     translate: var(--tw-translate-x) var(--tw-translate-y);
@@ -351,9 +338,6 @@
   }
   .flex-col {
     flex-direction: column;
-  }
-  .flex-wrap {
-    flex-wrap: wrap;
   }
   .content-center {
     align-content: center;
@@ -402,9 +386,6 @@
   .border {
     border-style: var(--tw-border-style);
     border-width: 1px;
-  }
-  .bg-black {
-    background-color: var(--color-black);
   }
   .bg-black\/60 {
     background-color: color-mix(in srgb, #000 60%, transparent);
@@ -497,9 +478,6 @@
   .text-gray-700 {
     color: var(--color-gray-700);
   }
-  .underline {
-    text-decoration-line: underline;
-  }
   .opacity-0 {
     opacity: 0%;
   }
@@ -519,10 +497,6 @@
     --tw-ring-shadow: var(--tw-ring-inset,) 0 0 0 calc(1px + var(--tw-ring-offset-width)) var(--tw-ring-color, currentcolor);
     box-shadow: var(--tw-inset-shadow), var(--tw-inset-ring-shadow), var(--tw-ring-offset-shadow), var(--tw-ring-shadow), var(--tw-shadow);
   }
-  .outline {
-    outline-style: var(--tw-outline-style);
-    outline-width: 1px;
-  }
   .filter {
     filter: var(--tw-blur,) var(--tw-brightness,) var(--tw-contrast,) var(--tw-grayscale,) var(--tw-hue-rotate,) var(--tw-invert,) var(--tw-saturate,) var(--tw-sepia,) var(--tw-drop-shadow,);
   }
@@ -536,11 +510,6 @@
       @media (hover: hover) {
         text-decoration-line: underline;
       }
-    }
-  }
-  .sm\:pt-16 {
-    @media (width >= 40rem) {
-      padding-top: calc(var(--spacing) * 16);
     }
   }
   .md\:mt-0 {
@@ -571,11 +540,6 @@
   .md\:pt-0 {
     @media (width >= 48rem) {
       padding-top: calc(var(--spacing) * 0);
-    }
-  }
-  .md\:pt-16 {
-    @media (width >= 48rem) {
-      padding-top: calc(var(--spacing) * 16);
     }
   }
 }
@@ -848,6 +812,7 @@ section {
 }
 .projects-title {
   position: relative;
+  line-height: normal;
   z-index: 2;
 }
 .projects-content {
@@ -941,12 +906,12 @@ section {
   color: black;
   display: flex;
   flex-direction: column;
-  gap: 1rem;
 }
 @media (min-width: 768px) {
   .experience-item {
     flex-direction: row;
     align-items: flex-start;
+    gap: 1rem;
   }
   .experience-header {
     flex: 1;
@@ -972,6 +937,84 @@ section {
     left: -2rem;
     align-content: center;
   }
+}
+.experience-header {
+  display: flex;
+  flex-direction: column;
+  height: -webkit-fill-available;
+}
+.company-headline {
+  display: flex;
+  flex-direction: column;
+}
+@media (max-width: 768px) {
+  .company-headline {
+    flex-direction: column-reverse;
+    margin-bottom: 0.5rem;
+  }
+}
+.company-logos {
+  display: flex;
+  gap: 0.5rem;
+  margin-top: auto;
+  align-items: center;
+}
+.company-logo {
+  max-width: 8rem;
+  max-height: 2.5rem;
+  min-height: 25px;
+  display: inline-block;
+}
+.thumb-btn {
+  cursor: pointer;
+  border: 1px solid rgba(0,0,0,0.06);
+  padding: 0;
+  background: white;
+  position: relative;
+  overflow: hidden;
+}
+.thumb-btn .view-icon {
+  position: absolute;
+  bottom: 0px;
+  right: 0px;
+  background: rgba(0,0,0,0.5);
+  color: white;
+  padding: 8px 12px;
+  font-size: 18px;
+  line-height: 1;
+  pointer-events: none;
+}
+.thumb-btn img {
+  display: block;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+.thumb-btn {
+  position: relative;
+  overflow: hidden;
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+}
+.thumb-btn:hover {
+  transform: scale(1.03);
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+}
+.thumb-btn::after {
+  content: "View more";
+  position: absolute;
+  inset: 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  font-size: 0.9rem;
+  font-weight: 600;
+  background: rgba(0,0,0,0.45);
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+.thumb-btn:hover::after {
+  opacity: 1;
 }
 #skills {
   padding: 4rem 2rem;
@@ -1117,82 +1160,6 @@ section {
 }
 .footer-socials a img {
   height: 1rem;
-}
-.experience-header {
-  display: flex;
-  flex-direction: column;
-  height: -webkit-fill-available;
-}
-.company-logos {
-  display: flex;
-  gap: 0.5rem;
-  margin-top: auto;
-  align-items: center;
-}
-.company-logo {
-  max-width: 8rem;
-  max-height: 2.5rem;
-  display: inline-block;
-}
-@media (max-width: 768px) {
-  .company-logos {
-    position: absolute;
-    top: 4rem;
-    right: 24px;
-    width: 8rem;
-    height: 3rem;
-  }
-}
-.thumb-btn {
-  cursor: pointer;
-  border: 1px solid rgba(0,0,0,0.06);
-  padding: 0;
-  background: white;
-  position: relative;
-  overflow: hidden;
-}
-.thumb-btn .view-icon {
-  position: absolute;
-  bottom: 0px;
-  right: 0px;
-  background: rgba(0,0,0,0.5);
-  color: white;
-  padding: 8px 12px;
-  font-size: 18px;
-  line-height: 1;
-  pointer-events: none;
-}
-.thumb-btn img {
-  display: block;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-}
-.thumb-btn {
-  position: relative;
-  overflow: hidden;
-  transition: transform 0.25s ease, box-shadow 0.25s ease;
-}
-.thumb-btn:hover {
-  transform: scale(1.03);
-  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
-}
-.thumb-btn::after {
-  content: "View more";
-  position: absolute;
-  inset: 0;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: white;
-  font-size: 0.9rem;
-  font-weight: 600;
-  background: rgba(0,0,0,0.45);
-  opacity: 0;
-  transition: opacity 0.25s ease;
-}
-.thumb-btn:hover::after {
-  opacity: 1;
 }
 .case-modal.hidden {
   display: none;
@@ -1368,11 +1335,6 @@ section {
   inherits: false;
   initial-value: 0 0 #0000;
 }
-@property --tw-outline-style {
-  syntax: "*";
-  inherits: false;
-  initial-value: solid;
-}
 @property --tw-blur {
   syntax: "*";
   inherits: false;
@@ -1474,7 +1436,6 @@ section {
       --tw-ring-offset-width: 0px;
       --tw-ring-offset-color: #fff;
       --tw-ring-offset-shadow: 0 0 #0000;
-      --tw-outline-style: solid;
       --tw-blur: initial;
       --tw-brightness: initial;
       --tw-contrast: initial;
