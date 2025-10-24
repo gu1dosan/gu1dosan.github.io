@@ -319,8 +319,6 @@ document.fonts.ready.then(() => {
   // Flag to ensure animation runs only once
   let navAnimTriggered = false;
   // Floating navigation appearance animation
-  const floatingNavDefaultX = 172 // mobile
-  const floatingNavActiveX = floatingNavDefaultX + 8 // mobile
   const floatingNavDefaultY = 48 // desktop
   const floatingNavActiveY = floatingNavDefaultY - 4 // desktop
   const floatingNavInactiveOpacity = 0.5
@@ -333,6 +331,8 @@ document.fonts.ready.then(() => {
     // delay: 2
     paused: true, // Start paused
   });
+  const floatingNavDefaultX = 172 // mobile
+  const floatingNavActiveX = floatingNavDefaultX + 8 // mobile
   const floatingNavAnimationMobile = gsap.to('.nav-btn', {
     opacity: (i, target) => target.classList.contains('active') ? 1 : floatingNavInactiveOpacity,
     // opacity: 1,
@@ -1006,6 +1006,7 @@ ScrollTrigger.create({
   trigger: '#experience',
   pin: true,
   pinSpacing: false,
+  // end: '+150%',
   // end: `+=${experienceContainerHeight}`,
   // start: 'top top',
   // end: 'top top',
@@ -1013,29 +1014,29 @@ ScrollTrigger.create({
   id: 'experiencePin',
 });
 
-matchMedia.add(
-  // only fade experience on Desktop
-  "(min-width: 768px)", function() {
-    // animate section on exit
-    const experienceExitAnimation = gsap.fromTo('.experience-title', {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-    },{
-      opacity: 0,
-      scale: 0.9,
-      ease: "power1.in",
-    });
-    ScrollTrigger.create({
-      trigger: '#skills',
-      start: 'top bottom',
-      end: 'top center',
-      scrub: true,
-      animation: experienceExitAnimation,
-      toggleActions: 'play none none none'
-    })
-  },
-);
+// matchMedia.add(
+//   // only fade experience on Desktop
+//   "(min-width: 768px)", function() {
+//     // animate section on exit
+//     const experienceExitAnimation = gsap.fromTo('.experience-title', {
+//       opacity: 1,
+//       y: 0,
+//       scale: 1,
+//     },{
+//       opacity: 0,
+//       scale: 0.9,
+//       ease: "power1.in",
+//     });
+//     ScrollTrigger.create({
+//       trigger: '#skills',
+//       start: 'top bottom',
+//       end: 'top center',
+//       scrub: true,
+//       animation: experienceExitAnimation,
+//       toggleActions: 'play none none none'
+//     })
+//   },
+// );
 
 // scroll experience items
 gsap.to(experienceContainer, {
@@ -1044,7 +1045,7 @@ gsap.to(experienceContainer, {
   scrollTrigger: {
     trigger: '#experience',
     start: 'top top',
-    end: `+=${experienceContainerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
+    end: `+=${experienceContainerHeight}`,
     scrub: true,
     id: 'experienceContainer',
   },
@@ -1174,44 +1175,49 @@ ScrollTrigger.create({
   pinSpacing: false,
   // end: '+=150%',
 });
-matchMedia.add(
-  // only fade out on Desktop
-  "(min-width: 768px)", function() {
-    // animate section on exit
-    const skillsExitAnimation = gsap.fromTo('.skills-content', {
-      opacity: 1,
-      y: 0,
-      scale: 1,
-    },{
-      opacity: 0,
-      scale: 0.9,
-      ease: "power1.in",
-    });
-    ScrollTrigger.create({
-      trigger: '#contact',
-      start: 'top bottom',
-      end: 'top center',
-      scrub: true,
-      animation: skillsExitAnimation,
-      toggleActions: 'play none none none'
-    })
-  },
-);
+// matchMedia.add(
+//   // only fade out on Desktop
+//   "(min-width: 768px)", function() {
+//     // animate section on exit
+//     const skillsExitAnimation = gsap.fromTo('.skills-content', {
+//       opacity: 1,
+//       y: 0,
+//       scale: 1,
+//     },{
+//       opacity: 0,
+//       scale: 0.9,
+//       ease: "power1.in",
+//     });
+//     ScrollTrigger.create({
+//       trigger: '#contact',
+//       start: 'top bottom',
+//       end: 'top center',
+//       scrub: true,
+//       animation: skillsExitAnimation,
+//       toggleActions: 'play none none none'
+//     })
+//   },
+// );
 // Get container and dimensions
 const skillsContainer = document.querySelector('.skills-content');
 const skillsContainerHeight = skillsContainer.scrollHeight;
-// scroll skills list
-gsap.to(skillsContainer, {
-  y: -skillsContainerHeight,
-  ease: 'none',
-  scrollTrigger: {
-    trigger: '#skills',
-    start: 'top top',
-    end: `+=${skillsContainerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
-    scrub: true,
-    id: 'skillsContainer',
-  },
-});
+// scroll skills list only on mobile
+matchMedia.add(
+  // only fade experience on Desktop
+  "(max-width: 768px)", function() {
+    gsap.to(skillsContainer, {
+      y: -skillsContainerHeight,
+      ease: 'none',
+      scrollTrigger: {
+        trigger: '#skills',
+        start: 'top top',
+        end: `+=${skillsContainerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
+        scrub: true,
+        id: 'skillsContainer',
+      },
+    });
+  }
+)
 
 
 // Contact Section Animation
