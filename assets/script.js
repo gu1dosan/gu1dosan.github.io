@@ -76,6 +76,23 @@ document.fonts.ready.then(() => {
     delay: 1.5,
     ease: "power2.out",
   });
+  // Fade in the new scroll indicator
+  gsap.from('.scroll-indicator', {
+    opacity: 0,
+    y: 20,
+    duration: 1,
+    delay: 2.5, // After hero-text fades in (which is at 1.5)
+    ease: "power2.out",
+  });
+
+  // Add a subtle repeating animation to the icon
+  gsap.to('.scroll-indicator', {
+    y: 14,
+    duration: 0.8,
+    repeat: -1,
+    yoyo: true,
+    ease: "sine.inOut"
+  });
   gsap.from('#hero-canvas', {
     opacity: 0,
     scale: 2,
@@ -232,7 +249,7 @@ document.fonts.ready.then(() => {
     gsap.killTweensOf(navCircle);
     gsap.fromTo(navCircle, 
       { attr: { r: rStart } }, 
-      { attr: { r: rFinal }, x:-100, y: 50, duration: 0.55, ease: 'power4.out' }
+      { attr: { r: rFinal }, x:-128, y: 50, duration: 0.55, ease: 'power4.out' }
     );
   }
 
@@ -447,7 +464,7 @@ ScrollTrigger.create({
   pinSpacing: false,
 });
 // animate hero on exit
-const heroExitAnimation = gsap.fromTo('#hero', {
+const heroExitAnimation = gsap.fromTo('.hero-container', {
   opacity: 1,
   rotation: 0,
   scale: 1,
@@ -456,7 +473,6 @@ const heroExitAnimation = gsap.fromTo('#hero', {
   opacity: 0,
   rotation: -90,
   scale: 2,
-  force3D: true,
   ease: "power2.in",
 });
 ScrollTrigger.create({
@@ -467,95 +483,100 @@ ScrollTrigger.create({
   animation: heroExitAnimation,
   toggleActions: 'play none none none'
 })
+gsap.to('.scroll-indicator', {
+  scrollTrigger: { trigger: '#about', start: 'top 95%', end: 'top 70%', scrub: 1 },
+  opacity: 0,
+  ease: "power2.out"
+});
 
 // Canvas Concentric Circles Animation
-  const canvas = document.getElementById('hero-canvas');
-  const ctx = canvas.getContext('2d');
-  let animationFrameId;
+const canvas = document.getElementById('hero-canvas');
+const ctx = canvas.getContext('2d');
+let animationFrameId;
 
-  // Set canvas size
-  function resizeCanvas() {
-    canvas.width = window.innerWidth;
-    canvas.height = window.innerHeight;
-  }
-  resizeCanvas();
-  window.addEventListener('resize', resizeCanvas);
+// Set canvas size
+function resizeCanvas() {
+  canvas.width = window.innerWidth;
+  canvas.height = window.innerHeight;
+}
+resizeCanvas();
+window.addEventListener('resize', resizeCanvas);
 
-  // Get hero content center and bounds
-  const getHeroBounds = () => {
-    const titleRect = document.querySelector('.hero-title').getBoundingClientRect();
-    const textRect = document.querySelector('.hero-text').getBoundingClientRect();
-    const centerX = (titleRect.left + titleRect.right) / 2;
-    const centerY = (titleRect.top + textRect.bottom) / 2;
-    const width = Math.max(titleRect.width, textRect.width);
-    const height = textRect.bottom - titleRect.top;
-    return { centerX, centerY, width, height };
-  };
+// Get hero content center and bounds
+const getHeroBounds = () => {
+  const titleRect = document.querySelector('.hero-title').getBoundingClientRect();
+  const textRect = document.querySelector('.hero-text').getBoundingClientRect();
+  const centerX = (titleRect.left + titleRect.right) / 2;
+  const centerY = (titleRect.top + textRect.bottom) / 2;
+  const width = Math.max(titleRect.width, textRect.width);
+  const height = textRect.bottom - titleRect.top;
+  return { centerX, centerY, width, height };
+};
 
-  // Grid settings
-  const ringSpacing = 60; // Distance between concentric rings
-  const maxRings = 16; // Number of concentric rings
-  const baseCirclesPerRing = 32; // Base number of circles for the first ring
-  const circleRadius = 3; // Base radius of circles
-  const baseCircleOpacity = 0.3; // Base opacity of circles
-  const maxOffset = 200; // Max mouse movement offset
-  let mouseX = 0;
-  let mouseY = 0;
+// Grid settings
+const ringSpacing = 60; // Distance between concentric rings
+const maxRings = 16; // Number of concentric rings
+const baseCirclesPerRing = 32; // Base number of circles for the first ring
+const circleRadius = 3; // Base radius of circles
+const baseCircleOpacity = 0.3; // Base opacity of circles
+const maxOffset = 200; // Max mouse movement offset
+let mouseX = 0;
+let mouseY = 0;
 
-  // Store circle objects
-  const circles = [];
-  function initCircles() {
-    circles.length = 0; // Clear existing circles
-    const { centerX, centerY, width, height } = getHeroBounds();
-    const minRadius = Math.sqrt(width * width + height * height) / 2 + 100; // Start 100px outside hero content
+// Store circle objects
+const circles = [];
+function initCircles() {
+  circles.length = 0; // Clear existing circles
+  const { centerX, centerY, width, height } = getHeroBounds();
+  const minRadius = Math.sqrt(width * width + height * height) / 2 + 100; // Start 100px outside hero content
 
-    for (let ring = 0; ring < maxRings; ring++) {
-      const radius = minRadius + ring * ringSpacing;
-      const numCircles = baseCirclesPerRing + ring * 2; // Linear increase (8, 10, 12, 14, 16, 18)
-      for (let i = 0; i < numCircles; i++) {
-        let angle = (i / numCircles) * Math.PI * 2 + Math.PI / 12 * ring; // Stagger with offset
-        // angle += (Math.random() - 0.5) * 0.1; // Slight random jitter
-        circles.push({
-          x: centerX + Math.cos(angle) * radius,       // Keep for initial draw
-          y: centerY + Math.sin(angle) * radius,       // Keep for initial draw
-          radius: radius,                              // This is the ring's radius
-          angle: angle,
-          scale: 1,
-          opacity: baseCircleOpacity,
-          pulseOpacity: baseCircleOpacity
-        });
-      }
-    }
-  }
-  initCircles();
-
-  // Periodic wave pulse from center
-  function triggerWavePulse() {
-    const waveTl = gsap.timeline({
-      repeat: -1,
-      // repeatDelay: 3 + Math.random() * 3, // Random delay between 3-6s
-      repeatDelay: 4,
-    });
-    const { width, height } = getHeroBounds();
-    const minRadius = Math.sqrt(width * width + height * height) / 2 + 50; // Start 50px outside hero content
-    for (let ring = 0; ring < maxRings; ring++) {
-      const targetRadius = minRadius + ring * ringSpacing;
-      const ringCircles = circles.filter(c => Math.abs(c.radius - targetRadius) < ringSpacing / 2);
-      waveTl.to(ringCircles, {
-        scale: 1.5,
-        pulseOpacity: 1,
-        duration: 0.8, // Smoother wave
-        ease: "power2.out",
-      }, ring * 0.15) // Gentler stagger (0.15s)
-      .to(ringCircles, {
+  for (let ring = 0; ring < maxRings; ring++) {
+    const radius = minRadius + ring * ringSpacing;
+    const numCircles = baseCirclesPerRing + ring * 2; // Linear increase (8, 10, 12, 14, 16, 18)
+    for (let i = 0; i < numCircles; i++) {
+      let angle = (i / numCircles) * Math.PI * 2 + Math.PI / 12 * ring; // Stagger with offset
+      // angle += (Math.random() - 0.5) * 0.1; // Slight random jitter
+      circles.push({
+        x: centerX + Math.cos(angle) * radius,       // Keep for initial draw
+        y: centerY + Math.sin(angle) * radius,       // Keep for initial draw
+        radius: radius,                              // This is the ring's radius
+        angle: angle,
         scale: 1,
-        pulseOpacity: baseCircleOpacity,
-        duration: 0.8,
-        ease: "power2.in",
-      }, ring * 0.15 + 0.15);
+        opacity: baseCircleOpacity,
+        pulseOpacity: baseCircleOpacity
+      });
     }
   }
-  setTimeout(triggerWavePulse, 4000); // Start after initial animations
+}
+initCircles();
+
+// Periodic wave pulse from center
+function triggerWavePulse() {
+  const waveTl = gsap.timeline({
+    repeat: -1,
+    // repeatDelay: 3 + Math.random() * 3, // Random delay between 3-6s
+    repeatDelay: 4,
+  });
+  const { width, height } = getHeroBounds();
+  const minRadius = Math.sqrt(width * width + height * height) / 2 + 50; // Start 50px outside hero content
+  for (let ring = 0; ring < maxRings; ring++) {
+    const targetRadius = minRadius + ring * ringSpacing;
+    const ringCircles = circles.filter(c => Math.abs(c.radius - targetRadius) < ringSpacing / 2);
+    waveTl.to(ringCircles, {
+      scale: 1.5,
+      pulseOpacity: 1,
+      duration: 0.8, // Smoother wave
+      ease: "power2.out",
+    }, ring * 0.15) // Gentler stagger (0.15s)
+    .to(ringCircles, {
+      scale: 1,
+      pulseOpacity: baseCircleOpacity,
+      duration: 0.8,
+      ease: "power2.in",
+    }, ring * 0.15 + 0.15);
+  }
+}
+setTimeout(triggerWavePulse, 4000); // Start after initial animations
 
 // Mouse movement handler
   document.addEventListener('mousemove', (e) => {
@@ -675,7 +696,7 @@ ScrollTrigger.create({
     });
     animationFrameId = requestAnimationFrame(animateCircles);
   }
-  animateCircles();
+  setTimeout(animateCircles, 1000); // Start after initial animations
 
   // Clean up and reinitialize on scroll
   ScrollTrigger.create({
@@ -1016,6 +1037,7 @@ matchMedia.add(
   },
 );
 
+// scroll experience items
 gsap.to(experienceContainer, {
   y: -experienceContainerHeight,
   ease: 'none',
@@ -1150,26 +1172,47 @@ ScrollTrigger.create({
   trigger: '#skills',
   pin: true,
   pinSpacing: false,
-  end: '+=150%',
+  // end: '+=150%',
 });
-// animate section on exit
-const skillsExitAnimation = gsap.fromTo('.skills-content', {
-  opacity: 1,
-  y: 0,
-  scale: 1,
-},{
-  opacity: 0,
-  scale: 0.9,
-  ease: "power1.in",
+matchMedia.add(
+  // only fade out on Desktop
+  "(min-width: 768px)", function() {
+    // animate section on exit
+    const skillsExitAnimation = gsap.fromTo('.skills-content', {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+    },{
+      opacity: 0,
+      scale: 0.9,
+      ease: "power1.in",
+    });
+    ScrollTrigger.create({
+      trigger: '#contact',
+      start: 'top bottom',
+      end: 'top center',
+      scrub: true,
+      animation: skillsExitAnimation,
+      toggleActions: 'play none none none'
+    })
+  },
+);
+// Get container and dimensions
+const skillsContainer = document.querySelector('.skills-content');
+const skillsContainerHeight = skillsContainer.scrollHeight;
+// scroll skills list
+gsap.to(skillsContainer, {
+  y: -skillsContainerHeight,
+  ease: 'none',
+  scrollTrigger: {
+    trigger: '#skills',
+    start: 'top top',
+    end: `+=${skillsContainerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
+    scrub: true,
+    id: 'skillsContainer',
+  },
 });
-ScrollTrigger.create({
-  trigger: '#contact',
-  start: 'top bottom',
-  end: 'top center',
-  scrub: true,
-  animation: skillsExitAnimation,
-  toggleActions: 'play none none none'
-})
+
 
 // Contact Section Animation
 gsap.from('.contact-field', {

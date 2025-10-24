@@ -83,10 +83,18 @@
     <div id="smooth-content">
       <!-- Hero Section -->
       <section id="hero">
-        <canvas id="hero-canvas" class="absolute inset-0 z-[-1]"></canvas>
-        <div class="text-center hero-content">
-          <h1 class="text-6xl font-bold hero-title">Hi, I’m Guido</h1>
-          <p class="mt-4 text-xl hero-text">Full-stack Developer | Scroll to Explore</p>
+        <div class="hero-container">
+          <canvas id="hero-canvas" class="absolute inset-0 z-[-1]"></canvas>
+          <div class="text-center hero-content">
+            <h1 class="text-6xl font-bold hero-title">Hi, <span>I’m Guido</span></h1>
+            <p class="hero-text">Full-stack Developer</p>
+          </div>
+        </div>
+        <div class="scroll-indicator">
+          <span>Scroll to Explore</span>
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M8 1V15M8 15L1 8M8 15L15 8" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
         </div>
       </section>
       <!-- <div class="section-spacer"></div> -->
@@ -329,60 +337,59 @@
 
       <!-- Skills Section -->
       <section id="skills">
-        <div class="max-w-5xl mx-auto skills-content">
-          <h2 class="text-4xl font-bold text-center mb-12 skills-title">My Skills</h2>
-
+        <h2 class="text-4xl font-bold text-center skills-title">My Skills</h2>
+        <div class="max-w-5xl pt-16 mx-auto skills-content">
           <div class="grid grid-cols-1 md:grid-cols-2 gap-8 skills-grid">
       
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">💻 Programming Languages</h3>
-            <p class="skill-list text-gray-700">JavaScript, HTML, CSS, TypeScript, Java, Python, R, C++, SQL, PHP, C, C#</p>
-          </div>
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">💻 Programming Languages</h3>
+              <p class="skill-list text-gray-700">TypeScript, JavaScript, HTML, CSS, Java, Python, R, C++, SQL, PHP, C, C#</p>
+            </div>
 
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">🖼 Frameworks & Libraries</h3>
-            <p class="skill-list text-gray-700">React.js, GSAP, Swiper.js, Node.js, Express, Laravel, Tailwind CSS, Bootstrap, Material UI, EJS, Spring Boot, Flask, Django, .NET</p>
-          </div>
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">🖼 Frameworks & Libraries</h3>
+              <p class="skill-list text-gray-700">React.js, Redux, Vue.js, Svelte, GSAP, Node.js, Express, Laravel, Tailwind CSS, Sass, Bootstrap, Material UI, EJS, Spring Boot, Flask, Django, .NET</p>
+            </div>
 
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">🤖 AI & Machine Learning</h3>
-            <p class="skill-list text-gray-700">TensorFlow, PyTorch, Hugging Face, Computer Vision, ANNs, CNNs, RNNs, LLMs</p>
-          </div>
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">🤖 AI & Machine Learning</h3>
+              <p class="skill-list text-gray-700">TensorFlow, PyTorch, Hugging Face, Computer Vision, ANNs, CNNs, RNNs, LLMs</p>
+            </div>
 
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">🗄 Databases</h3>
-            <p class="skill-list text-gray-700">MySQL, PostgreSQL, MongoDB, Firestore</p>
-          </div>
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">🗄 Databases</h3>
+              <p class="skill-list text-gray-700">MySQL, PostgreSQL, MongoDB, Firestore</p>
+            </div>
 
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">🛠 Tools & Platforms</h3>
-            <p class="skill-list text-gray-700">Git, Command Line, REST APIs, jQuery, Figma, Trello, Postman, AWS, Azure, GCP, Firebase, Docker, Nginx, SSH</p>
-          </div>
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">🛠 Tools & Platforms</h3>
+              <p class="skill-list text-gray-700">Git, Command Line, REST APIs, GraphQL, jQuery, Figma, Trello, Postman, AWS, Azure, GCP, Firebase, Docker, Nginx, SSH</p>
+            </div>
 
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">💾 Operating Systems</h3>
-            <p class="skill-list text-gray-700">Windows, Linux, WSL</p>
-          </div>
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">💾 Operating Systems</h3>
+              <p class="skill-list text-gray-700">Windows, Linux, WSL</p>
+            </div>
 
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">🌐 Languages</h3>
-            <p class="skill-list text-gray-700"> <img class="flag-icon" src="assets/images/flags/us.svg" alt="US Flag" />English (fluent), <img class="flag-icon" src="assets/images/flags/pe.svg" alt="Peruvian Flag" />Spanish (native), <img class="flag-icon" src="assets/images/flags/hk.svg" alt="Cantonese Flag" />Cantonese (conversational)</p>
-            <!-- <p class="skill-list text-gray-700">
-              <ul>
-                <li>English (fluent)</li>
-                <li>Spanish (native)</li>
-                <li>Cantonese (conversational)</li>
-              </ul>
-            </p> -->
-            <!-- <p class="skill-list text-gray-700"> English (fluent)</p>
-            <p class="skill-list text-gray-700"> Spanish (native)</p>
-            <p class="skill-list text-gray-700"> Cantonese (conversational)</p> -->
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">🌐 Languages</h3>
+              <p class="skill-list text-gray-700"> <img class="flag-icon" src="assets/images/flags/us.svg" alt="US Flag" />English (fluent), <img class="flag-icon" src="assets/images/flags/pe.svg" alt="Peruvian Flag" />Spanish (native), <img class="flag-icon" src="assets/images/flags/hk.svg" alt="Cantonese Flag" />Cantonese (conversational)</p>
+              <!-- <p class="skill-list text-gray-700">
+                <ul>
+                  <li>English (fluent)</li>
+                  <li>Spanish (native)</li>
+                  <li>Cantonese (conversational)</li>
+                </ul>
+              </p> -->
+              <!-- <p class="skill-list text-gray-700"> English (fluent)</p>
+              <p class="skill-list text-gray-700"> Spanish (native)</p>
+              <p class="skill-list text-gray-700"> Cantonese (conversational)</p> -->
+            </div>
 
-          </div>
-
-          <div class="skill-category">
-            <h3 class="text-xl font-semibold mb-2">⚡ Other Skills</h3>
-            <p class="skill-list text-gray-700">UI/UX Design, Microservice Architecture, CI/CD, Agile, Microsoft Office, Troubleshooting</p>
+            <div class="skill-category">
+              <h3 class="text-xl font-semibold mb-2">⚡ Other Skills</h3>
+              <p class="skill-list text-gray-700">UI/UX Design, Microservices Architecture, CI/CD, Agile Methodologies, Microsoft Office, Troubleshooting</p>
+            </div>
           </div>
         </div>
       </section>
