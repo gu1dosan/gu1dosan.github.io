@@ -43,8 +43,8 @@ const sectionBackgroundColors = {
   '#contact': '#3e4c5e',
 };
 
-// document.fonts.ready.then(() => {
-window.addEventListener('load', () => {
+document.fonts.ready.then(() => {
+// window.addEventListener('load', () => {
   // Set initial opacity and text color for nav visibility
   gsap.set('.nav-btn', { opacity: 1, color: sectionTextColors['#hero'] });
 
