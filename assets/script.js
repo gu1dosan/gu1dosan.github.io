@@ -11,7 +11,7 @@ const smoother = ScrollSmoother.create({
   // wrapper: '#smooth-wrapper',
   // content: '#smooth-content',
   smooth: 1, // Smoothness duration (seconds)
-  // normalizeScroll: true, // Normalize scroll across devices
+  normalizeScroll: true, // Normalize scroll across devices
   effects: true, // looks for data-speed and data-lag attributes on elements
   smoothTouch: 0.1, // much shorter smoothing time on touch devices (default is NO smoothing on touch devices)
 });
@@ -43,7 +43,8 @@ const sectionBackgroundColors = {
   '#contact': '#3e4c5e',
 };
 
-document.fonts.ready.then(() => {
+// document.fonts.ready.then(() => {
+window.addEventListener('load', () => {
   // Set initial opacity and text color for nav visibility
   gsap.set('.nav-btn', { opacity: 1, color: sectionTextColors['#hero'] });
 
@@ -1045,7 +1046,7 @@ gsap.to(experienceContainer, {
   scrollTrigger: {
     trigger: '#experience',
     start: 'top top',
-    end: `+=${experienceContainerHeight}`,
+    end: `+=${experienceContainerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
     scrub: true,
     id: 'experienceContainer',
   },
