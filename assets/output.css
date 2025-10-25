@@ -837,11 +837,21 @@ section {
   height: 100%;
   object-fit: contain;
 }
-.swiper-button-next, .swiper-button-prev {
-  color: #1a202c;
+.swiper-controls {
+  display: flex;
+  align-items: center;
+  justify-content: space-evenly;
 }
-.swiper-pagination-bullets {
-  bottom: -16px !important;
+.swiper-button-next, .swiper-button-prev {
+  top: unset;
+  position: static;
+  color: #1a202c;
+  margin: 0;
+  --swiper-navigation-size: 28px;
+}
+.swiper-pagination {
+  position: static;
+  width: unset !important;
 }
 .swiper-pagination-bullet {
   background: #1a202c;
@@ -958,6 +968,7 @@ section {
   gap: 0.5rem;
   margin-top: auto;
   align-items: center;
+  margin-bottom: 8px;
 }
 .company-logo {
   max-width: 8rem;

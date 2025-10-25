@@ -329,13 +329,26 @@ section {
   justify-content: center;
 }
 .swiper-slide img { display: block; width: 100%; height: 100%; object-fit: contain; }
+.swiper-controls {
+  display: flex;
+  align-items: center; /* Vertically align items */
+  justify-content: space-evenly; /* Horizontally center content */
+}
 .swiper-button-next,
 .swiper-button-prev {
+  top: unset;
+  position: static;
   color: #1a202c; /* Hero navy */
+  margin: 0;
+  --swiper-navigation-size: 28px;
 }
-.swiper-pagination-bullets {
+.swiper-pagination {
+  position:static;
+  width: unset !important;
+}
+/* .swiper-pagination-bullets {
   bottom: -16px !important;
-}
+} */
 .swiper-pagination-bullet {
   background: #1a202c;
 }
@@ -470,6 +483,7 @@ section {
   gap: 0.5rem; 
   margin-top: auto; 
   align-items: center; 
+  margin-bottom: 8px;
 }
 /* @media (max-width: 768px) {
   .company-logos { 
