@@ -291,6 +291,7 @@ document.fonts.ready.then(() => {
       hamburgerBtn.setAttribute('aria-expanded', 'true');
       // focus first nav item for a11y
       setTimeout(()=>{ floatingNav.querySelector('.nav-btn')?.focus(); }, 300);
+      floatingNavAnimationMobile.invalidate(); // Clears cached values
       floatingNavAnimationMobile.play()
     } else {
       window.__closeNavCircleSVG(rect);
