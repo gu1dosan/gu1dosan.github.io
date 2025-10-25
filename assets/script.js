@@ -77,7 +77,7 @@ document.fonts.ready.then(() => {
     delay: 1.5,
     ease: "power2.out",
   });
-  // Fade in the new scroll indicator
+  // Fade in the scroll indicator
   gsap.from('.scroll-indicator', {
     opacity: 0,
     y: 20,
@@ -1042,12 +1042,12 @@ ScrollTrigger.create({
 
 // scroll experience items
 gsap.to(experienceContainer, {
-  y: -experienceContainerHeight,
+  y: -(experienceContainerHeight + (window.visualViewport.width < 768 ? window.visualViewport.height : 0)),
   ease: 'none',
   scrollTrigger: {
     trigger: '#experience',
     start: 'top top',
-    end: `+=${experienceContainerHeight - (window.visualViewport.width < 768 ? 128 : 0)}`,
+    end: `${window.visualViewport.width < 768 ? "bottom top" : `+=${experienceContainerHeight}`}`,
     scrub: true,
     id: 'experienceContainer',
   },
@@ -1151,7 +1151,7 @@ gsap.utils.toArray('.skill-category').forEach((category, index) => {
   gsap.fromTo(category, 
     { opacity: 0, x: fromX }, 
     { 
-      scrollTrigger: { trigger: category, start: 'top 100%', end: 'top 85%', scrub: 0.5 }, 
+      scrollTrigger: { trigger: category, start: 'top 100%', end: 'top 90%', scrub: 0.5 }, 
       opacity: 1, 
       x: 0, 
       duration: 0.6, 
@@ -1161,7 +1161,7 @@ gsap.utils.toArray('.skill-category').forEach((category, index) => {
           opacity: 1,
           y: 0,
           stagger: 0.05,
-          duration: 0.3,
+          duration: 0.2,
           ease: "power2.out"
         });
       }

@@ -1047,7 +1047,7 @@ section {
 }
 @media (max-width: 768px) {
   #skills {
-    padding: 0 2rem;
+    padding: 0 1.5rem;
   }
   .skills-title {
     background-color: #deefff;
