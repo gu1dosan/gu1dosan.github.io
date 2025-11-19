@@ -743,6 +743,8 @@ section {
   min-height: 150vh;
   z-index: 1;
   padding: 0;
+  background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
+  background-size: 20px 20px;
 }
 .about-content {
   padding: 4rem 2rem;
