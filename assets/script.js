@@ -774,7 +774,7 @@ const aboutExitAnimation = gsap.fromTo('.about-content', {
     ease: "power1.in",
   });
   ScrollTrigger.create({
-    trigger: '#projects',
+    trigger: '#experience',
     start: 'top bottom',
     end: 'top center',
     scrub: true,
@@ -836,7 +836,7 @@ const projectsExitAnimation = gsap.fromTo('.projects-content', {
   ease: "power1.in",
 });
 ScrollTrigger.create({
-  trigger: '#experience',
+  trigger: '#skills',
   start: 'top bottom',
   end: 'top center',
   scrub: true,

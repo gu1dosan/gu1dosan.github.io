@@ -75,8 +75,8 @@
       <nav id="floating-nav" class="fixed flex left-8 top-[-28px] transform z-50">
         <button class="nav-btn" data-section="#hero" title="Hero">Home</button>
         <button class="nav-btn" data-section="#about" title="About">About Me</button>
-        <button class="nav-btn" data-section="#projects" title="Projects">Projects</button>
         <button class="nav-btn" data-section="#experience" title="Experience">Experience</button>
+        <button class="nav-btn" data-section="#projects" title="Projects">Projects</button>
         <button class="nav-btn" data-section="#skills" title="Skills">Skills</button>
         <button class="nav-btn" data-section="#contact" title="Contact">Contact</button>
       </nav>
@@ -114,139 +114,10 @@
           <!-- Text -->
           <div class="md:w-2/3">
             <h2 class="text-4xl font-bold mb-6 about-title">About Me</h2>
-            <p class="mb-4">I’m a <span class="highlight">Full Stack Software</span> with a love for crafting pixel-perfect and polished experiences that feel as smooth as they look, blending <span class="highlight">code, design, and motion</span> to make ideas come alive.</p>
+            <p class="mb-4">I’m a <span class="highlight">Full Stack Software Engineer</span> with a love for crafting pixel-perfect and polished experiences that feel as smooth as they look, blending <span class="highlight">code, design, and motion</span> to make ideas come alive.</p>
             <p class="mb-4">From building AI-powered applications to designing responsive, animated interfaces with <span class="highlight">GSAP</span> and <span class="highlight">React</span>, I thrive at the intersection of creativity and engineering.</p>
             <p class="mb-4">Right now, I’m seeking opportunities to push the boundary between <span class="highlight">creative design</span> and <span class="highlight">innovative tech</span>, whether that’s animation-rich interfaces, AI integrations, or scalable cloud apps.</p>
             <p>I enjoy collaborating in diverse, international environments. I’m fluent in <span class="highlight highlight-english"><img class="flag-icon" src="assets/images/flags/us.svg" alt="US Flag" />English</span> and <span class="highlight highlight-spanish"><img class="flag-icon" src="assets/images/flags/pe.svg" alt="Peruvian Flag" />Spanish</span>, and can comfortably hold daily conversations in <span class="highlight highlight-cantonese"><img class="flag-icon" src="assets/images/flags/hk.svg" alt="Cantonese Flag" />Cantonese</span>.</p>
-          </div>
-        </div>
-      </section>
-      <!-- <div class="section-spacer"></div> -->
-
-
-      <!-- Projects Section with Horizontal Scrolling -->
-      <section id="projects" class="bg-gray-100 py-12">
-        
-        <div class="projects-content">
-          <h2 class="text-4xl font-bold text-center mt-8 mb-6 projects-title">Featured Projects</h2>
-          <div class="swiper mySwiper">
-            <div class="swiper-wrapper">
-
-              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
-                <div class="md:w-1/2 text-center">
-                  <button class="thumb-btn"
-                    data-images='["assets/images/projects/multisnake/game_screen_2.png","assets/images/projects/multisnake/game_screen.png","assets/images/projects/multisnake/homepage.png","assets/images/projects/multisnake/room_lobby.png","assets/images/projects/multisnake/global_leaderboard.png","assets/images/projects/multisnake/game_over_screen.png"]'
-                    data-title="MultiSnake - HackCamp 2025"
-                    data-description="Real-time multiplayer snake game with concurrent game rooms."
-                    data-link="https://multisnake-47dr.onrender.com/"
-                    >
-                    <img src="assets/images/projects/multisnake/game_screen_2.png" alt="MultiSnake - HackCamp 2025" class="w-full h-full object-cover">
-                    <span class="view-icon">
-                      <span class="material-symbols-outlined">
-                        photo_library
-                      </span>
-                    </span>
-                  </button>
-                </div>
-                <div class="project-details md:w-1/2">
-                  <h3 class="text-2xl font-bold mb-4">MultiSnake - HackCamp 2025</h3>
-                  <p class="text-gray-600 mb-4">
-                    Architected and developed a full-stack, real-time multiplayer game under 18 hours that uses Socket.IO to manage bidirectional communication, state synchronization, and low-latency client-server updates across concurrent game rooms. 
-                  <br/><a href="https://multisnake-47dr.onrender.com/" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project Live</a>
-                </div>
-              </div>
-
-              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
-                <div class="md:w-1/2 ">
-                  <img src="assets/images/projects/portfolio.png" alt="Portfolio Website" class="w-full h-full object-cover">
-                </div>
-                <div class="project-details md:w-1/2">
-                  <h3 class="text-2xl font-bold mb-4"><span class="highlight">Portfolio Website</span></h3>
-                  <p class="text-gray-600 mb-4">A dynamic personal portfolio built with HTML, JavaScript, CSS, and Tailwind, showcasing smooth GSAP animations and a responsive layout.</p>
-                  <!-- <a href="#" class="text-blue-500 hover:underline">View Project</a> -->
-                </div>
-              </div>
-
-              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
-                <div class="md:w-1/2 text-center">
-                  <button class="thumb-btn"
-                    data-images='["assets/images/projects/pokedex.png","assets/images/projects/pokedex2.png","assets/images/projects/pokedex3.jpg"]'
-                    data-title="Multi-Framework Pokedex"
-                    data-description="Responsive web application in React.js, Vue.js and Svelte versions that displays and filters Pokémon using the PokéAPI"
-                    data-link="https://guidos-pokedex-react.netlify.app/"
-                    >
-                    <img src="assets/images/projects/pokedex.png" alt="Pokedex" class="w-full h-full object-cover">
-                    <span class="view-icon">
-                      <span class="material-symbols-outlined">
-                        photo_library
-                      </span>
-                    </span>
-                  </button>
-                </div>
-                <div class="project-details md:w-1/2">
-                  <h3 class="text-2xl font-bold mb-4">Multi-Framework Pokedex</h3>
-                  <p class="text-gray-600 mb-4">
-                    Interactive Pokédex powered by the PokéAPI.
-                    <br/>Built first with React for a school assignment, then re-implemented in Vue.js and Svelte to learn the frameworks and explore reactivity models and composition patterns.
-                    <br/>Includes a built-in switcher that lets users toggle between the React, Vue and Svelte versions seamlessly.</p>
-                  <a href="https://guidos-pokedex-react.netlify.app/" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project Live</a>
-                </div>
-              </div>
-
-              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
-                <div class="md:w-1/2 h-[calc(100%-6rem)] w-full">
-                 <iframe height="100%" width="100%" src="https://www.youtube.com/embed/5HrYjMWMFUI?si=RjFoKDO2LEvXVPDv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-                </div>
-                <div class="project-details md:w-1/2">
-                  <h3 class="text-2xl font-bold mb-4">AI-Powered Remote Controlled Drone</h3>
-                  <p class="text-gray-600 mb-4">
-                    <ul>
-                      <li>● Architected a Flask backend to relay real-time flight commands to a drone and stream live video.</li>
-                      <li>● Integrated YOLOv11n for 30FPS face detection pipeline and implemented smooth drone tracking.</li>
-                      <li>● Designed a web UI with keyboard controls and video feed for intuitive manual and automatic flight operation.</li>
-                    </ul>
-                  </p>
-                  <!-- <a href="https://youtube.com/shorts/5HrYjMWMFUI?feature=share" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project</a> -->
-                </div>
-              </div>
-
-              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
-                <div class="md:w-1/2 h-full w-full content-center">
-                  <button class="thumb-btn"
-                    data-images='["assets/images/projects/labcloud-screenshot.png","assets/images/projects/labcloud-screenshot2.png","assets/images/projects/labcloud-screenshot3.png"]'
-                    data-title="LabCloud"
-                    data-description="Test taking, grading, and LMS system for university labs built with React.js and Laravel">
-                    <img src="assets/images/projects/labcloud-screenshot.png" alt="LabCloud" class="w-full h-full">
-                    <span class="view-icon">
-                      <span class="material-symbols-outlined">
-                        photo_library
-                      </span>
-                    </span>
-                  </button>
-                </div>
-                <div class="project-details md:w-1/2">
-                  <h3 class="text-2xl font-bold mb-4">LabCloud</h3>
-                  <p class="text-gray-600 mb-4">
-                    <ul>
-                      <li>● Winning project for an entrepreneurship contest and selected to replace the university’s previous LabCloud LMS system.</li>
-                      <li>● Co-led a team of 12 members.</li>
-                      <li>● Designed and developed both the front-end and back-end for the real-time test taking and test grading part of the system, using React.js and Laravel best practices.</li>
-                      <li>● In charge of CI/CD and production deployment to AWS.</li>
-                      <li>● Implemented many other features like authentication (Google Auth), user roles and permissions, file drag and drop, and dark mode.</li>
-                    </ul>
-                  </p>
-                  <a href="https://www.youtube.com/watch?v=bEKhAsopM1Q" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project Video</a>
-                </div>
-              </div>
-            </div>
-
-            <div class="swiper-controls">
-              <!-- Navigation buttons -->
-              <div class="swiper-button-prev"></div>
-              <!-- Pagination dots -->
-              <div class="swiper-pagination"></div>
-              <div class="swiper-button-next"></div>
-            </div>
           </div>
         </div>
       </section>
@@ -407,6 +278,136 @@
         </div>
       </section>
 
+
+      <!-- Projects Section with Horizontal Scrolling -->
+      <section id="projects" class="bg-gray-100 py-12">
+        
+        <div class="projects-content">
+          <h2 class="text-4xl font-bold text-center mt-8 mb-6 projects-title">Featured Projects</h2>
+          <div class="swiper mySwiper">
+            <div class="swiper-wrapper">
+
+              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
+                <div class="md:w-1/2 text-center">
+                  <button class="thumb-btn"
+                    data-images='["assets/images/projects/multisnake/game_screen_2.png","assets/images/projects/multisnake/game_screen.png","assets/images/projects/multisnake/homepage.png","assets/images/projects/multisnake/room_lobby.png","assets/images/projects/multisnake/global_leaderboard.png","assets/images/projects/multisnake/game_over_screen.png"]'
+                    data-title="MultiSnake - HackCamp 2025"
+                    data-description="Real-time multiplayer snake game with concurrent game rooms."
+                    data-link="https://multisnake-47dr.onrender.com/"
+                    >
+                    <img src="assets/images/projects/multisnake/game_screen_2.png" alt="MultiSnake - HackCamp 2025" class="w-full h-full object-cover">
+                    <span class="view-icon">
+                      <span class="material-symbols-outlined">
+                        photo_library
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                <div class="project-details md:w-1/2">
+                  <h3 class="text-2xl font-bold mb-4">MultiSnake - HackCamp 2025</h3>
+                  <p class="text-gray-600 mb-4">
+                    Architected and developed a full-stack, real-time multiplayer game under 18 hours that uses Socket.IO to manage bidirectional communication, state synchronization, and low-latency client-server updates across concurrent game rooms. 
+                  <br/><a href="https://multisnake-47dr.onrender.com/" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project Live</a>
+                </div>
+              </div>
+
+              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
+                <div class="md:w-1/2 ">
+                  <img src="assets/images/projects/portfolio.png" alt="Portfolio Website" class="w-full h-full object-cover">
+                </div>
+                <div class="project-details md:w-1/2">
+                  <h3 class="text-2xl font-bold mb-4"><span class="highlight">Portfolio Website</span></h3>
+                  <p class="text-gray-600 mb-4">A dynamic personal portfolio built with HTML, JavaScript, CSS, and Tailwind, showcasing smooth GSAP animations and a responsive layout.</p>
+                  <!-- <a href="#" class="text-blue-500 hover:underline">View Project</a> -->
+                </div>
+              </div>
+
+              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
+                <div class="md:w-1/2 text-center">
+                  <button class="thumb-btn"
+                    data-images='["assets/images/projects/pokedex.png","assets/images/projects/pokedex2.png","assets/images/projects/pokedex3.jpg"]'
+                    data-title="Multi-Framework Pokedex"
+                    data-description="Responsive web application in React.js, Vue.js and Svelte versions that displays and filters Pokémon using the PokéAPI"
+                    data-link="https://guidos-pokedex-react.netlify.app/"
+                    >
+                    <img src="assets/images/projects/pokedex.png" alt="Pokedex" class="w-full h-full object-cover">
+                    <span class="view-icon">
+                      <span class="material-symbols-outlined">
+                        photo_library
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                <div class="project-details md:w-1/2">
+                  <h3 class="text-2xl font-bold mb-4">Multi-Framework Pokedex</h3>
+                  <p class="text-gray-600 mb-4">
+                    Interactive Pokédex powered by the PokéAPI.
+                    <br/>Built first with React for a school assignment, then re-implemented in Vue.js and Svelte to learn the frameworks and explore reactivity models and composition patterns.
+                    <br/>Includes a built-in switcher that lets users toggle between the React, Vue and Svelte versions seamlessly.</p>
+                  <a href="https://guidos-pokedex-react.netlify.app/" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project Live</a>
+                </div>
+              </div>
+
+              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
+                <div class="md:w-1/2 h-[calc(100%-6rem)] w-full">
+                 <iframe height="100%" width="100%" src="https://www.youtube.com/embed/5HrYjMWMFUI?si=RjFoKDO2LEvXVPDv" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+                </div>
+                <div class="project-details md:w-1/2">
+                  <h3 class="text-2xl font-bold mb-4">AI-Powered Remote Controlled Drone</h3>
+                  <p class="text-gray-600 mb-4">
+                    <ul>
+                      <li>● Architected a Flask backend to relay real-time flight commands to a drone and stream live video.</li>
+                      <li>● Integrated YOLOv11n for 30FPS face detection pipeline and implemented smooth drone tracking.</li>
+                      <li>● Designed a web UI with keyboard controls and video feed for intuitive manual and automatic flight operation.</li>
+                    </ul>
+                  </p>
+                  <!-- <a href="https://youtube.com/shorts/5HrYjMWMFUI?feature=share" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project</a> -->
+                </div>
+              </div>
+
+              <div class="swiper-slide flex flex-col md:flex-row items-center overflow-hidden">
+                <div class="md:w-1/2 h-full w-full content-center">
+                  <button class="thumb-btn"
+                    data-images='["assets/images/projects/labcloud-screenshot.png","assets/images/projects/labcloud-screenshot2.png","assets/images/projects/labcloud-screenshot3.png"]'
+                    data-title="LabCloud"
+                    data-description="Test taking, grading, and LMS system for university labs built with React.js and Laravel">
+                    <img src="assets/images/projects/labcloud-screenshot.png" alt="LabCloud" class="w-full h-full">
+                    <span class="view-icon">
+                      <span class="material-symbols-outlined">
+                        photo_library
+                      </span>
+                    </span>
+                  </button>
+                </div>
+                <div class="project-details md:w-1/2">
+                  <h3 class="text-2xl font-bold mb-4">LabCloud</h3>
+                  <p class="text-gray-600 mb-4">
+                    <ul>
+                      <li>● Winning project for an entrepreneurship contest and selected to replace the university’s previous LabCloud LMS system.</li>
+                      <li>● Co-led a team of 12 members.</li>
+                      <li>● Designed and developed both the front-end and back-end for the real-time test taking and test grading part of the system, using React.js and Laravel best practices.</li>
+                      <li>● In charge of CI/CD and production deployment to AWS.</li>
+                      <li>● Implemented many other features like authentication (Google Auth), user roles and permissions, file drag and drop, and dark mode.</li>
+                    </ul>
+                  </p>
+                  <a href="https://www.youtube.com/watch?v=bEKhAsopM1Q" class="text-blue-500 hover:underline" target="_blank" rel="noopener noreferrer">View Project Video</a>
+                </div>
+              </div>
+            </div>
+
+            <div class="swiper-controls">
+              <!-- Navigation buttons -->
+              <div class="swiper-button-prev"></div>
+              <!-- Pagination dots -->
+              <div class="swiper-pagination"></div>
+              <div class="swiper-button-next"></div>
+            </div>
+          </div>
+        </div>
+      </section>
+      <!-- <div class="section-spacer"></div> -->
+
+
       <!-- Skills Section -->
       <section id="skills">
         <h2 class="text-4xl font-bold text-center skills-title md:mb-16">My Skills</h2>
@@ -420,7 +421,7 @@
 
             <div class="skill-category">
               <h3 class="text-xl font-semibold mb-2">🖼 Frameworks & Libraries</h3>
-              <p class="skill-list text-gray-700">React.js, Vue.js, Svelte, GSAP, Node.js, Express, Redux, Laravel, GSAP, socket.io Tailwind CSS, Sass, Bootstrap, Material UI, EJS, Spring Boot, Flask, Django, .NET</p>
+              <p class="skill-list text-gray-700">React.js, Vue.js, Svelte, GSAP, Node.js, Express, Redux, Laravel, GSAP, socket.io, Tailwind CSS, Sass, Bootstrap, Material UI, EJS, Spring Boot, Flask, Django, .NET</p>
             </div>
 
             <div class="skill-category">
@@ -435,7 +436,7 @@
 
             <div class="skill-category">
               <h3 class="text-xl font-semibold mb-2">🛠 Tools & Platforms</h3>
-              <p class="skill-list text-gray-700">Docker, REST APIs, GraphQL, AWS, Azure, GCP, Git, Google Analytics, Microsoft Clarity,Command Line, jQuery, Figma, Postman, Nginx, Firebase, SSH</p>
+              <p class="skill-list text-gray-700">Docker, REST APIs, GraphQL, AWS, Azure, GCP, Git, Google Analytics, Microsoft Clarity, Command Line, jQuery, Figma, Postman, Nginx, Firebase, SSH</p>
             </div>
 
             <div class="skill-category">

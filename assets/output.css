@@ -566,26 +566,32 @@ section {
 #hero {
   background: #233043;
   color: #ffffff;
+  z-index: 0;
 }
 #about {
   background: #ffffff;
   color: #000000;
+  z-index: 1;
 }
 #projects {
   background: #f5fbff;
   color: #000000;
+  z-index: 3;
 }
 #experience {
   background: #3b3a41;
   color: #ffffff;
+  z-index: 2;
 }
 #skills {
   background: #deefff;
   color: #000000;
+  z-index: 4;
 }
 #contact {
   background: #3e4c5e;
   color: #ffffff;
+  z-index: 5;
 }
 #nav-toggle {
   position: fixed;
@@ -685,7 +691,6 @@ section {
 }
 #hero {
   padding: 0;
-  z-index: 0;
 }
 @media (max-width: 768px) {
   .hero-text {
@@ -751,7 +756,6 @@ section {
 }
 #about {
   min-height: 150vh;
-  z-index: 1;
   padding: 0;
   background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
@@ -820,12 +824,10 @@ section {
 #projects {
   padding: 0;
   min-height: 150vh;
-  z-index: 2;
 }
 .projects-title {
   position: relative;
   line-height: normal;
-  z-index: 2;
 }
 .projects-content {
   padding: 4rem 2rem;
@@ -916,9 +918,6 @@ section {
 }
 .swiper-pagination-bullet-active {
   background: linear-gradient(120deg, #0077ff, #00d4ff);
-}
-#experience {
-  z-index: 3;
 }
 .experience-title {
   position: relative;
@@ -1042,7 +1041,6 @@ section {
 #skills {
   padding: 4rem 2rem;
   min-height: 150vh;
-  z-index: 4;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -1084,7 +1082,6 @@ section {
 #contact {
   padding: 4rem 2rem;
   min-height: 100vh;
-  z-index: 5;
 }
 .contact-content {
   min-height: calc(100vh - 8rem);

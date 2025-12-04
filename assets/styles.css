@@ -16,12 +16,12 @@ section {
   padding: 5rem 2rem; 
 }
 
-#hero { background: #233043; color: #ffffff; }
-#about { background: #ffffff; color: #000000; }
-#projects { background: #f5fbff; color: #000000; }
-#experience { background: #3b3a41; color: #ffffff; }
-#skills { background: #deefff; color: #000000; }
-#contact { background: #3e4c5e; color: #ffffff; }
+#hero { background: #233043; color: #ffffff; z-index: 0; }
+#about { background: #ffffff; color: #000000; z-index: 1;}
+#projects { background: #f5fbff; color: #000000; z-index: 3; }
+#experience { background: #3b3a41; color: #ffffff; z-index: 2;}
+#skills { background: #deefff; color: #000000; z-index: 4;}
+#contact { background: #3e4c5e; color: #ffffff; z-index: 5;}
 
 /* Hamburger Menu Styling */
 #nav-toggle {
@@ -133,7 +133,7 @@ section {
   align-items: center; 
   justify-content: center; 
   min-height: 100vh;  */
-  z-index: 0; 
+  
 }
 @media (max-width: 768px) {
   #hero {
@@ -224,7 +224,7 @@ section {
 #about { 
   /* background: #edf2f7;  */
   min-height: 150vh; 
-  z-index: 1;
+  
   padding: 0;
   background-image: radial-gradient(rgba(0, 0, 0, 0.1) 1px, transparent 1px);
   background-size: 20px 20px;
@@ -304,13 +304,13 @@ section {
   padding: 0; 
   /* background: #e2e2e9;  */
   min-height: 150vh; 
-  z-index: 2; 
+  
   /* align-content: center; */
 }
 .projects-title {
   position: relative;
   line-height: normal;
-  z-index: 2;
+  /* z-index: 2; */
 }
 .projects-content {
   /* height: 80vh; */
@@ -418,7 +418,7 @@ section {
 #experience {
   /* padding: 4rem 2rem;  */
   /* background: #7c7c7c;  */
-  z-index: 3;
+  
 }
 .experience-title {
   position: relative;
@@ -556,7 +556,7 @@ section {
   padding: 4rem 2rem; 
   /* background: #dddddd;  */
   min-height: 150vh; 
-  z-index: 4;
+  
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -609,7 +609,7 @@ section {
   /* background: #2d3748;  */
   /* color: white;  */
   min-height: 100vh; 
-  z-index: 5;
+  
 }
 .contact-content {
   min-height: calc(100vh - 8rem);
