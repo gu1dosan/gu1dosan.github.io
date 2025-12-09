@@ -1177,29 +1177,29 @@ ScrollTrigger.create({
   pinSpacing: false,
   // end: '+=150%',
 });
-// matchMedia.add(
-//   // only fade out on Desktop
-//   "(min-width: 768px)", function() {
-//     // animate section on exit
-//     const skillsExitAnimation = gsap.fromTo('.skills-content', {
-//       opacity: 1,
-//       y: 0,
-//       scale: 1,
-//     },{
-//       opacity: 0,
-//       scale: 0.9,
-//       ease: "power1.in",
-//     });
-//     ScrollTrigger.create({
-//       trigger: '#contact',
-//       start: 'top bottom',
-//       end: 'top center',
-//       scrub: true,
-//       animation: skillsExitAnimation,
-//       toggleActions: 'play none none none'
-//     })
-//   },
-// );
+matchMedia.add(
+  // only fade out on Desktop
+  "(min-width: 768px)", function() {
+    // animate section on exit
+    const skillsExitAnimation = gsap.fromTo('#skills', {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+    },{
+      opacity: 0,
+      scale: 0.9,
+      ease: "power1.in",
+    });
+    ScrollTrigger.create({
+      trigger: '#contact',
+      start: 'top bottom',
+      end: 'top center',
+      scrub: true,
+      animation: skillsExitAnimation,
+      toggleActions: 'play none none none'
+    })
+  },
+);
 // Get container and dimensions
 const skillsContainer = document.querySelector('.skills-content');
 const skillsContainerHeight = skillsContainer.scrollHeight;
